@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "49495566282",
+    "project_id": "bewell-a2eba",
+    "storage_bucket": "bewell-a2eba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49495566282:android:9971bcaabbe3f4de691133",
+        "android_client_info": {
+          "package_name": "com.example.be_well"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAETxmPJL11hSKuNgnOV4K_JqU9DlmfLoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
