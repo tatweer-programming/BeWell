@@ -2,13 +2,15 @@ import 'package:BeWell/modules/main/data_layer/models/question_model.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/quiz.dart';
 
 class QuizModel extends Quiz {
-  QuizModel({required super.questions, required super.totalMarks});
+  QuizModel({required super.questions, required super.totalMarks , super.collectedMarks});
 
-  factory QuizModel.fromJson(Map<String, dynamic> json) =>
-      QuizModel(
-         totalMarks: json['totalMarks'],
+  factory QuizModel.fromJson(Map<String, dynamic> json) {
+   QuizModel  quizModel =  QuizModel (
+        totalMarks: json['totalMarks'],
         questions: _getQuestions(json)
-      );
+    ) ;
+   return quizModel ;
+  }
 
   // get questions from json
   static List<QuestionModel> _getQuestions (Map<String, dynamic> json) {
@@ -18,5 +20,13 @@ class QuizModel extends Quiz {
      questions.add(QuestionModel.fromJson(element));
    }
    return questions ;
+ }
+
+
+  Map <String , dynamic> toJson(){
+    return {
+   'totalMarks' : totalMarks ,
+   'questions' : questions,
+    };
  }
 }

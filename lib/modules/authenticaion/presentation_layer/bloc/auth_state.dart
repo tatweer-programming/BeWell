@@ -9,18 +9,9 @@ class AuthInitial extends AuthState {
   List<Object> get props => [];
 }
 
-/// logic
 class ChangeButtonAuthState extends AuthState {
   final int index;
-  const ChangeButtonAuthState({required this.index});
-
-  @override
-  List<Object> get props => [index];
-}
-
-class ChooseIndexGradeState extends AuthState {
-  final int index;
-  const ChooseIndexGradeState({required this.index});
+  ChangeButtonAuthState({required this.index});
 
   @override
   List<Object> get props => [index];
@@ -32,14 +23,6 @@ class ChangeVisibilityState extends AuthState {
   @override
   List<Object> get props => [isVisible];
 }
-
-class ChangeIsGradeState extends AuthState {
-  final bool isGrade;
-  const ChangeIsGradeState({required this.isGrade});
-  @override
-  List<Object> get props => [isGrade];
-}
-
 class OldChangeVisibilityState extends AuthState {
   final bool isVisible;
   const OldChangeVisibilityState({required this.isVisible});
@@ -47,37 +30,44 @@ class OldChangeVisibilityState extends AuthState {
   List<Object> get props => [isVisible];
 }
 
-class ChangeIsLoadingState extends AuthState {
-  final bool isShowLoading;
-  const ChangeIsLoadingState({
-    required this.isShowLoading,
-  });
+class ConfirmChangeVisibilityState extends AuthState {
+  final bool isVisible;
+  const ConfirmChangeVisibilityState({required this.isVisible});
   @override
-  List<Object?> get props => [isShowLoading];
+  List<Object> get props => [isVisible];
 }
 
-/// firebase
-// register
-class RegisterErrorAuthState extends AuthState {
-  @override
-  List<Object?> get props => [];
-}
+/// register states
 
-class RegisterLoadingAuthState extends AuthState {
+class SendAuthRequestLoadingAuthState extends AuthState {
   @override
   // TODO: implement props
-  List<Object?> get props => [];
+  List<Object?> get props => throw UnimplementedError();
 }
 
-class RegisterSuccessAuthState extends AuthState {
-  final String uid;
-  final BuildContext context;
-  const RegisterSuccessAuthState({required this.context, required this.uid});
+class SendAuthRequestSuccessfulState extends AuthState {
+  String uid;
+  BuildContext context;
+  SendAuthRequestSuccessfulState(
+      {required this.context, required this.uid});
   @override
   List<Object?> get props => [context];
 }
 
-// login
+class SendAuthRequestErrorAuthState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class RegisterPhaseOneSuccessfulAuthState extends AuthState {
+  BuildContext context;
+  RegisterPhaseOneSuccessfulAuthState({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+/// login states
+
 class LoginLoadingAuthState extends AuthState {
   const LoginLoadingAuthState();
   @override
@@ -85,112 +75,57 @@ class LoginLoadingAuthState extends AuthState {
 }
 
 class LoginSuccessfulAuthState extends AuthState {
-  final BuildContext context;
-  const LoginSuccessfulAuthState(
-      {required this.context,});
+  String uid;
+  BuildContext context;
+  LoginSuccessfulAuthState({required this.context, required this.uid});
   @override
   List<Object?> get props => [context];
 }
 
 class LoginErrorAuthState extends AuthState {
-
-  const LoginErrorAuthState();
   @override
   List<Object?> get props => [];
 }
 
-// forget password
+/// forget password states
+
 class SendEmailSuccessfulAuthState extends AuthState {
   @override
   List<Object?> get props => [];
-}
-
-class SendEmailErrorAuthState extends AuthState {
+}class GetMyDataSuccessState extends AuthState {
   @override
   List<Object?> get props => [];
 }
-
-// update
-class UpdateMyDataSuccessState extends AuthState {
+class GetMyDataLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}class UpdateMyDataSuccessState extends AuthState {
   final BuildContext context;
   const UpdateMyDataSuccessState({required this.context});
   @override
   List<Object?> get props => [];
-}
-
-class UpdateMyDataErrorState extends AuthState {
+}class UpdateMyDataErrorState extends AuthState {
   @override
   List<Object?> get props => [];
 }
-
-class GetMyDataSuccessState extends AuthState {
-  @override
-  List<Object?> get props => [];
-}
-
-class GetMyDataLoadingState extends AuthState {
-  @override
-  List<Object?> get props => [];
-}
-
-// change pass
-class ChangePassScreenSuccessState extends AuthState {
-  final BuildContext context;
-  const ChangePassScreenSuccessState({required this.context});
-  @override
-  List<Object?> get props => [context];
-}
-
-class ChangePassScreenErrorState extends AuthState {
-  final BuildContext context;
-  const ChangePassScreenErrorState({required this.context});
-  @override
-  List<Object?> get props => [context];
-}
-
-/// animation
-class CheckState extends AuthState {
-
-  const CheckState();
-  @override
-  List<Object?> get props =>
-      [];
-}
-
-class ConfettiState extends AuthState {
-
-  const ConfettiState();
-  @override
-  List<Object?> get props => [];
-}
-
-/// Navigation
 class NavigationToChangePassScreenState extends AuthState {
   final BuildContext context;
-  const NavigationToChangePassScreenState({required this.context});
+  const NavigationToChangePassScreenState(
+      {required this.context});
   @override
   List<Object?> get props => [context];
 }
-
-class NavigationToRegisterScreenState extends AuthState {
+class ChangePassScreenSuccessState extends AuthState {
   final BuildContext context;
-  const NavigationToRegisterScreenState({required this.context});
+  const ChangePassScreenSuccessState(
+      {required this.context});
   @override
   List<Object?> get props => [context];
 }
-
-class NavigationToLoginScreenState extends AuthState {
+class ChangePassScreenErrorState extends AuthState {
   final BuildContext context;
-  final bool isGrade;
-  const NavigationToLoginScreenState(
-      {required this.context, required this.isGrade});
-  @override
-  List<Object?> get props => [context, isGrade];
-}
-
-class NavigationToForgetPasswordState extends AuthState {
-  final BuildContext context;
-  const NavigationToForgetPasswordState({required this.context});
+  const ChangePassScreenErrorState(
+      {required this.context});
   @override
   List<Object?> get props => [context];
 }

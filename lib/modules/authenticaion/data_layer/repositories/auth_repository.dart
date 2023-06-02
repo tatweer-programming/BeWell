@@ -31,9 +31,10 @@ class AuthRepository extends BaseAuthRepository {
     required String oldPassword,
     required String id,
     required String email,
+    required String phone,
   }) async {
     return await baseAuthRemoteDataSource.updateDataUser(
-        name: name, oldPassword: oldPassword,email: email ,id: id);
+        name: name, oldPassword: oldPassword,email: email ,id: id, phone: phone);
   }
 
   @override

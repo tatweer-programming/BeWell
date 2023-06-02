@@ -1,5 +1,5 @@
-import 'dart:async';
-
+import 'package:BeWell/core/utils/constance_manager.dart';
+import 'package:BeWell/modules/authenticaion/domain_layer/use_cases/send_auth_request_use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,29 +11,27 @@ import '../../domain_layer/use_cases/change_pass_use_case.dart';
 import '../../domain_layer/use_cases/forget_password_usecase.dart';
 import '../../domain_layer/use_cases/get_user_data_use_case.dart';
 import '../../domain_layer/use_cases/login_with_email&pass_usecase.dart';
-import '../../domain_layer/use_cases/send_auth_request_use_case.dart';
 import '../../domain_layer/use_cases/update_user_data_use_case.dart';
-
+import '../components/components.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
+
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static AuthBloc get(BuildContext context) =>
       BlocProvider.of<AuthBloc>(context);
-  List<Widget> pages = [
-
-  ];
+  List<Widget> pages = [];
   int currentIndex = 0;
   Widget currentPages = const Scaffold();
   UserModel? userModel;
 
   /// change old password visibility
-  bool newVisibility = true;
-  IconData newSuffix = Icons.visibility_off;
+  bool newVisibility = false;
+  IconData newSuffix = Icons.visibility;
   TextInputType newType = TextInputType.visiblePassword;
   /// change old password visibility
-  bool oldVisibility = true;
-  IconData oldSuffix = Icons.visibility_off;
+  bool oldVisibility = false;
+  IconData oldSuffix = Icons.visibility;
   TextInputType oldType = TextInputType.visiblePassword;
   void changeVisibility() {
     newVisibility = !newVisibility;
@@ -46,125 +44,98 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     oldVisibility = !oldVisibility;
     oldSuffix = !oldVisibility ? Icons.visibility : Icons.visibility_off;
     oldType =
-    !oldVisibility ? TextInputType.text : TextInputType.visiblePassword;
-  }
-
-
-  bool isShowLoading = false;
-  void changeLoading(bool flag) {
-    if(flag) {
-      isShowLoading = true;
-    }else{
-      isShowLoading = false;
-    }
+        !oldVisibility ? TextInputType.text : TextInputType.visiblePassword;
   }
 
   AuthBloc(AuthInitial authInitial) : super(AuthInitial()) {
     on<AuthEvent>((event, emit) async {
-      /// logic
       if (event is ChangeButtonAuthenticationEvent) {
         currentPages = pages[event.index];
         currentIndex = event.index;
         emit(ChangeButtonAuthState(index: event.index));
-      }
-
-      else if (event is ChangeVisibilityEvent) {
+      } else if (event is ChangeVisibilityEvent) {
         changeVisibility();
         emit(ChangeVisibilityState(isVisible: newVisibility));
-      }
-      else if (event is OldChangeVisibilityEvent) {
+      } else if (event is OldChangeVisibilityEvent) {
         oldChangeVisibilityVoid();
-        emit(OldChangeVisibilityState(isVisible: oldVisibility));
-      }
-
-      /// firebase
-      else if (event is LoginEvent) {
+        emit(OldChangeVisibilityState(isVisible: newVisibility));
+      } else if (event is LoginEvent) {
         emit(const LoginLoadingAuthState());
         final result = await LoginWithEmailAndPassUseCase(sl()).excute(
           email: event.email,
           password: event.password,
         );
-        await result.fold((l) {
-         // errorToast(msg: "تأكد من البيانات وحاول مرة اخري");
-          emit(const LoginErrorAuthState());
+        result.fold((l) {
+          errorToast(msg: l.message!);
+          emit(LoginErrorAuthState());
         }, (r) async{
-          add(const GetMyDataEvent());
-          emit(LoginSuccessfulAuthState(context: event.context));
+          NavigationManager.pushAndRemove(event.context, const Scaffold());
+          defaultToast(msg: "تم تسحيل الدخول بنجاح");
+          ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
+          emit(LoginSuccessfulAuthState(context: event.context, uid: ConstantsManager.userId));
         });
       }
-      else if (event is ForgetPasswordAuthEvent) {
+      else if (event is SendAuthRequestEvent)
+      {
+        emit(SendAuthRequestLoadingAuthState());
+        final result = await SendAuthRequestUseCase(sl()).excute(
+           id: event.id,
+            email: event.email,
+            password: event.password,
+            name: event.name, studentPhone: event.phone);
+        ConstantsManager.userId = await CacheHelper.getData(key: 'uid') ?? '';
+        result.fold((l) {
+          errorToast(msg: l.message!);
+          emit(SendAuthRequestErrorAuthState());
+        }, (r) {
+          defaultToast(msg: "تم ارسال طلبك للمراجعة");
+          NavigationManager.pushAndRemove(event.context, const Scaffold());
+          emit(SendAuthRequestSuccessfulState(
+              context: event.context, uid: ConstantsManager.userId));
+        });
+      } else if (event is ForgetPasswordAuthEvent) {
         final result = await ForgetPasswordUseCase(sl())
             .excute(email: event.email);
         result.fold((l) {
-          emit(SendEmailErrorAuthState());
-         // errorToast(msg: "تأكد من الإيميل ");
+          errorToast(msg: l.message!);
         }, (r) {
-          emit(SendEmailSuccessfulAuthState());
+          defaultToast(msg: "من فضلك تحقق من الايميل ");
         });
-      }
-      else if (event is GetMyDataEvent) {
+      } else if (event is GetMyDataEvent) {
         emit(GetMyDataLoadingState());
         final result = await GetDataUserUseCase(sl()).get();
-        result.fold((l) {}, (r) async {
+        result.fold((l) {}, (r) {
           userModel = r;
           emit(GetMyDataSuccessState());
-          await CacheHelper.saveData(key: 'studentName', value: userModel!.name);
         });
-      }
-      else if (event is UpdateMyDataEvent) {
+      } else if (event is UpdateMyDataEvent) {
         final result = await UpdateDataUserUseCase(sl()).update(
+          phone: event.phone,
             name: event.name,
             oldPassword: event.oldPassword,
-            id: event.parentPhone,
-            email: event.email);
+            email: event.email, id: '');
         result.fold((l) {
-        //  errorToast(msg: l.message!);
+          errorToast(msg: l.message!);
           emit(UpdateMyDataErrorState());
         }, (r) {
-         // defaultToast(msg: "تم تحديث البيانات بنجاح");
+          defaultToast(msg: "تم تحديث البيانات بنجاح");
           NavigationManager.pop(event.context);
           emit(UpdateMyDataSuccessState(context: event.context));
         });
-      }
-      else if (event is ChangePassEvent) {
+      } else if (event is ChangePassEvent) {
         final result = await ChangePasswordUseCase(sl()).change(
             oldPassword: event.oldPassword, newPassword: event.newPassword);
         result.fold((l) {
-          //errorToast(msg: l.message!);
+          errorToast(msg: l.message!);
         }, (r) {
-          //defaultToast(msg: "تم تغير كلمة السر بنجاح");
+          defaultToast(msg: "تم تغير كلمة السر بنجاح");
           NavigationManager.pop(event.context);
           emit(ChangePassScreenSuccessState(context:event.context));
         });
-      }
-      /// Navigation
-      else if (event is NavigationToChangePassScreenEvent) {
+      } else if (event is NavigationToChangePassScreenEvent) {
         NavigationManager.push(event.context, const Scaffold());
         emit(NavigationToChangePassScreenState(context:event.context));
       }
-      else if (event is NavigationToRegisterScreenEvent) {
-        NavigationManager.pushPage(event.context, const Scaffold());
-        emit(NavigationToRegisterScreenState(context:event.context));
-      }
-      else if (event is NavigationToLoginScreenEvent) {
-        NavigationManager.pushPage(event.context, const Scaffold());
-        Future.delayed(const Duration(seconds: 1),(){
-        });
-        emit(NavigationToLoginScreenState(context:event.context, isGrade: true, ));
-      }
-      else if (event is NavigationToForgetPasswordScreenEvent) {
-        NavigationManager.pushPage(event.context, const Scaffold());
-        emit(NavigationToForgetPasswordState(context:event.context));
-      }
-      /// animation
-      else if (event is ChangeIsLoadingEvent){
-        changeLoading(event.flag);
-        emit(ChangeIsLoadingState(isShowLoading: isShowLoading));
-      }
-
-      // else if (event is TimerEvent){
-      //   startTimer(event.seconds);
-      // }
     });
   }
 }

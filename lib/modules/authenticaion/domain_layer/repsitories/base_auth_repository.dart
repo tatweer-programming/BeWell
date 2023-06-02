@@ -18,7 +18,9 @@ abstract class BaseAuthRepository {
       {required String name,
         required String oldPassword,
         required String id,
-        required String email});
+        required String email,
+        required String phone,
+      });
 
   Future<Either<FirebaseAuthException, void>> changePassword(
       {required String oldPassword, required String newPassword});

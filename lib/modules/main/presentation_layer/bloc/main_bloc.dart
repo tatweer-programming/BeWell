@@ -25,16 +25,20 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           print(courses);
           emit(GetCoursesSuccessState());
         });
-      }
-      else if (event is GetVideoSectionEvent) {
+      } else if (event is GetVideoSectionEvent) {
         var explode = YoutubeExplode();
         emit(GetVideoLoadingState());
-        if(courses[event.courseIndex].lessons[event.lessonIndex]
-            .sections[event.sectionIndex].video == null) {
+        if (courses[event.courseIndex]
+                .lessons[event.lessonIndex]
+                .sections[event.sectionIndex]
+                .video ==
+            null) {
           if (event.videoId != '') {
             var video = await explode.videos.get(event.videoId);
-            courses[event.courseIndex].lessons[event.lessonIndex]
-                .sections[event.sectionIndex].video = video;
+            courses[event.courseIndex]
+                .lessons[event.lessonIndex]
+                .sections[event.sectionIndex]
+                .video = video;
             emit(GetVideoSuccessState());
           }
         }

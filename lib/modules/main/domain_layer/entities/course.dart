@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:BeWell/modules/main/data_layer/models/lesson_model.dart';
 import 'lesson.dart';
 
-class Course extends Equatable{
+class Course extends Equatable {
   final List<LessonModel> lessons;
   final String courseName;
   final String courseImage;
@@ -12,5 +12,5 @@ class Course extends Equatable{
     required this.courseImage,
   });
   @override
-  List<Object?> get props => [lessons,courseName,courseImage];
+  List<Object?> get props => [lessons, courseName, courseImage];
 }

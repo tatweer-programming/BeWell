@@ -22,10 +22,13 @@ abstract class BaseAuthRemoteDataSource {
       {required String email});
   Future<Either<FirebaseException, UserModel>> getDataUser();
   Future<Either<FirebaseAuthException, void>> updateDataUser(
+
       {required String name,
       required String oldPassword,
       required String id,
-      required String email});
+      required String email,
+        required String phone,
+      });
 
   Future<Either<FirebaseAuthException, void>> changePassword(
       {required String oldPassword, required String newPassword});
@@ -138,11 +141,12 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     required String oldPassword,
     required String id,
     required String email,
+    required String phone,
   }) async {
     UserModel userModel = UserModel(
       email: email,
       name: name,
-      id: id,
+      id: id, phone: phone,
     );
     try {
       final user = FirebaseAuth.instance.currentUser;

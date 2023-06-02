@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-
 class PlayVideoScreen extends StatefulWidget {
   final Video video;
   const PlayVideoScreen({Key? key, required this.video}) : super(key: key);
   @override
   State<PlayVideoScreen> createState() =>
       // ignore: no_logic_in_create_state
-  _PlayVideoFromVimeoIdState(video: video);
+      _PlayVideoFromVimeoIdState(video: video);
 }
 
 class _PlayVideoFromVimeoIdState extends State<PlayVideoScreen> {

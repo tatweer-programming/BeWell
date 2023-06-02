@@ -18,10 +18,8 @@ class CourseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainBloc, MainState>(
-      builder: (context, state) {
-        return Scaffold();
-      }
-    );
+    return BlocBuilder<MainBloc, MainState>(builder: (context, state) {
+      return const Scaffold();
+    });
   }
 }

@@ -9,7 +9,8 @@ class UpdateDataUserUseCase{
     required String name,
     required String oldPassword,
     required String id,
+    required String phone,
     required String email,})async{
-    return await baseAuthRepository.updateDataUser(name: name, oldPassword: oldPassword, id: id, email: email);
+    return await baseAuthRepository.updateDataUser(name: name, oldPassword: oldPassword, id: id, email: email, phone: phone);
   }
 }

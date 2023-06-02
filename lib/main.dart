@@ -10,12 +10,11 @@ import 'firebase_options.dart';
 import 'modules/main/presentation_layer/bloc/main_bloc.dart';
 import 'modules/main/presentation_layer/screens/course_screen.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator().init();
   await Firebase.initializeApp(
-     options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   await CacheHelper.init();
   await LocalNotification.initializeLocalNotifications();
@@ -31,8 +30,7 @@ class MyApp extends StatelessWidget {
       return MultiBlocProvider(
         providers: [
           BlocProvider<MainBloc>(
-            create: (BuildContext context) => MainBloc(MainInitial()),
-          ),
+              create: (BuildContext context) => MainBloc(MainInitial())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -40,7 +38,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.redAccent,
-              surfaceTint: Colors.white,),
+              surfaceTint: Colors.white,
+            ),
             useMaterial3: true,
           ),
           home: const CourseScreen(),
