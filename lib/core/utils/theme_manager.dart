@@ -12,19 +12,17 @@ ThemeData getAppTheme() {
       fontFamily: 'Abg',
       hintColor: ColorManager.primary,
     hoverColor: ColorManager.primary.withOpacity(.10),
-    //colorScheme: ColorScheme(brightness: Brightness.light, primary: P, onPrimary: onPrimary, secondary: secondary, onSecondary: onSecondary, error: error, onError: onError, background: background, onBackground: onBackground, surface: surface, onSurface: onSurface),
-
-  primarySwatch: const MaterialColor(4278224745,{50: Color( 0xffe5fff9 )
-    , 100: Color( 0xffccfff4 )
-    , 200: Color( 0xff99ffe8 )
-    , 300: Color( 0xff66ffdd )
-    , 400: Color( 0xff33ffd2 )
-    , 500: Color( 0xff00ffc6 )
-    , 600: Color( 0xff00cc9f )
-    , 700: Color( 0xff009977 )
-    , 800: Color( 0xff00664f )
-    , 900: Color( 0xff003328 )
-  }),
+      primarySwatch: const MaterialColor(4293361186,{50: Color( 0xfffdf2e8 )
+        , 100: Color( 0xfffae4d1 )
+        , 200: Color( 0xfff5c9a3 )
+        , 300: Color( 0xfff0ae75 )
+        , 400: Color( 0xffeb9447 )
+        , 500: Color( 0xffe67919 )
+        , 600: Color( 0xffb86114 )
+        , 700: Color( 0xff8a480f )
+        , 800: Color( 0xff5c300a )
+        , 900: Color( 0xff2e1805 )
+      }),
     //primarySwatch: MaterialColor(10, ),
     drawerTheme: DrawerThemeData(
       width: 70.w ,

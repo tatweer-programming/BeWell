@@ -5,16 +5,31 @@ abstract class MainEvent {
 }
 
 class GetCoursesEvent extends MainEvent {}
-
-class GetVideoSectionEvent extends MainEvent {
-  final String videoId;
-  final int courseIndex;
-  final int lessonIndex;
-  final int sectionIndex;
-  GetVideoSectionEvent({
-    required this.videoId,
-    required this.courseIndex,
-    required this.lessonIndex,
-    required this.sectionIndex,
+class GetProgressEvent extends MainEvent {}
+class OnPageChangedEvent extends MainEvent {
+  final int index;
+  OnPageChangedEvent({required this.index});
+}
+class DoneSectionEvent extends MainEvent {
+  final String courseName;
+  final double progress;
+  final int done;
+  DoneSectionEvent({
+    required this.courseName,
+    required this.progress,
+    required this.done,
   });
 }
+class ToContentSectionEvent extends MainEvent {
+  final BuildContext context;
+  final Section section;
+  final String courseName;
+  final int whichSection;
+  ToContentSectionEvent({
+    required this.section,
+    required this.courseName,
+    required this.whichSection,
+    required this.context,
+});
+}
+

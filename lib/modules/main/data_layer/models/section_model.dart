@@ -6,23 +6,25 @@ import '../../domain_layer/entities/section.dart';
 //ignore: must_be_immutable
 class SectionsModel extends Section{
   SectionsModel({
-    super.videoId,
-    super.sectionImage,
-    super.quiz,
+    super.videosIds,
+    super.image,
+    super.text,
+   // super.quiz,
   });
   factory SectionsModel.fromJson(Map<String, dynamic> json) =>
-      SectionsModel (
-          quiz: QuizModel.fromJson(json['quiz']),
-          sectionImage: json['sectionImage'],
-          videoId: json['videoId'],);
+      SectionsModel(
+          //quiz: QuizModel.fromJson(json['quiz']),
+          image: json['image'],
+          text: json['text'],
+          videosIds: List<String>.from(json['videosIds']).map((videoId) => videoId).toList()
+      );
+
 
   Map<String, dynamic> toJson() {
-
-    return
-      {
+    return {
       "quiz": quiz?.toJson(),
-      "videoId":videoId,
-      "sectionImage":sectionImage,
-      };
+      "videosIds":videosIds,
+      "sectionImage":image,
+    };
   }
 }

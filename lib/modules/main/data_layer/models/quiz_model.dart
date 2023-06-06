@@ -5,7 +5,7 @@ class QuizModel extends Quiz {
   QuizModel({required super.questions, required super.totalMarks , super.collectedMarks});
 
   factory QuizModel.fromJson(Map<String, dynamic> json) {
-   QuizModel  quizModel =  QuizModel (
+   QuizModel quizModel = QuizModel (
         totalMarks: json['totalMarks'],
         questions: _getQuestions(json)
     ) ;
