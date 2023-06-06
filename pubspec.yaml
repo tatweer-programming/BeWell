@@ -45,6 +45,7 @@ dependencies:
   smooth_page_indicator:
   permission_handler:
   fluttertoast:
+  flutter_localization:
 
 
   # bloc

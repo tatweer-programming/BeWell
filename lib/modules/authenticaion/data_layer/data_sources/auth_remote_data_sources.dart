@@ -16,7 +16,6 @@ abstract class BaseAuthRemoteDataSource {
       {required String email,
       required String password,
       required String id,
-      required String studentPhone,
       required String name});
   Future<Either<FirebaseAuthException, void>> forgetPassword(
       {required String email});
@@ -27,7 +26,6 @@ abstract class BaseAuthRemoteDataSource {
       required String oldPassword,
       required String id,
       required String email,
-        required String phone,
       });
 
   Future<Either<FirebaseAuthException, void>> changePassword(
@@ -121,9 +119,10 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       {required String email,
       required String password,
       required String id,
-      required String studentPhone,
+
       required String name}) async {
     try {
+      print('10');
       RequestModel request =
           RequestModel(name: name, email: email, id: id, password: password);
       await FirebaseFirestore.instance
@@ -141,14 +140,16 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     required String oldPassword,
     required String id,
     required String email,
-    required String phone,
+
   }) async {
     UserModel userModel = UserModel(
       email: email,
       name: name,
-      id: id, phone: phone,
+      id: id,
+
     );
     try {
+      print('4');
       final user = FirebaseAuth.instance.currentUser;
       final cred = EmailAuthProvider.credential(
           email: user!.email!, password: oldPassword);
@@ -164,6 +165,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       }
       return const Right(true);
     } on FirebaseAuthException catch (error) {
+      print(error);
       return Left(error);
     }
   }

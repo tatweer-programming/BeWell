@@ -1,5 +1,7 @@
+import 'package:BeWell/core/error/remote_error.dart';
 import 'package:BeWell/core/utils/constance_manager.dart';
 import 'package:BeWell/modules/authenticaion/domain_layer/use_cases/send_auth_request_use_case.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +20,11 @@ part 'auth_state.dart';
 
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+   bool isValidEmail(String email) {
+    return RegExp(
+      r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+    ).hasMatch(email);
+  }
   static AuthBloc get(BuildContext context) =>
       BlocProvider.of<AuthBloc>(context);
   List<Widget> pages = [];
@@ -33,19 +40,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   bool oldVisibility = false;
   IconData oldSuffix = Icons.visibility;
   TextInputType oldType = TextInputType.visiblePassword;
-  void changeVisibility() {
+  void _changeVisibility() {
     newVisibility = !newVisibility;
     newSuffix =
         !newVisibility ? Icons.visibility : Icons.visibility_off;
     newType =
         !newVisibility ? TextInputType.text : TextInputType.visiblePassword;
   }
-  void oldChangeVisibilityVoid() {
+  void _oldChangeVisibilityVoid() {
     oldVisibility = !oldVisibility;
     oldSuffix = !oldVisibility ? Icons.visibility : Icons.visibility_off;
     oldType =
         !oldVisibility ? TextInputType.text : TextInputType.visiblePassword;
   }
+
 
   AuthBloc(AuthInitial authInitial) : super(AuthInitial()) {
     on<AuthEvent>((event, emit) async {
@@ -54,10 +62,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         currentIndex = event.index;
         emit(ChangeButtonAuthState(index: event.index));
       } else if (event is ChangeVisibilityEvent) {
-        changeVisibility();
+        _changeVisibility();
         emit(ChangeVisibilityState(isVisible: newVisibility));
       } else if (event is OldChangeVisibilityEvent) {
-        oldChangeVisibilityVoid();
+        _oldChangeVisibilityVoid();
         emit(OldChangeVisibilityState(isVisible: newVisibility));
       } else if (event is LoginEvent) {
         emit(const LoginLoadingAuthState());
@@ -66,30 +74,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           password: event.password,
         );
         result.fold((l) {
-          errorToast(msg: l.message!);
+
+          errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(LoginErrorAuthState());
         }, (r) async{
           NavigationManager.pushAndRemove(event.context, const Scaffold());
           defaultToast(msg: "تم تسحيل الدخول بنجاح");
           ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
-          emit(LoginSuccessfulAuthState(context: event.context, uid: ConstantsManager.userId));
+          emit(LoginSuccessfulAuthState(context: event.context, uid: ConstantsManager.userId, ));
         });
       }
       else if (event is SendAuthRequestEvent)
       {
+        print('1');
         emit(SendAuthRequestLoadingAuthState());
-        final result = await SendAuthRequestUseCase(sl()).excute(
+        final result = await SendAuthRequestUseCase(sl()).call(
            id: event.id,
             email: event.email,
             password: event.password,
-            name: event.name, studentPhone: event.phone);
+            name: event.name,);
         ConstantsManager.userId = await CacheHelper.getData(key: 'uid') ?? '';
         result.fold((l) {
-          errorToast(msg: l.message!);
+          errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(SendAuthRequestErrorAuthState());
         }, (r) {
           defaultToast(msg: "تم ارسال طلبك للمراجعة");
-          NavigationManager.pushAndRemove(event.context, const Scaffold());
           emit(SendAuthRequestSuccessfulState(
               context: event.context, uid: ConstantsManager.userId));
         });
@@ -97,7 +106,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final result = await ForgetPasswordUseCase(sl())
             .excute(email: event.email);
         result.fold((l) {
-          errorToast(msg: l.message!);
+          errorToast(msg: ExceptionManager(l).translatedMessage());
         }, (r) {
           defaultToast(msg: "من فضلك تحقق من الايميل ");
         });
@@ -110,12 +119,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         });
       } else if (event is UpdateMyDataEvent) {
         final result = await UpdateDataUserUseCase(sl()).update(
-          phone: event.phone,
+
             name: event.name,
             oldPassword: event.oldPassword,
             email: event.email, id: '');
         result.fold((l) {
-          errorToast(msg: l.message!);
+          errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(UpdateMyDataErrorState());
         }, (r) {
           defaultToast(msg: "تم تحديث البيانات بنجاح");
@@ -126,7 +135,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final result = await ChangePasswordUseCase(sl()).change(
             oldPassword: event.oldPassword, newPassword: event.newPassword);
         result.fold((l) {
-          errorToast(msg: l.message!);
+          errorToast(msg: ExceptionManager(l).translatedMessage());
         }, (r) {
           defaultToast(msg: "تم تغير كلمة السر بنجاح");
           NavigationManager.pop(event.context);
@@ -137,5 +146,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(NavigationToChangePassScreenState(context:event.context));
       }
     });
+
   }
+
+
 }

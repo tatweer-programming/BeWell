@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:BeWell/modules/authenticaion/data_layer/models/user_model.dart';
+import 'package:flutter/foundation.dart';
 import '../../domain_layer/repsitories/base_auth_repository.dart';
 import '../data_sources/auth_remote_data_sources.dart';
 
@@ -31,10 +32,13 @@ class AuthRepository extends BaseAuthRepository {
     required String oldPassword,
     required String id,
     required String email,
-    required String phone,
+
   }) async {
+    if (kDebugMode) {
+      print(3);
+    }
     return await baseAuthRemoteDataSource.updateDataUser(
-        name: name, oldPassword: oldPassword,email: email ,id: id, phone: phone);
+        name: name, oldPassword: oldPassword,email: email ,id: id, );
   }
 
   @override
@@ -49,8 +53,8 @@ class AuthRepository extends BaseAuthRepository {
   @override
   Future<Either<FirebaseException, String>> sendAuthRequest
       ({required String email, required String password,
-    required String id, required String studentPhone, required String name}) async {
+    required String id, required String name}) async {
     return await baseAuthRemoteDataSource.sendAuthRequest
-      (email: email, password: password, id: id, studentPhone: studentPhone, name: name);
+      (email: email, password: password, id: id, name: name);
   }
 }

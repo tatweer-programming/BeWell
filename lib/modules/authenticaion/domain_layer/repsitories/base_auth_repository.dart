@@ -9,7 +9,6 @@ abstract class BaseAuthRepository {
       {required String email,
         required String password,
         required String id,
-        required String studentPhone,
         required String name});
   Future<Either<FirebaseAuthException, void>> forgetPassword(
       {required String email});
@@ -19,7 +18,7 @@ abstract class BaseAuthRepository {
         required String oldPassword,
         required String id,
         required String email,
-        required String phone,
+
       });
 
   Future<Either<FirebaseAuthException, void>> changePassword(

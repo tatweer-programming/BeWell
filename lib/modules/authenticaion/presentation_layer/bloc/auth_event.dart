@@ -15,9 +15,8 @@ class ChangeButtonAuthenticationEvent extends AuthEvent {
 class LoginEvent extends AuthEvent {
   String email;
   String password;
-  final context;
-  LoginEvent(
-      {required this.email, required this.password, required this.context});
+  final BuildContext context;
+  LoginEvent({required this.email, required this.password, required this.context});
 
   @override
   List<Object?> get props => [email, password, context];
@@ -27,12 +26,12 @@ class SendAuthRequestEvent extends AuthEvent {
   final String email;
   final String password;
   final String id;
-  final String phone;
+
   final String name;
   final BuildContext context;
   const SendAuthRequestEvent(
       {required this.context,
-      required this.phone,
+
       required this.id,
       required this.password,
       required this.email,
@@ -40,6 +39,12 @@ class SendAuthRequestEvent extends AuthEvent {
 
   @override
   List<Object?> get props => [];
+}
+class CheckEmailEvent extends AuthEvent {
+  String email ;
+  CheckEmailEvent(this.email);
+  @override
+  List<Object?> get props => [email];
 }
 
 class ChangeVisibilityEvent extends AuthEvent {
