@@ -92,7 +92,7 @@ class CourseScreen extends StatelessWidget {
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           crossAxisCount: 2,
-                          childAspectRatio: 0.62,
+                          childAspectRatio: 0.65,
                           physics: const NeverScrollableScrollPhysics(),
                           children: List.generate(
                             bloc.courses.length,

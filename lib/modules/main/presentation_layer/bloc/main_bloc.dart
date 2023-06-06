@@ -38,18 +38,20 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     required Section section,
     required double height,
   })async{
+    widgets = [];
+    List<Video> videos = [];
     var explode = YoutubeExplode();
     if(section.videos == null || section.videos!.isEmpty){
      if(section.videosIds!.isNotEmpty && section.videosIds != null){
        for(var videoId in section.videosIds!) {
          Video video = await explode.videos.get(videoId);
-         print(video.url);
-         section.videos!.add(video);
-         print(section.videos!.length);
+         videos.add(video);
+         widgets.add(PlayVideoScreen(video: video));
        }
+       section.videos = videos;
      }
     }
-    if(section.videos != null){
+    else if(section.videos != null){
       for(var video in section.videos!) {
         widgets.add(PlayVideoScreen(video: video));
       }

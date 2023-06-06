@@ -9,6 +9,7 @@ import 'styles_manager.dart';
 
 ThemeData getAppTheme() {
   return ThemeData (
+    useMaterial3: true,
       fontFamily: 'Abg',
       hintColor: ColorManager.primary,
     hoverColor: ColorManager.primary.withOpacity(.10),

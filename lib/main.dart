@@ -6,9 +6,9 @@ import 'package:BeWell/core/local/local_notifications.dart';
 import 'package:BeWell/core/services/dep_injection.dart';
 import 'package:sizer/sizer.dart';
 import 'core/local/shared_prefrences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/utils/theme_manager.dart';
 import 'firebase_options.dart';
-import 'package:flutter_localization/flutter_localization.dart';
 import 'modules/main/presentation_layer/bloc/main_bloc.dart';
 import 'modules/main/presentation_layer/screens/course_screen.dart';
 
@@ -40,14 +40,14 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: getAppTheme(),
-          // localizationsDelegates: const [
-          //   GlobalMaterialLocalizations.delegate,
-          //   GlobalWidgetsLocalizations.delegate,
-          //   GlobalCupertinoLocalizations.delegate,
-          // ],
-          // supportedLocales: const [
-          //   Locale('ar', 'AE'), // English, no country code
-          // ],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('ar', 'AE'), // English, no country code
+          ],
           home: const CourseScreen(),
         ),
       );
