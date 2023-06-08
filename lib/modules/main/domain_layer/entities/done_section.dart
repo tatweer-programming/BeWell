@@ -4,7 +4,7 @@ class DoneSection extends Equatable{
   final Map<String,double> progress;
   final Map<String,int> done;
   final String studentName;
-  final String lastUsing;
+  final DateTime lastUsing;
   const DoneSection({
     required this.progress,
     required this.done,
