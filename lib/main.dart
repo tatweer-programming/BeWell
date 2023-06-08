@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'BeWell',
           theme: getAppTheme(),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,

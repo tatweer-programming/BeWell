@@ -23,7 +23,7 @@ Widget courseBuilder({
   return InkWell(
     onTap: () {
       bloc.countPrefix(courseIndex);
-      NavigationManager.push(context, LessonScreen(courseName:course.courseName,courseIndex: courseIndex,));
+      NavigationManager.push(context, LessonScreen(course: course,));
     },
     child: Card(
       elevation: 5.sp,
@@ -80,18 +80,19 @@ Widget lessonBuilder({
   required Lesson lesson,
   required BuildContext context,
   required int sectionsLength,
-  required int courseIndex,
+  required Course course,
+  // required int courseIndex,
   required int lessonIndex,
-  required String courseName,
+  // required String courseName,
   required MainBloc bloc,
 }) {
-  if (bloc.prefixLesson[lessonIndex] == bloc.doneSection!.done[courseName]) {
+  if (bloc.prefixLesson[lessonIndex] == bloc.doneSection!.done[course.courseName]) {
     return InkWell(
       onTap: () {
-        if (bloc.prefixLesson[lessonIndex] <= bloc.doneSection!.done[courseName]!) {
+        if (bloc.prefixLesson[lessonIndex] <= bloc.doneSection!.done[course.courseName]!) {
         NavigationManager.push(
             context,
-            SectionScreen(lessonIndex: lessonIndex,courseName:courseName,courseIndex: courseIndex,));
+            SectionScreen(lessonIndex: lessonIndex,course: course, lesson: lesson,));
       } else {
         showDialog(
             context: context,
@@ -193,7 +194,7 @@ Widget lessonBuilder({
                       ],
                     ),
                     const Spacer(),
-                    if (bloc.prefixLesson[lessonIndex] > bloc.doneSection!.done[courseName]!)
+                    if (bloc.prefixLesson[lessonIndex] > bloc.doneSection!.done[course.courseName]!)
                       const Icon(Icons.lock)
                   ],
                 ),
@@ -206,10 +207,10 @@ Widget lessonBuilder({
   }
     return InkWell(
       onTap: () {
-        if (bloc.prefixLesson[lessonIndex] <= bloc.doneSection!.done[courseName]!) {
+        if (bloc.prefixLesson[lessonIndex] <= bloc.doneSection!.done[course.courseName]!) {
           NavigationManager.push(
             context,
-            SectionScreen(lessonIndex: lessonIndex,courseName:courseName,courseIndex: courseIndex,));
+            SectionScreen(lessonIndex: lessonIndex,course: course,lesson: lesson,));
         }else {
           showDialog(
               context: context,
@@ -286,9 +287,9 @@ Widget lessonBuilder({
                   ],
                 ),
                 const Spacer(),
-                if (bloc.prefixLesson[lessonIndex] >= bloc.doneSection!.done[courseName]!)
+                if (bloc.prefixLesson[lessonIndex] >= bloc.doneSection!.done[course.courseName]!)
                   const Icon(Icons.lock)
-                else if (bloc.courses[courseIndex].lessons[lessonIndex].sections.length < bloc.doneSection!.done[courseName]!)
+                else if (course.lessons[lessonIndex].sections.length < bloc.doneSection!.done[course.courseName]!)
                   const Icon(Icons.check_circle_rounded)
               ],
             ),
@@ -302,17 +303,18 @@ Widget sectionBuilder({
   required Section section,
   required BuildContext context,
   required MainBloc bloc,
+  required Course course,
   required int lessonIndex,
-  required int courseIndex,
-  required String courseName,
+  // required int courseIndex,
+  // required String courseName,
   required int sectionsIndex,
 }) {
   return InkWell(
     onTap: () {
-    if (bloc.prefixLesson[lessonIndex] + sectionsIndex <= bloc.doneSection!.done[courseName]!){
+    if (bloc.prefixLesson[lessonIndex] + sectionsIndex <= bloc.doneSection!.done[course.courseName]!){
         bloc.add(ToContentSectionEvent(
             whichSection: bloc.prefixLesson[lessonIndex] + sectionsIndex,
-            section: section,courseName:courseName,context: context));
+            section: section,courseName:course.courseName,context: context));
       }
     else {
         showDialog(
@@ -378,9 +380,9 @@ Widget sectionBuilder({
                     fontSize: FontSizeManager.s15.sp),
               ),
               const Spacer(),
-              if (bloc.prefixLesson[lessonIndex] + sectionsIndex > bloc.doneSection!.done[courseName]!)
+              if (bloc.prefixLesson[lessonIndex] + sectionsIndex > bloc.doneSection!.done[course.courseName]!)
                 const Icon(Icons.lock)
-              else if (bloc.prefixLesson[lessonIndex] + sectionsIndex < bloc.doneSection!.done[courseName]!)
+              else if (bloc.prefixLesson[lessonIndex] + sectionsIndex < bloc.doneSection!.done[course.courseName]!)
                 const Icon(Icons.check_circle_rounded)
             ],
           ),
@@ -447,6 +449,32 @@ Widget imageScreen({
                 image: NetworkImage(image,),
                 fit: BoxFit.fill,
               )),
+        ),
+      ),
+    ],
+  );
+}
+Widget textScreen({
+  required String text
+}){
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Card(
+        elevation: 5.sp,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.sp),
+        ),
+        child: Container(
+          padding: EdgeInsets.all(10.sp),
+          width: double.infinity,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Text(text,
+          style: TextStyle(
+            fontSize: FontSizeManager.s18.sp,
+            fontWeight: FontWeightManager.bold
+          ),
+          ),
         ),
       ),
     ],

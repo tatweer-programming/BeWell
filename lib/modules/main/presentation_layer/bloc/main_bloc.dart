@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import '../../../../core/error/remote_error.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/navigation_manager.dart';
+import '../../../authenticaion/presentation_layer/components/components.dart';
 import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/entities/lesson.dart';
 import '../../domain_layer/use_cases/get_courses_use_case.dart';
@@ -58,6 +60,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     }
     if(section.image != '' && section.image != null){
       widgets.add(imageScreen(height: height,image: section.image!));
+    }if(section.text != '' && section.text != null){
+      widgets.add(textScreen(text: section.text!));
     }
   }
 
@@ -67,6 +71,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(GetCoursesLoadingState());
         var res = await GetCoursesUseCase(sl()).get();
         res.fold((l) {
+          errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(GetCoursesErrorState());
         }, (r) {
           courses = r;
@@ -91,6 +96,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(DoneSectionLoadingState());
         var result = await DoneSectionUseCase(sl()).done(courseName: event.courseName,done:event.done,progress: event.progress);
         result.fold((l) {
+          errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(DoneSectionErrorState());
         }, (r) {
           emit(DoneSectionSuccessState());

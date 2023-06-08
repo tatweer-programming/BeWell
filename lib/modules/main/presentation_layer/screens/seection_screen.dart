@@ -4,14 +4,18 @@ import 'package:BeWell/modules/main/presentation_layer/components/components.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import '../../domain_layer/entities/course.dart';
+import '../../domain_layer/entities/lesson.dart';
 import '../bloc/main_bloc.dart';
 
 
 class SectionScreen extends StatelessWidget {
+  final Lesson lesson;
+  final Course course;
   final int lessonIndex;
-  final int courseIndex;
-  final String courseName;
-  const SectionScreen({Key? key, required this.lessonIndex,required this.courseIndex,required this.courseName}) : super(key: key);
+  // final int courseIndex;
+  // final String courseName;
+  const SectionScreen({Key? key, required this.lesson, required this.lessonIndex,required this.course}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +28,17 @@ class SectionScreen extends StatelessWidget {
               padding: EdgeInsets.all(10.sp),
               child: ListView.separated(
                 itemBuilder: (context, sectionIndex) => sectionBuilder(
-                  section: bloc.courses[courseIndex].lessons[lessonIndex].sections[sectionIndex],
+                  section: lesson.sections[sectionIndex],
                   context: context,
                   bloc:bloc,
+                  course: course,
                   lessonIndex:lessonIndex,
-                  courseName:courseName,
-                  courseIndex:courseIndex,
+                  // courseName:courseName,
+                  // courseIndex:courseIndex,
                   sectionsIndex:sectionIndex,
                 ),
                 separatorBuilder: (context, index) => SizedBox(height: 10.sp,),
-                itemCount: bloc.courses[courseIndex]
-                    .lessons[lessonIndex].sections.length,
+                itemCount: lesson.sections.length,
               ),
             ),
           ),
