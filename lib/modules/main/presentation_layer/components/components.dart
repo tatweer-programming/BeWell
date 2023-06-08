@@ -16,7 +16,6 @@ import '../bloc/main_bloc.dart';
 Widget courseBuilder({
   required Course course,
   required BuildContext context,
-  required int lessonsLength,
   required int courseIndex,
   required MainBloc bloc,
 }) {
@@ -62,7 +61,7 @@ Widget courseBuilder({
               height: 5.sp,
             ),
             Text(
-              "${NumbersManager.engNumberToArabic("$lessonsLength")} دروس ",
+              "${NumbersManager.engNumberToArabic("${course.lessons.length}")} دروس ",
               style: TextStyle(
                 fontSize: FontSizeManager.s12.sp,
                 color: ColorManager.grey2,
@@ -79,7 +78,6 @@ Widget courseBuilder({
 Widget lessonBuilder({
   required Lesson lesson,
   required BuildContext context,
-  required int sectionsLength,
   required Course course,
   // required int courseIndex,
   required int lessonIndex,
@@ -186,7 +184,7 @@ Widget lessonBuilder({
                           height: 20.sp,
                         ),
                         Text(
-                          "${NumbersManager.engNumberToArabic("$sectionsLength")} قسم ",
+                          "${NumbersManager.engNumberToArabic("${lesson.sections.length}")} قسم ",
                           style: TextStyle(
                               color: ColorManager.grey2,
                               fontSize: FontSizeManager.s12.sp),
@@ -279,7 +277,7 @@ Widget lessonBuilder({
                           fontSize: FontSizeManager.s15.sp),
                     ),
                     Text(
-                      "${NumbersManager.engNumberToArabic("$sectionsLength")} قسم ",
+                      "${NumbersManager.engNumberToArabic("${lesson.sections.length}")} قسم ",
                       style: TextStyle(
                           color: ColorManager.grey2,
                           fontSize: FontSizeManager.s12.sp),

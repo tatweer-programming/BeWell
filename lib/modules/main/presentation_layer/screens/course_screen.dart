@@ -101,7 +101,6 @@ class CourseScreen extends StatelessWidget {
                               context: context,
                               courseIndex: courseIndex,
                               bloc: bloc,
-                              lessonsLength: bloc.courses[courseIndex].lessons.length,
                             ),
                           ),
                         ),
