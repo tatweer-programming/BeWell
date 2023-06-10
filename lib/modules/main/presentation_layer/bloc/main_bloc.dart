@@ -14,7 +14,7 @@ import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/entities/lesson.dart';
 import '../../domain_layer/use_cases/get_courses_use_case.dart';
 import '../components/components.dart';
-import '../screens/content_section_screen.dart';
+import '../screens/section_content_screen.dart';
 import '../screens/play_video_screen.dart';
 part 'main_event.dart';
 part 'main_state.dart';
@@ -35,11 +35,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     }
     print(prefixLesson);
   }
-
-  Future<void> contentSection({
+/// TODO : Read this Function
+  Future<void> sectionContent({
     required Section section,
     required double height,
-  })async{
+  }) async{
     widgets = [];
     List<Video> videos = [];
     var explode = YoutubeExplode();
@@ -64,7 +64,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       widgets.add(textScreen(text: section.text!));
     }
   }
-
+  bool showAnswer = false ;
   MainBloc(MainInitial mainInitial) : super(MainInitial()) {
     on<MainEvent>((event, emit) async {
       if (event is GetCoursesEvent) {
@@ -79,9 +79,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         });
       }else if (event is ToContentSectionEvent){
         emit(ToContentSectionLoadingState());
-        NavigationManager.push(event.context, ContentSectionScreen(
+        NavigationManager.push(event.context, SectionContentScreen(
           courseName: event.courseName,whichSection: event.whichSection,));
-        await contentSection(height: 200.sp,section: event.section);
+        await sectionContent(height: 200.sp,section: event.section);
         if(widgets.length == 1) doneButtonString="انتهاء";
         emit(ToContentSectionSuccessState());
       }else if (event is OnPageChangedEvent){
@@ -111,6 +111,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           doneSection = r;
           emit(GetProgressSuccessState());
         });
+      }
+      else if (event is ShowQuizAnswerEvent){
+        showAnswer = true ;
+        emit(ShowQuizAnswerState());
       }
     });
   }

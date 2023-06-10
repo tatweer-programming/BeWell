@@ -20,11 +20,5 @@ class SectionsModel extends Section{
       );
 
 
-  Map<String, dynamic> toJson() {
-    return {
-      "quiz": quiz?.toJson(),
-      "videosIds":videosIds,
-      "sectionImage":image,
-    };
-  }
+
 }

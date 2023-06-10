@@ -7,10 +7,10 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../bloc/main_bloc.dart';
 import '../components/components.dart';
 
-class ContentSectionScreen extends StatelessWidget {
+class SectionContentScreen extends StatelessWidget {
   final String courseName;
   final int whichSection;
-  const ContentSectionScreen({Key? key,required this.courseName,required this.whichSection}) : super(key: key);
+  const SectionContentScreen({Key? key,required this.courseName,required this.whichSection}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

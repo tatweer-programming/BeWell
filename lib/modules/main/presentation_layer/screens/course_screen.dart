@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:sizer/sizer.dart';
+import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/constance_manager.dart';
 import '../bloc/main_bloc.dart';
 
@@ -15,7 +16,7 @@ class CourseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var bloc = MainBloc.get(context)..add(GetProgressEvent());
+    MainBloc bloc = sl();
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
         return Scaffold(
@@ -23,7 +24,7 @@ class CourseScreen extends StatelessWidget {
             children: [
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: 30.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30.sp),
                   gradient: LinearGradient(

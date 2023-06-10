@@ -14,12 +14,4 @@ class CourseModel extends Course{
         courseImage: json['courseImage'],
         lessons: List.from(json["lessons"]).map((e) => LessonModel.fromJson(e)).toList(),
       );
-
-  Map<String, dynamic> toJson() {
-    return {
-      "courseName": courseName,
-      "courseImage":courseImage,
-      "examsIds":lessons.map((e) => e.toJson()).toList(),
-    };
-  }
 }

@@ -1,16 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class Question extends Equatable {
-  List<String> answers;
-  int trueAnswer;
-  String question;
-  int marks;
-  Question(
-      {required this.answers,
-      required this.question,
-      required this.trueAnswer,
-      this.marks = 1});
+final  String question ;
+final  List<int> trueAnswer ;
+ final String ? explanation ;
+final List <String> answers ;
 
+const Question({required this.question ,
+  required this.trueAnswer , this.explanation , required this.answers ,});
   @override
-  List<Object?> get props => [answers, trueAnswer, question, marks];
+  List<Object?> get props => [
+    question,
+    answers ,
+    trueAnswer ,
+    explanation,
+  ];
 }

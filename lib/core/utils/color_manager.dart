@@ -11,4 +11,5 @@ class ColorManager {
   static Color white = Colors.white;
   static Color black = Colors.black;
   static Color error = Colors.red.shade800;
+  static Color green = Colors.green;
 }

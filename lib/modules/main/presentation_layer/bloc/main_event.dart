@@ -20,6 +20,7 @@ class DoneSectionEvent extends MainEvent {
     required this.done,
   });
 }
+
 class ToContentSectionEvent extends MainEvent {
   final BuildContext context;
   final Section section;
@@ -33,3 +34,6 @@ class ToContentSectionEvent extends MainEvent {
 });
 }
 
+class ShowQuizAnswerEvent extends MainEvent {
+
+}

@@ -23,3 +23,4 @@ class OnPageChangedState extends MainState {
   final String doneButtonString;
   OnPageChangedState(this.doneButtonString);
 }
+class ShowQuizAnswerState extends MainState {}

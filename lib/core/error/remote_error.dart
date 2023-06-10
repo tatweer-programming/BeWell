@@ -56,7 +56,7 @@ class ExceptionManager implements Exception {
       case "unknown":
         return "حدث خطأ غير معروف في Firebase Storage";
       default:
-        return "حدث خطأ غير معروف : ${error.code}";
+        return "  حدث خطأ غير معروف : ${error.code}";
     }
   }
 }

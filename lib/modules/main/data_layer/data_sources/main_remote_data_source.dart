@@ -9,7 +9,7 @@ import '../../domain_layer/entities/course.dart';
 
 abstract class BaseMainRemoteDataSource {
   Future<Either<FirebaseException, List<Course>>> getCourses();
-  Future<Either<FirebaseException, DoneSection >> getProgress();
+  Future<Either<FirebaseException, DoneSection>> getProgress();
   Future<Either<FirebaseException, void>> doneSection({
     required String courseName,
     required double progress,
@@ -20,29 +20,29 @@ abstract class BaseMainRemoteDataSource {
 class MainRemoteDataSource extends BaseMainRemoteDataSource {
   @override
   Future<Either<FirebaseException, List<Course>>> getCourses() async {
-    try{
+    try {
       List<Course> courseModel = [];
-      await FirebaseFirestore.instance.
-      collection("course").get().then((value) {
-        for(var element in value.docs){
+      await FirebaseFirestore.instance.collection("course").get().then((value) {
+        for (var element in value.docs) {
           courseModel.add(CourseModel.fromJson(element.data()));
         }
       });
       return Right(courseModel);
-    }on FirebaseException catch (error) {
+    } on FirebaseException catch (error) {
       return Left(error);
     }
   }
+
   @override
   Future<Either<FirebaseException, void>> doneSection({
     required String courseName,
     required double progress,
     required int done,
   }) async {
-    try{
-      var document = FirebaseFirestore.instance.collection("progress").doc(
-          ConstantsManager.studentName
-      );
+    try {
+      var document = FirebaseFirestore.instance
+          .collection("progress")
+          .doc(ConstantsManager.studentName);
       FirebaseFirestore.instance.runTransaction((transaction) async {
         transaction.update(document, {
           "done.$courseName": done,
@@ -51,21 +51,24 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
         });
       });
       return const Right(true);
-    }on FirebaseException catch (error) {
+    } on FirebaseException catch (error) {
       return Left(error);
     }
   }
 
   @override
   Future<Either<FirebaseException, DoneSection>> getProgress() async {
-    try{
+    try {
       DoneSectionModel? doneSectionModel;
-      await FirebaseFirestore.instance.
-      collection("progress").doc(ConstantsManager.studentName).get().then((value) {
+      await FirebaseFirestore.instance
+          .collection("progress")
+          .doc(ConstantsManager.studentName)
+          .get()
+          .then((value) {
         doneSectionModel = DoneSectionModel.fromJson(value.data()!);
       });
       return Right(doneSectionModel!);
-    }on FirebaseException catch (error) {
+    } on FirebaseException catch (error) {
       return Left(error);
     }
   }

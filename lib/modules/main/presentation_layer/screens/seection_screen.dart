@@ -13,8 +13,6 @@ class SectionScreen extends StatelessWidget {
   final Lesson lesson;
   final Course course;
   final int lessonIndex;
-  // final int courseIndex;
-  // final String courseName;
   const SectionScreen({Key? key, required this.lesson, required this.lessonIndex,required this.course}) : super(key: key);
 
   @override

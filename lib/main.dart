@@ -1,3 +1,4 @@
+import 'package:BeWell/modules/main/presentation_layer/components/test.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'core/local/shared_prefrences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/utils/theme_manager.dart';
 import 'firebase_options.dart';
+import 'modules/authenticaion/presentation_layer/bloc/auth_bloc.dart';
 import 'modules/main/presentation_layer/bloc/main_bloc.dart';
 import 'modules/main/presentation_layer/screens/course_screen.dart';
 
@@ -33,7 +35,10 @@ class MyApp extends StatelessWidget {
       return MultiBlocProvider(
         providers: [
           BlocProvider<MainBloc>(
-            create: (BuildContext context) => MainBloc(MainInitial())..add(GetCoursesEvent()),
+            create: (BuildContext context) => sl()..add(GetCoursesEvent())..add(GetProgressEvent()),
+          ),
+          BlocProvider<AuthBloc>(
+            create: (BuildContext context) => sl(),
           ),
         ],
         child: MaterialApp(
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: const [
             Locale('ar', 'AE'), // English, no country code
           ],
-          home: const CourseScreen(),
+          home: const TestQuizScreen(),
         ),
       );
     });

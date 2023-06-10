@@ -1,11 +1,17 @@
+
 import 'package:BeWell/modules/main/domain_layer/entities/question.dart';
 
 class QuestionModel extends Question {
-  QuestionModel({required super.answers, required super.question, required super.trueAnswer});
+  const QuestionModel({required super.question, required
+  super.trueAnswer, super.explanation , required super.answers , });
 
- factory QuestionModel.fromJson(Map<String, dynamic> json){
-     return QuestionModel(answers: List.from(json['answers']).map((e) => e.toString()).toList(), question:  json['question'],
-         trueAnswer: json['trueAnswer']);
-   }
+  static Question fromJson(Map<String, dynamic> json) {
 
+   return Question(
+       question:
+       json['question'], trueAnswer: json['trueAnswer'], explanation: json['explanation'], answers:
+    List.from(json['answers']).map((e) => e.toString()).toList(),
+
+   ) ;
+  }
 }

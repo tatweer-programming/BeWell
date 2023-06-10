@@ -7,13 +7,12 @@ import 'package:BeWell/modules/main/data_layer/models/question_model.dart';
 //ignore: must_be_immutable
 class Quiz extends Equatable {
   List<Question> questions;
-  int totalMarks;
-  int collectedMarks;
+
   Quiz(
       {
-        required this.questions,
-        this.collectedMarks = 0,
-        required this.totalMarks});
+
+      required this.questions ,
+      });
   @override
-  List<Object?> get props => [totalMarks, questions];
+  List<Object?> get props => [questions, ];
 }
