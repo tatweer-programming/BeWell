@@ -1,36 +1,38 @@
+import 'package:BeWell/core/local/shared_prefrences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../utils/color_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalNotification {
   static ReceivedAction? initialAction;
+ static AwesomeNotifications awesomeNotifications = AwesomeNotifications();
+
 
   // Initialization
   static Future<void> initializeLocalNotifications() async {
-    await AwesomeNotifications().initialize(
-      null, //'resource://drawable/res_app_icon',//
+
+    await awesomeNotifications.initialize(
+      'asset://assets/images/water-cup.png',
       [
         NotificationChannel(
           channelKey: 'alerts',
           channelName: 'Alerts',
           channelDescription: 'Notification tests as alerts',
-          playSound: true,
-          onlyAlertOnce: true,
-          groupAlertBehavior: GroupAlertBehavior.Children,
-          importance: NotificationImportance.High,
-          defaultPrivacy: NotificationPrivacy.Public,
-          defaultColor: ColorManager.primary,
-          ledColor: ColorManager.black,
-        )
+        ),
+        NotificationChannel(
+          channelKey: 'water-reminder',
+          channelName: 'water-reminder',
+          channelDescription: 'Notification tests as alerts',
+        ),
       ],
       debug: true,
     );
+
   }
 
   // REQUESTING NOTIFICATION PERMISSIONS
   static Future<bool> requestNotificationPermissions() async {
-    AwesomeNotifications().requestPermissionToSendNotifications(
+    await awesomeNotifications.requestPermissionToSendNotifications(
       channelKey: 'alerts',
       permissions: [
         NotificationPermission.Light,
@@ -44,7 +46,7 @@ class LocalNotification {
       return true;
     } else {
       var result =
-      await AwesomeNotifications().requestPermissionToSendNotifications();
+      await awesomeNotifications.requestPermissionToSendNotifications();
 
       if (result == true) {
         return true;
@@ -55,119 +57,83 @@ class LocalNotification {
   }
 
   // NOTIFICATION CREATION METHODS
-  static Future<void> scheduleNewNotification() async {
-    bool isAllowed = await requestNotificationPermissions();
-    if (isAllowed) {
-      print('Notifications allowed');
-      await cancelNotifications();
-      await AwesomeNotifications().createNotification(
+  static Future<void> createWaterReminder() async {
+   await CacheHelper.saveData(key: 'callWaterReminder', value: false);
+    await CacheHelper.saveData(key: 'waterCups', value: 0);
+    DateTime now = DateTime.now();
+    for (int i = 0; i < 8; i++) {
+      await awesomeNotifications.createNotification(
+        actionButtons: [
+          NotificationActionButton(
+            key: 'confirm',
+            label: 'شربت كوبًا',
+            autoDismissible: true,
+            buttonType: ActionButtonType.Default,
+          ),
+          NotificationActionButton(
+            key: 'ignore',
+            label: 'تجاهل',
+            autoDismissible: true,
+            buttonType: ActionButtonType.Default,
+          ),
+        ],
         content: NotificationContent(
-          displayOnForeground: true,
-          id: 11,
-          channelKey: 'alerts',
-          title: "اشتقنا",
-          body: "لم تستخدم التطبيق منذ فترة. نحن نفتقدك",
+          id: i + 1,
+          channelKey: 'water-reminder',
+          title: 'تذكير بشرب الماء',
+          body: 'لا تنس شرب كوب من الماء',
           displayOnBackground: true,
-          backgroundColor: ColorManager.primary,
-          notificationLayout: NotificationLayout.Default,
-          payload: {'notificationId': '1234567890'},
-        ),
-        schedule: NotificationCalendar.fromDate(
-          date: DateTime.now().add(
-            const Duration(
-              days: 2,
-            ),
-          ),
-        ),
-      );
-    } else {
-      print('Notifications not allowed');
-      DoNothingAction();
-    }
-  }
-
-  static Future<void> resetBadgeCounter() async {
-    await AwesomeNotifications().resetGlobalBadge();
-  }
-
-  static Future<void> cancelNotifications() async {
-    await AwesomeNotifications().cancelAllSchedules();
-  }
-
-  static Future<void> scheduleDailyNotifications() async {
-    bool isAllowed = await requestNotificationPermissions();
-    if (isAllowed) {
-      print('Notifications allowed');
-      await cancelNotifications();
-      DateTime now = DateTime.now();
-      for (int i = 0; i < 8; i++) {
-        DateTime notificationTime = DateTime(now.year, now.month, now.day, 8 + i, 0, 0);
-        await AwesomeNotifications().createNotification(
-          actionButtons:  [
-            NotificationActionButton(
-              key: 'drink',
-              label: 'شربت',
-
-              buttonType: ActionButtonType.KeepOnTop,
-              enabled: true,
-              icon: 'resource://drawable/ic_drink',
-
-            ),
-            NotificationActionButton(
-              key: 'ignore',
-              label: 'تجاهل',
-              buttonType: ActionButtonType.DisabledAction,
-              enabled: true,
-              icon: 'resource://drawable/ic_ignore',
-            ),
-          ],
-          content: NotificationContent(
-            id: i + 1,
-            channelKey: 'alerts',
-            title: 'شرب الماء',
-            body: 'هل شربت الماء اليوم؟',
-            bigPicture: 'asset://assets/images/drink_water.png',
-            notificationLayout: NotificationLayout.BigPicture,
-            payload: {
-              'notificationId': '1234567890',
-              'action': 'drink',
-            },
-
-          ),
-          schedule: NotificationCalendar(
-            weekday: notificationTime.weekday,
-            hour: notificationTime.hour,
-            minute: notificationTime.minute,
-            second: notificationTime.second,
-            repeats: true,
-          ),
-        );
-      }
-
-      // Add congratulations notification
-      await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-          id: 100,
-          channelKey: 'alerts',
-          title: 'تهانينا!',
-          body: 'لقد تمكنت من شرب الماء الكافي اليوم. استمر!',
-          notificationLayout: NotificationLayout.Default,
-          payload: {
-            'notificationId': '1234567890',
-            'action': 'congratulate',
-          },
+          displayOnForeground: true,
+          autoDismissible: true,
         ),
         schedule: NotificationCalendar(
-          weekday: DateTime.daysPerWeek,
-          hour: 20,
-          minute: 0,
-          second: 0,
+          weekday: DateTime.monday |
+          DateTime.tuesday |
+          DateTime.wednesday |
+          DateTime.thursday |
+          DateTime.friday |
+          DateTime.saturday |
+          DateTime.sunday,
+          hour: now.hour,
+          minute: now.minute + (i * 90),
+          second: now.second,
+          millisecond: now.millisecond,
           repeats: true,
         ),
       );
-    } else {
-      print('Notifications not allowed');
-      DoNothingAction();
     }
+    awesomeNotifications.actionStream.listen((ReceivedAction receivedAction) async {
+      if (receivedAction != null ) {
+        if (receivedAction.buttonKeyPressed == 'confirm') {
+          int currentValue =  await CacheHelper.getData(key: 'waterCups') ;
+          if (currentValue == 8 ){
+           await CacheHelper.saveData(key: 'waterCups', value: 0);
+             await _congratsNotification();
+          }
+          else {
+           await CacheHelper.saveData(key: 'waterCups', value: currentValue+1);
+          }
+
+        }
+        else if (receivedAction.id == 7){
+          await CacheHelper.saveData(key: 'waterCups', value: 0);
+        }
+      }
+    });
   }
+  static  Future<void> _congratsNotification() async{
+    await awesomeNotifications.createNotification(
+      content: NotificationContent(
+        id: 9,
+        channelKey: 'water-reminder',
+        title: 'تهانينا',
+        body: 'لقد شربت كمية كافية من الماء اليوم',
+        displayOnBackground: true,
+        displayOnForeground: true,
+        autoDismissible: true,
+      ),
+    );
+  }
+
+
 }

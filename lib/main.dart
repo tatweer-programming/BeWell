@@ -21,6 +21,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
      options: DefaultFirebaseOptions.currentPlatform,
   );
+  bool callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
+ if (callWaterReminder){
+  await LocalNotification.createWaterReminder() ;
+ }
   await CacheHelper.init();
   await LocalNotification.initializeLocalNotifications();
   await AwesomeNotifications().requestPermissionToSendNotifications();
