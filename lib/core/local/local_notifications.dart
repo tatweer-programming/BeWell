@@ -1,17 +1,17 @@
 import 'package:BeWell/core/local/shared_prefrences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class LocalNotification {
-  static ReceivedAction? initialAction;
- static AwesomeNotifications awesomeNotifications = AwesomeNotifications();
+   ReceivedAction? initialAction;
+
 
 
   // Initialization
-  static Future<void> initializeLocalNotifications() async {
+   Future<void> initializeLocalNotifications() async {
 
-    await awesomeNotifications.initialize(
+    await AwesomeNotifications().initialize(
       'asset://assets/images/water-cup.png',
       [
         NotificationChannel(
@@ -27,12 +27,43 @@ class LocalNotification {
       ],
       debug: true,
     );
+    // Get initial notification action is optional
+    initialAction = await AwesomeNotifications().getInitialNotificationAction(removeFromActionEvents: false);
+  }
+
+
+   Future<void> startListeningNotificationEvents() async {
+    AwesomeNotifications()
+        .setListeners(onActionReceivedMethod: onActionReceivedMethod);
+  }
+
+
+  @pragma('vm:entry-point')
+   Future<void> onActionReceivedMethod(
+      ReceivedAction receivedAction) async {
+      if (receivedAction.buttonKeyPressed == 'confirm') {
+        int currentValue =  await CacheHelper.getData(key: 'waterCups') ;
+        if (currentValue == 8 ){
+          await CacheHelper.saveData(key: 'waterCups', value: 0);
+          await _congratsNotification();
+        }
+        else {
+          await CacheHelper.saveData(key: 'waterCups', value: currentValue+1);
+        }
+
+      }
+      else if (receivedAction.id == 7){
+        await CacheHelper.saveData(key: 'waterCups', value: 0);
+      }
+
 
   }
 
+
+
   // REQUESTING NOTIFICATION PERMISSIONS
-  static Future<bool> requestNotificationPermissions() async {
-    await awesomeNotifications.requestPermissionToSendNotifications(
+   Future<bool> requestNotificationPermissions() async {
+    await AwesomeNotifications().requestPermissionToSendNotifications(
       channelKey: 'alerts',
       permissions: [
         NotificationPermission.Light,
@@ -46,7 +77,7 @@ class LocalNotification {
       return true;
     } else {
       var result =
-      await awesomeNotifications.requestPermissionToSendNotifications();
+      await AwesomeNotifications().requestPermissionToSendNotifications();
 
       if (result == true) {
         return true;
@@ -57,27 +88,27 @@ class LocalNotification {
   }
 
   // NOTIFICATION CREATION METHODS
-  static Future<void> createWaterReminder() async {
+   Future<void> createWaterReminder() async {
    await CacheHelper.saveData(key: 'callWaterReminder', value: false);
     await CacheHelper.saveData(key: 'waterCups', value: 0);
     DateTime now = DateTime.now();
     for (int i = 0; i < 8; i++) {
-      await awesomeNotifications.createNotification(
+      await AwesomeNotifications().createNotification(
         actionButtons: [
           NotificationActionButton(
             key: 'confirm',
             label: 'شربت كوبًا',
             autoDismissible: true,
-            buttonType: ActionButtonType.Default,
           ),
           NotificationActionButton(
             key: 'ignore',
             label: 'تجاهل',
             autoDismissible: true,
-            buttonType: ActionButtonType.Default,
+            actionType: ActionType.Default,
           ),
         ],
         content: NotificationContent(
+
           id: i + 1,
           channelKey: 'water-reminder',
           title: 'تذكير بشرب الماء',
@@ -85,6 +116,7 @@ class LocalNotification {
           displayOnBackground: true,
           displayOnForeground: true,
           autoDismissible: true,
+          actionType: ActionType.Default,
         ),
         schedule: NotificationCalendar(
           weekday: DateTime.monday |
@@ -102,27 +134,10 @@ class LocalNotification {
         ),
       );
     }
-    awesomeNotifications.actionStream.listen((ReceivedAction receivedAction) async {
-      if (receivedAction != null ) {
-        if (receivedAction.buttonKeyPressed == 'confirm') {
-          int currentValue =  await CacheHelper.getData(key: 'waterCups') ;
-          if (currentValue == 8 ){
-           await CacheHelper.saveData(key: 'waterCups', value: 0);
-             await _congratsNotification();
-          }
-          else {
-           await CacheHelper.saveData(key: 'waterCups', value: currentValue+1);
-          }
 
-        }
-        else if (receivedAction.id == 7){
-          await CacheHelper.saveData(key: 'waterCups', value: 0);
-        }
-      }
-    });
   }
-  static  Future<void> _congratsNotification() async{
-    await awesomeNotifications.createNotification(
+    Future<void> _congratsNotification() async{
+    await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: 9,
         channelKey: 'water-reminder',

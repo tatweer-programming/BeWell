@@ -16,6 +16,7 @@ import 'modules/main/presentation_layer/screens/course_screen.dart';
 
 
 Future<void> main() async {
+  LocalNotification notification = LocalNotification() ;
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator().init();
   await Firebase.initializeApp(
@@ -23,10 +24,10 @@ Future<void> main() async {
   );
   bool callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
  if (callWaterReminder){
-  await LocalNotification.createWaterReminder() ;
+  await notification.createWaterReminder() ;
  }
   await CacheHelper.init();
-  await LocalNotification.initializeLocalNotifications();
+  await notification.initializeLocalNotifications();
   await AwesomeNotifications().requestPermissionToSendNotifications();
   runApp(const MyApp());
 }
