@@ -31,8 +31,6 @@ class SectionScreen extends StatelessWidget {
                   bloc:bloc,
                   course: course,
                   lessonIndex:lessonIndex,
-                  // courseName:courseName,
-                  // courseIndex:courseIndex,
                   sectionsIndex:sectionIndex,
                 ),
                 separatorBuilder: (context, index) => SizedBox(height: 10.sp,),

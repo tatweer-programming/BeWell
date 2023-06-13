@@ -1,16 +1,20 @@
 import 'package:equatable/equatable.dart';
 
+import 'daily_reminder.dart';
+
 class DoneSection extends Equatable{
   final Map<String,double> progress;
   final Map<String,int> done;
   final String studentName;
-  final DateTime lastUsing;
+  final List<DailyReminder> dailyReminder;
+  final String lastUsing;
   const DoneSection({
     required this.progress,
     required this.done,
     required this.studentName,
     required this.lastUsing,
+    required this.dailyReminder,
   });
   @override
-  List<Object?> get props => [done,progress,studentName,lastUsing];
+  List<Object?> get props => [done,progress,studentName,lastUsing,dailyReminder];
 }

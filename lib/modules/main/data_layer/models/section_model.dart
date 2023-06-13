@@ -9,11 +9,11 @@ class SectionsModel extends Section{
     super.videosIds,
     super.image,
     super.text,
-   // super.quiz,
+    super.quiz,
   });
   factory SectionsModel.fromJson(Map<String, dynamic> json) =>
       SectionsModel(
-          //quiz: QuizModel.fromJson(json['quiz']),
+          quiz: QuizModel.fromJson(json['quiz']),
           image: json['image'],
           text: json['text'],
           videosIds: List<String>.from(json['videosIds']).map((videoId) => videoId).toList()

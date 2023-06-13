@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:sizer/sizer.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+
+import '../bloc/main_bloc.dart';
 
 class PlayVideoScreen extends StatefulWidget {
-  Video video;
-  PlayVideoScreen({Key? key,required this.video}) : super(key: key);
+  final String videoId;
+  const PlayVideoScreen({Key? key,required this.videoId}) : super(key: key);
   @override
   State<PlayVideoScreen> createState() =>
       // ignore: no_logic_in_create_state
-      _PlayVideoFromVimeoIdState(video: video);
+      _PlayVideoFromVimeoIdState(videoId: videoId);
 }
 
 class _PlayVideoFromVimeoIdState extends State<PlayVideoScreen> {
-  Video video;
-  _PlayVideoFromVimeoIdState({required this.video});
+  final String videoId;
+  _PlayVideoFromVimeoIdState({required this.videoId});
   late final PodPlayerController controller;
   @override
   void initState() {
     controller = PodPlayerController(
-      playVideoFrom: PlayVideoFrom.youtube(video.id.toString()),
+      playVideoFrom: PlayVideoFrom.youtube(videoId),
       podPlayerConfig: const PodPlayerConfig(
-        videoQualityPriority: [720, 360],
+        videoQualityPriority: [720,144],
         autoPlay: false,
       ),
     )..initialise();
@@ -54,12 +55,6 @@ class _PlayVideoFromVimeoIdState extends State<PlayVideoScreen> {
                 ),
                 child: PodVideoPlayer(
                   controller: controller,
-                  videoThumbnail: DecorationImage(
-                    image: NetworkImage(
-                      video.thumbnails.mediumResUrl,
-                    ),
-                    fit: BoxFit.cover,
-                  ),
                 ),
               ),
             ),

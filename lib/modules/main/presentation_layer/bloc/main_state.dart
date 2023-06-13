@@ -24,3 +24,8 @@ class OnPageChangedState extends MainState {
   OnPageChangedState(this.doneButtonString);
 }
 class ShowQuizAnswerState extends MainState {}
+
+class LogOutSuccessfulAuthState extends MainState {
+  final BuildContext context;
+  LogOutSuccessfulAuthState({required this.context});
+}

@@ -13,10 +13,12 @@ final sl = GetIt.instance;
 
 class ServiceLocator {
   void init() async {
+    /// bloc
     MainBloc mainBloc = MainBloc(MainInitial());
     sl.registerLazySingleton(() => mainBloc);
     AuthBloc authBloc = AuthBloc(AuthInitial());
     sl.registerLazySingleton(() => authBloc);
+
     /// main
     BaseMainRemoteDataSource baseMainRemoteDataSource = MainRemoteDataSource();
     sl.registerLazySingleton(() => baseMainRemoteDataSource);

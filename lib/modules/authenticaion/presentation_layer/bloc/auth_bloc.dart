@@ -15,6 +15,7 @@ import '../../domain_layer/use_cases/get_user_data_use_case.dart';
 import '../../domain_layer/use_cases/login_with_email&pass_usecase.dart';
 import '../../domain_layer/use_cases/update_user_data_use_case.dart';
 import '../components/components.dart';
+import '../screens/login.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -61,31 +62,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         currentPages = pages[event.index];
         currentIndex = event.index;
         emit(ChangeButtonAuthState(index: event.index));
-      } else if (event is ChangeVisibilityEvent) {
+      }
+      else if (event is ChangeVisibilityEvent) {
         _changeVisibility();
         emit(ChangeVisibilityState(isVisible: newVisibility));
-      } else if (event is OldChangeVisibilityEvent) {
+      }
+      else if (event is OldChangeVisibilityEvent) {
         _oldChangeVisibilityVoid();
         emit(OldChangeVisibilityState(isVisible: newVisibility));
-      } else if (event is LoginEvent) {
+      }
+      else if (event is LoginEvent) {
         emit(const LoginLoadingAuthState());
         final result = await LoginWithEmailAndPassUseCase(sl()).excute(
           email: event.email,
           password: event.password,
         );
         result.fold((l) {
-
           errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(LoginErrorAuthState());
         }, (r) async{
           NavigationManager.pushAndRemove(event.context, const Scaffold());
           defaultToast(msg: "تم تسحيل الدخول بنجاح");
           ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
-          emit(LoginSuccessfulAuthState(context: event.context, uid: ConstantsManager.userId, ));
+          emit(LoginSuccessfulAuthState(context: event.context, uid: ConstantsManager.userId!,));
         });
       }
-      else if (event is SendAuthRequestEvent)
-      {
+      else if (event is SendAuthRequestEvent) {
         print('1');
         emit(SendAuthRequestLoadingAuthState());
         final result = await SendAuthRequestUseCase(sl()).call(
@@ -100,9 +102,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }, (r) {
           defaultToast(msg: "تم ارسال طلبك للمراجعة");
           emit(SendAuthRequestSuccessfulState(
-              context: event.context, uid: ConstantsManager.userId));
+              context: event.context, uid: ConstantsManager.userId!));
         });
-      } else if (event is ForgetPasswordAuthEvent) {
+      }
+      else if (event is ForgetPasswordAuthEvent) {
         final result = await ForgetPasswordUseCase(sl())
             .excute(email: event.email);
         result.fold((l) {
@@ -110,14 +113,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }, (r) {
           defaultToast(msg: "من فضلك تحقق من الايميل ");
         });
-      } else if (event is GetMyDataEvent) {
+      }
+      else if (event is GetMyDataEvent) {
         emit(GetMyDataLoadingState());
         final result = await GetDataUserUseCase(sl()).get();
         result.fold((l) {}, (r) {
           userModel = r;
           emit(GetMyDataSuccessState());
         });
-      } else if (event is UpdateMyDataEvent) {
+      }
+      else if (event is UpdateMyDataEvent) {
         final result = await UpdateDataUserUseCase(sl()).update(
 
             name: event.name,
@@ -131,7 +136,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           NavigationManager.pop(event.context);
           emit(UpdateMyDataSuccessState(context: event.context));
         });
-      } else if (event is ChangePassEvent) {
+      }
+      else if (event is ChangePassEvent) {
         final result = await ChangePasswordUseCase(sl()).change(
             oldPassword: event.oldPassword, newPassword: event.newPassword);
         result.fold((l) {
@@ -141,7 +147,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           NavigationManager.pop(event.context);
           emit(ChangePassScreenSuccessState(context:event.context));
         });
-      } else if (event is NavigationToChangePassScreenEvent) {
+      }
+      else if (event is NavigationToChangePassScreenEvent) {
         NavigationManager.push(event.context, const Scaffold());
         emit(NavigationToChangePassScreenState(context:event.context));
       }

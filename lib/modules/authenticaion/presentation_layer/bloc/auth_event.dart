@@ -16,7 +16,8 @@ class LoginEvent extends AuthEvent {
   String email;
   String password;
   final BuildContext context;
-  LoginEvent({required this.email, required this.password, required this.context});
+  LoginEvent(
+      {required this.email, required this.password, required this.context});
 
   @override
   List<Object?> get props => [email, password, context];
@@ -31,7 +32,6 @@ class SendAuthRequestEvent extends AuthEvent {
   final BuildContext context;
   const SendAuthRequestEvent(
       {required this.context,
-
       required this.id,
       required this.password,
       required this.email,
@@ -40,8 +40,9 @@ class SendAuthRequestEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
 class CheckEmailEvent extends AuthEvent {
-  String email ;
+  String email;
   CheckEmailEvent(this.email);
   @override
   List<Object?> get props => [email];

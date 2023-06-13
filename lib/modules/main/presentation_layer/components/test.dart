@@ -1,4 +1,3 @@
-
 import 'package:BeWell/modules/main/domain_layer/entities/question.dart';
 import 'package:BeWell/modules/main/presentation_layer/bloc/main_bloc.dart';
 import 'package:BeWell/modules/main/presentation_layer/components/components.dart';
@@ -9,62 +8,46 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/services/dep_injection.dart';
 
 class TestQuizScreen extends StatelessWidget {
-  const TestQuizScreen({Key? key}) : super(key: key);
+  final List<Question> questions;
+  const TestQuizScreen({Key? key,required this.questions}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
     return Scaffold(
       body: BlocBuilder<MainBloc, MainState>(
-  builder: (context, state) {
-    return Column
-        (
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context , index)=> 
-                QuestionWidget(question: questions[index], 
-                    showAnswer: bloc.showAnswer, 
-                    questionNumber: index+1), separatorBuilder: (context , index)=> SizedBox(
-              height: 10.sp,
-            ) , itemCount: questions.length),
-          ),
-        ),
-          defaultButton(onPressed: (){
-             bloc.add(ShowQuizAnswerEvent());
-          }, text: 'done')
-        ],
-      );
-  },
-),
+        builder: (context, state) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => QuestionWidget(
+                          question: questions[index],
+                          showAnswer: bloc.showAnswer,
+                          questionNumber: index + 1),
+                      separatorBuilder: (context, index) => SizedBox(
+                            height: 10.sp,
+                          ),
+                      itemCount: questions.length),
+                ),
+              ),
+              defaultButton(
+                  onPressed: () {
+                    bloc.add(ShowQuizAnswerEvent());
+                  },
+                  text: "إظهار الإجابات"
+              ),
+              SizedBox(height: 2.h,)
+            ],
+          );
+        },
+      ),
     );
   }
 }
-List<Question>  questions = [
 
-  Question(question: 'سؤال اختيار من متعدد له اجابة واحدة وهي الاولى ',
-      trueAnswer: [0, ], answers: ['الاجابة الاولي' , 'الثانية' , 'الثالثة' ,
-        'الرابعة'] ,
-   explanation: ' توضيح سبب الاجابة ان كان متوفرا'
-  ) ,
-  Question(question: 'سؤال اختيار من متعدد له اجابة واحدة وهي الاولى ',
-      trueAnswer: [0, ], answers: ['الاجابة الاولي' , 'الثانية' , 'الثالثة' ,
-        'الرابعة'] ,
-  ) ,
-  Question(question: 'سؤال اختيار من متعدد له اكثر من اجابة وهي الاولى و الثانية ',
-    trueAnswer: [0,1 ], answers: ['الاجابة الاولي' , 'الثانية' , 'الثالثة' ,
-      'الرابعة'] ,
-  ) ,
-  Question(question: 'سؤال صح و خطأ اجابته صواب',
-    trueAnswer: [0, ], answers: ['صواب' , 'خطأ' ,] ,
-  ),
-  Question(question: 'سؤال صح و خطأ اجابته صواب',
-    trueAnswer: [0, ], answers: ['صواب' , 'خطأ' ,] ,
-  )
-
-];

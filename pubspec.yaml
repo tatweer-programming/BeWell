@@ -36,20 +36,17 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_localization:
-  intl: ^0.18.1
   shared_preferences:
   get_it:
   hexcolor:
   equatable:
   sizer:
   dartz:
-  awesome_notifications: ^0.7.4+1
+  awesome_notifications:
   smooth_page_indicator:
   permission_handler:
-  csslib:
   fluttertoast:
   flutter_local_notifications:
-  rrule: ^0.2.13
 
 
   # bloc

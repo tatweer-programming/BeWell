@@ -73,7 +73,6 @@ class LoginLoadingAuthState extends AuthState {
   @override
   List<Object?> get props => [];
 }
-
 class LoginSuccessfulAuthState extends AuthState {
   String uid;
   BuildContext context;
@@ -81,7 +80,6 @@ class LoginSuccessfulAuthState extends AuthState {
   @override
   List<Object?> get props => [context];
 }
-
 class LoginErrorAuthState extends AuthState {
   @override
   List<Object?> get props => [];

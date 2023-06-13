@@ -20,7 +20,12 @@ class DoneSectionEvent extends MainEvent {
     required this.done,
   });
 }
-
+class LogOutEvent extends MainEvent {
+  final BuildContext context;
+  const LogOutEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
 class ToContentSectionEvent extends MainEvent {
   final BuildContext context;
   final Section section;
@@ -33,7 +38,6 @@ class ToContentSectionEvent extends MainEvent {
     required this.context,
 });
 }
-
 class ShowQuizAnswerEvent extends MainEvent {
 
 }

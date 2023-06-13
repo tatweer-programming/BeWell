@@ -47,7 +47,7 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
         transaction.update(document, {
           "done.$courseName": done,
           "progress.$courseName": progress,
-          "lastUsing": DateTime.now(),
+          "lastUsing": DateTime.now().toString(),
         });
       });
       return const Right(true);

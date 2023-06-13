@@ -7,20 +7,24 @@ class QuizModel extends Quiz {
   QuizModel({ required super.questions});
 
   factory QuizModel.fromJson(Map<String, dynamic> json) {
-   QuizModel quizModel = QuizModel (
-
-        questions: _getQuestions(json)
-    ) ;
-   return quizModel ;
+    return QuizModel(
+        questions: List.from(json["questions"])
+            .map((e) => QuestionModel.fromJson(e)).toList(),
+    );
+   // QuizModel quizModel = QuizModel (
+   //
+   //      questions: _getQuestions(json)
+   //  ) ;
+   //return quizModel ;
   }
 
  // get questions from json
-  static List<Question> _getQuestions (Map<String, dynamic> json) {
-   List<Question> questions = [];
-   List<Map<String , dynamic>> questionsData = json['questions'] as List <Map<String , dynamic>>;
-   for (var element in questionsData) {
-     questions.add(QuestionModel.fromJson(element));
-   }
-   return questions ;
- }
+ //  static List<Question> _getQuestions (Map<String, dynamic> json) {
+ //   List<Question> questions = [];
+ //   List<Map<String , dynamic>> questionsData = json['questions'] as List <Map<String , dynamic>>;
+ //   for (var element in questionsData) {
+ //     questions.add(QuestionModel.fromJson(element));
+ //   }
+ //   return questions ;
+ // }
 }

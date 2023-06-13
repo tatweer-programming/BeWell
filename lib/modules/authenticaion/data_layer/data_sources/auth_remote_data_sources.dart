@@ -146,7 +146,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       email: email,
       name: name,
       id: id,
-
     );
     try {
       print('4');

@@ -28,14 +28,14 @@ class LocalNotification {
       debug: true,
     );
     // Get initial notification action is optional
-    initialAction = await AwesomeNotifications().getInitialNotificationAction(removeFromActionEvents: false);
+   // initialAction = await AwesomeNotifications().getInitialNotificationAction(removeFromActionEvents: false);
   }
 
-
-   Future<void> startListeningNotificationEvents() async {
-    AwesomeNotifications()
-        .setListeners(onActionReceivedMethod: onActionReceivedMethod);
-  }
+  //
+  //  Future<void> startListeningNotificationEvents() async {
+  //   AwesomeNotifications()
+  //       .setListeners(onActionReceivedMethod: onActionReceivedMethod);
+  // }
 
 
   @pragma('vm:entry-point')
@@ -104,7 +104,7 @@ class LocalNotification {
             key: 'ignore',
             label: 'تجاهل',
             autoDismissible: true,
-            actionType: ActionType.Default,
+            //: ActionType.Default,
           ),
         ],
         content: NotificationContent(
@@ -116,7 +116,7 @@ class LocalNotification {
           displayOnBackground: true,
           displayOnForeground: true,
           autoDismissible: true,
-          actionType: ActionType.Default,
+          //actionType: ActionType.Default,
         ),
         schedule: NotificationCalendar(
           weekday: DateTime.monday |

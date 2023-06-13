@@ -1,3 +1,4 @@
+import 'package:BeWell/core/utils/constance_manager.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/done_section.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/section.dart';
 import 'package:BeWell/modules/main/domain_layer/use_cases/done_section_use_case.dart';
@@ -7,13 +8,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import '../../../../core/error/remote_error.dart';
+import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/navigation_manager.dart';
 import '../../../authenticaion/presentation_layer/components/components.dart';
+import '../../../authenticaion/presentation_layer/screens/login.dart';
 import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/entities/lesson.dart';
 import '../../domain_layer/use_cases/get_courses_use_case.dart';
 import '../components/components.dart';
+import '../components/test.dart';
 import '../screens/section_content_screen.dart';
 import '../screens/play_video_screen.dart';
 part 'main_event.dart';
@@ -38,30 +42,19 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 /// TODO : Read this Function
   Future<void> sectionContent({
     required Section section,
-    required double height,
   }) async{
     widgets = [];
-    List<Video> videos = [];
-    var explode = YoutubeExplode();
-    if(section.videos == null || section.videos!.isEmpty){
-     if(section.videosIds!.isNotEmpty && section.videosIds != null){
-       for(var videoId in section.videosIds!) {
-         Video video = await explode.videos.get(videoId);
-         videos.add(video);
-         widgets.add(PlayVideoScreen(video: video));
-       }
-       section.videos = videos;
-     }
-    }
-    else if(section.videos != null){
-      for(var video in section.videos!) {
-        widgets.add(PlayVideoScreen(video: video));
+    if(section.videosIds!.isNotEmpty && section.videosIds != null){
+      for(var videoId in section.videosIds!) {
+        widgets.add(PlayVideoScreen(videoId: videoId));
       }
     }
     if(section.image != '' && section.image != null){
-      widgets.add(imageScreen(height: height,image: section.image!));
+      widgets.add(imageScreen(image: section.image!));
     }if(section.text != '' && section.text != null){
       widgets.add(textScreen(text: section.text!));
+    }if(section.quiz != null && section.quiz!.questions.isNotEmpty){
+      widgets.add(TestQuizScreen(questions: section.quiz!.questions,));
     }
   }
   bool showAnswer = false ;
@@ -81,10 +74,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(ToContentSectionLoadingState());
         NavigationManager.push(event.context, SectionContentScreen(
           courseName: event.courseName,whichSection: event.whichSection,));
-        await sectionContent(height: 200.sp,section: event.section);
+        await sectionContent(section: event.section);
         if(widgets.length == 1) doneButtonString="انتهاء";
         emit(ToContentSectionSuccessState());
-      }else if (event is OnPageChangedEvent){
+      }
+      else if (event is OnPageChangedEvent){
         if(event.index == widgets.length-1) {
           doneButtonString= "انتهاء";
         }else{
@@ -106,15 +100,25 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(GetProgressLoadingState());
         var result = await GetProgressUseCase(sl()).get();
         result.fold((l) {
+          errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(GetProgressErrorState());
         }, (r) {
           doneSection = r;
+          ConstantsManager.doneSection = r;
           emit(GetProgressSuccessState());
         });
       }
       else if (event is ShowQuizAnswerEvent){
-        showAnswer = true ;
+        showAnswer = true;
         emit(ShowQuizAnswerState());
+      }
+      else if (event is LogOutEvent){
+        CacheHelper.removeData(key: "uid").then((value) {
+          if(value){
+            NavigationManager.pushAndRemove(event.context, const LoginScreen());
+          }
+        });
+        emit(LogOutSuccessfulAuthState(context: event.context));
       }
     });
   }
