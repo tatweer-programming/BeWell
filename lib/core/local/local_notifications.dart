@@ -1,7 +1,5 @@
 import 'package:BeWell/core/local/shared_prefrences.dart';
-import 'package:BeWell/core/utils/color_manager.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 
@@ -100,7 +98,7 @@ class LocalNotification {
             .add(Duration(days: day - DateTime
             .now()
             .weekday))
-            .add(Duration(hours: 112 * i,seconds: 30 * i)); // convert minutes to hours
+            .add(Duration(minutes: 112 * i,seconds: 30 * i)); // convert minutes to hours
         await AwesomeNotifications().createNotification(
           actionButtons: [
             NotificationActionButton(
