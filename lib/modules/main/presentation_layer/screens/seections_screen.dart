@@ -20,22 +20,25 @@ class SectionScreen extends StatelessWidget {
     var bloc = MainBloc.get(context);
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            body: Padding(
-              padding: EdgeInsets.all(10.sp),
-              child: ListView.separated(
-                itemBuilder: (context, sectionIndex) => sectionBuilder(
-                  section: lesson.sections[sectionIndex],
-                  context: context,
-                  bloc:bloc,
-                  course: course,
-                  lessonIndex:lessonIndex,
-                  sectionsIndex:sectionIndex,
-                ),
-                separatorBuilder: (context, index) => SizedBox(height: 10.sp,),
-                itemCount: lesson.sections.length,
+        return Scaffold(
+          body: Padding(
+            padding: EdgeInsetsDirectional.only(
+              bottom: 10.sp,
+              start: 10.sp,
+              end: 10.sp,
+              top: 20.sp
+            ),
+            child: ListView.separated(
+              itemBuilder: (context, sectionIndex) => sectionBuilder(
+                section: lesson.sections[sectionIndex],
+                context: context,
+                bloc:bloc,
+                course: course,
+                lessonIndex:lessonIndex,
+                sectionsIndex:sectionIndex,
               ),
+              separatorBuilder: (context, index) => SizedBox(height: 10.sp,),
+              itemCount: lesson.sections.length,
             ),
           ),
         );

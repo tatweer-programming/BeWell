@@ -93,7 +93,7 @@ class SectionContentScreen extends StatelessWidget {
                                                         "الانتقال الي الصفحة الرئيسية",
                                                     style: TextStyle(
                                                       color: ColorManager.black,
-                                                      fontSize: FontSizeManager.s18.sp,
+                                                      fontSize: FontSizeManager.s14.sp,
                                                       fontWeight: FontWeightManager.bold
                                                     ),),
                                                   ),

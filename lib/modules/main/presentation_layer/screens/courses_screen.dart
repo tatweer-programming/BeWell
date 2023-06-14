@@ -43,7 +43,10 @@ class CoursesScreen extends StatelessWidget {
                   ),
                   actions: [
                     TextButton(
-                      child: const Text("إغلاق"),
+                      child: Text("إغلاق",
+                      style: TextStyle(
+                        color: ColorManager.black,
+                      ),),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },

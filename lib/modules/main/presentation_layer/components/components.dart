@@ -475,29 +475,29 @@ Widget imageScreen({
 }
 
 Widget textScreen({required String text}) {
-  return SingleChildScrollView(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Card(
-          elevation: 5.sp,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.sp),
-          ),
-          child: Container(
-            padding: EdgeInsets.all(10.sp),
-            width: double.infinity,
-            child: Text(
-              text,
-              style: TextStyle(
-                  fontSize: FontSizeManager.s18.sp,
-                  fontWeight: FontWeightManager.bold),
+  return Center(
+    child: SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Card(
+            elevation: 5.sp,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.sp),
+            ),
+            child: Container(
+              padding: EdgeInsets.all(10.sp),
+              width: double.infinity,
+              child: Text(
+                text,
+                style: TextStyle(
+                    fontSize: FontSizeManager.s17.sp,
+                    fontWeight: FontWeightManager.bold),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
