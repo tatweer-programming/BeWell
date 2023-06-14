@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:BeWell/core/local/local_notifications.dart';
 import 'package:BeWell/core/services/dep_injection.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sizer/sizer.dart';
 import 'core/local/shared_prefrences.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
@@ -32,7 +31,6 @@ Future<void> main() async {
  //  bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
  // if (callWaterReminder == null || callWaterReminder){
   await notification.createWaterReminder();
-  await notification.startListeningNotificationEvents();
  // }
 
   Widget? widget;
@@ -63,15 +61,15 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'BeWell',
           theme: getAppTheme(),
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const[
-            Locale('ar', 'AE'), // English, no country code
-          ],
-          locale: const Locale('ar'),
+          // localizationsDelegates: const [
+          //   GlobalMaterialLocalizations.delegate,
+          //   GlobalWidgetsLocalizations.delegate,
+          //   GlobalCupertinoLocalizations.delegate,
+          // ],
+          // supportedLocales: const[
+          //   Locale('ar', 'AE'), // English, no country code
+          // ],
+          // locale: const Locale('ar'),
           home: startWidget//SplashScreen(nextScreen: startWidget),
         ),
       );
