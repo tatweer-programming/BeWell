@@ -4,12 +4,9 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 class LocalNotification {
-
   // Initialization
   Future<void> initializeLocalNotifications() async {
-
     await AwesomeNotifications().initialize(
       null,//'asset://assets/images/water-cup.png',
       [
@@ -36,33 +33,23 @@ class LocalNotification {
 
 
   Future<void> startListeningNotificationEvents() async {
-    await AwesomeNotifications().setListeners(
-      onActionReceivedMethod: onActionReceivedMethod,
-      onNotificationDisplayedMethod: onNotificationDisplayedMethod,
-    );
-  }
-
-
-  @pragma('vm:entry-point')
-  static Future<void> onActionReceivedMethod(
-      ReceivedAction receivedAction) async {
-
-    final payload = receivedAction.payload ?? {};
-    if (payload["drank"] == "true") {
-      int currentValue =  await CacheHelper.getData(key: 'waterCups') ;
-      print("currentValue           $currentValue");
-      if (currentValue == 7){
-        await CacheHelper.saveData(key: 'waterCups', value: 0);
-        await _congratsNotification();
+     AwesomeNotifications().actionStream.listen((event) async {
+       if(event.id == 39){
+         await CacheHelper.saveData(key: 'waterCups', value: 0);
+       }
+      if (event.payload!["drank"] == "true") {
+        int currentValue =  await CacheHelper.getData(key: 'waterCups') ;
+        print("currentValue           $currentValue");
+        if (currentValue == 7){
+          await CacheHelper.saveData(key: 'waterCups', value: 0);
+          await _congratsNotification();
+        }
+        else {
+          await CacheHelper.saveData(key: 'waterCups', value: currentValue+1);
+        }
       }
-      else {
-        await CacheHelper.saveData(key: 'waterCups', value: currentValue+1);
-      }
-    }
+    });
   }
-
-
-
   // REQUESTING NOTIFICATION PERMISSIONS
   Future<bool> requestNotificationPermissions() async {
     await AwesomeNotifications().requestPermissionToSendNotifications(
@@ -134,7 +121,6 @@ class LocalNotification {
    }
   }
 
-
   static Future<void> _congratsNotification() async {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
@@ -147,14 +133,5 @@ class LocalNotification {
         autoDismissible: true,
       ),
     );
-  }
-
-  /// Use this method to detect every time that a new notification is displayed
-  static Future<void> onNotificationDisplayedMethod(
-      ReceivedNotification receivedNotification) async {
-    print("receivedNotification.id  ${receivedNotification.id}");
-    if(receivedNotification.id == 39){
-      await CacheHelper.saveData(key: 'waterCups', value: 0);
-    }
   }
 }
