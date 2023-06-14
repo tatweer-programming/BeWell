@@ -28,6 +28,7 @@ class LocalNotification {
     );
     await requestNotificationPermissions();
     bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
+    print(callWaterReminder);
     if (callWaterReminder == null || callWaterReminder){
       await createWaterReminder();
     }
@@ -50,7 +51,7 @@ class LocalNotification {
     if (payload["drank"] == "true") {
       int currentValue =  await CacheHelper.getData(key: 'waterCups') ;
       print("currentValue           $currentValue");
-      if (currentValue == 8 ){
+      if (currentValue == 7){
         await CacheHelper.saveData(key: 'waterCups', value: 0);
         await _congratsNotification();
       }
@@ -92,15 +93,14 @@ class LocalNotification {
   Future<void> createWaterReminder() async {
    await CacheHelper.saveData(key: 'callWaterReminder', value: false);
     await CacheHelper.saveData(key: 'waterCups', value: 0);
+   DateTime sevenAM = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 0);
    for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
      for (int i = 1; i <= 8; i++) {
-       print("i + (day * 10)         ${i + (day * 10)}");
-
-       final DateTime notificationTime = DateTime.now()
+       final DateTime notificationTime = sevenAM
            .add(Duration(days: day - DateTime
            .now()
            .weekday))
-           .add(Duration(minutes: 2 * (i - 1))); // convert minutes to hours
+           .add(Duration(hours: 112 * i,seconds: 10 * i)); // convert minutes to hours
        await AwesomeNotifications().createNotification(
          actionButtons: [
            NotificationActionButton(
@@ -138,7 +138,7 @@ class LocalNotification {
   static Future<void> _congratsNotification() async {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
-        id: 9,
+        id: 39,
         channelKey: 'water-reminder',
         title: 'تهانينا',
         body: 'لقد شربت كمية كافية من الماء اليوم',
@@ -152,7 +152,8 @@ class LocalNotification {
   /// Use this method to detect every time that a new notification is displayed
   static Future<void> onNotificationDisplayedMethod(
       ReceivedNotification receivedNotification) async {
-    if(receivedNotification.id == 9){
+    print("receivedNotification.id  ${receivedNotification.id}");
+    if(receivedNotification.id == 39){
       await CacheHelper.saveData(key: 'waterCups', value: 0);
     }
   }

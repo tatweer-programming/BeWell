@@ -32,6 +32,7 @@ Future<void> main() async {
  // if (callWaterReminder == null || callWaterReminder){
  // }
   await notification.createWaterReminder();
+  await notification.startListeningNotificationEvents();
 
   Widget? widget;
   ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
