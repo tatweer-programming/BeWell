@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../core/services/dep_injection.dart';
+import '../../../../core/utils/color_manager.dart';
+import '../../../../core/utils/font_manager.dart';
 import '../bloc/main_bloc.dart';
 import '../components/components.dart';
 
@@ -87,8 +89,13 @@ class SectionContentScreen extends StatelessWidget {
                                                       bloc.showAnswer = false;
                                                       bloc.doneButtonString = "التالي";
                                                     },
-                                                    child: const Text(
-                                                        "الانتقال الي الصفحة الرئيسية"),
+                                                    child:  Text(
+                                                        "الانتقال الي الصفحة الرئيسية",
+                                                    style: TextStyle(
+                                                      color: ColorManager.black,
+                                                      fontSize: FontSizeManager.s18.sp,
+                                                      fontWeight: FontWeightManager.bold
+                                                    ),),
                                                   ),
                                                 ),
                                               );

@@ -27,15 +27,15 @@ class LocalNotification {
       ],
       debug: true,
     );
-    // Get initial notification action is optional
-   // initialAction = await AwesomeNotifications().getInitialNotificationAction(removeFromActionEvents: false);
+   // Get initial notification action is optional
+   initialAction = await AwesomeNotifications().getInitialNotificationAction(removeFromActionEvents: false);
   }
 
-  //
-  //  Future<void> startListeningNotificationEvents() async {
-  //   AwesomeNotifications()
-  //       .setListeners(onActionReceivedMethod: onActionReceivedMethod);
-  // }
+
+   Future<void> startListeningNotificationEvents() async {
+    AwesomeNotifications()
+        .setListeners(onActionReceivedMethod: onActionReceivedMethod);
+  }
 
 
   @pragma('vm:entry-point')

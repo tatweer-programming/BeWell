@@ -10,6 +10,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/font_manager.dart';
+import '../../../main/presentation_layer/components/components.dart';
 import '../bloc/auth_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -75,8 +76,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                           width: double.infinity,
                           height: 40.sp,
-                          child: defaultButton
-                            (
+                          child: defaultButton(
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
                                   bloc.add(LoginEvent(

@@ -1,13 +1,13 @@
 import 'package:BeWell/core/utils/color_manager.dart';
 import 'package:BeWell/core/utils/constance_manager.dart';
 import 'package:BeWell/core/utils/font_manager.dart';
-import 'package:BeWell/modules/authenticaion/presentation_layer/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../core/services/dep_injection.dart';
+import '../../../main/presentation_layer/components/components.dart';
 import '../bloc/auth_bloc.dart';
+import '../components/components.dart';
 
 
 class ProfileScreen extends StatelessWidget {

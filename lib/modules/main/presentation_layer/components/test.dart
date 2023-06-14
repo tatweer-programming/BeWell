@@ -29,7 +29,7 @@ class TestQuizScreen extends StatelessWidget {
                       itemBuilder: (context, index) => QuestionWidget(
                           question: questions[index],
                           showAnswer: bloc.showAnswer,
-                          questionNumber: index + 1),
+                          ),
                       separatorBuilder: (context, index) => SizedBox(
                             height: 10.sp,
                           ),

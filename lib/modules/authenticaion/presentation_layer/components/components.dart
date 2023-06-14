@@ -48,18 +48,8 @@ Widget defaultFormField(
     style: TextStyle(color: ColorManager.primary),
   );
 }
-Widget defaultButton ({required void Function()
-onPressed , required String text , TextStyle ? style, Color ? color  }){
-  return Container(
-    decoration:  BoxDecoration(
-      color: color ?? ColorManager.primary,
 
-      borderRadius: BorderRadius.all(Radius.circular(10.sp))
-    ),
 
-      child: MaterialButton(onPressed: onPressed ,
-        child: Text(text,style: style ?? TextStyle(fontWeight: FontWeightManager.bold, fontSize: 18 ,   color: ColorManager.white )),));
-}
 defaultToast ({required String msg , })
 {
 

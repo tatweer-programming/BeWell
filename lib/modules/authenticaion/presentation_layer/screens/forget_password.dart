@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../../../core/utils/navigation_manager.dart';
+import '../../../main/presentation_layer/components/components.dart';
 import '../bloc/auth_bloc.dart';
 import '../components/components.dart';
 

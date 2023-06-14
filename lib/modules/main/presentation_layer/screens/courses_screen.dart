@@ -21,39 +21,39 @@ class CoursesScreen extends StatelessWidget {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
-        // if (state is GetCoursesSuccessState) {
-        //   WidgetsBinding.instance.addPostFrameCallback((_) {
-        //     int i = Random().nextInt(bloc.doneSection!.dailyReminder.length);
-        //     print(i);
-        //     showDialog(
-        //       context: context,
-        //       builder: (BuildContext context) {
-        //         return AlertDialog(
-        //           title: Text(
-        //             bloc.doneSection!.dailyReminder[i].title,
-        //           ),
-        //           content: SingleChildScrollView(
-        //             child: Column(
-        //               mainAxisSize: MainAxisSize.min,
-        //               children: [
-        //                 imageScreen(
-        //                     image: bloc.doneSection!.dailyReminder[i].image),
-        //               ],
-        //             ),
-        //           ),
-        //           actions: [
-        //             TextButton(
-        //               child: const Text("إغلاق"),
-        //               onPressed: () {
-        //                 Navigator.of(context).pop();
-        //               },
-        //             ),
-        //           ],
-        //         );
-        //       },
-        //     );
-        //   });
-        // }
+        if (state is GetCoursesSuccessState) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            int i = Random().nextInt(bloc.doneSection!.dailyReminder.length);
+            print(i);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    bloc.doneSection!.dailyReminder[i].title,
+                  ),
+                  content: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        imageScreen(
+                            image: bloc.doneSection!.dailyReminder[i].image),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      child: const Text("إغلاق"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          });
+        }
         return Builder(
           builder: (BuildContext context) {
             return Scaffold(
@@ -108,15 +108,7 @@ class CoursesScreen extends StatelessWidget {
                     height: 30.h,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.sp),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        colors: [
-                          HexColor("#DC7633"),
-                          ColorManager.primary,
-                          HexColor("#EB984E"),
-                          HexColor("#F0B27A"),
-                        ],
-                      ),
+                      color: ColorManager.primary,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

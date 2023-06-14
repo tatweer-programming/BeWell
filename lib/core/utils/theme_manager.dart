@@ -13,18 +13,28 @@ ThemeData getAppTheme() {
       fontFamily: 'Abg',
       hintColor: ColorManager.primary,
     hoverColor: ColorManager.primary.withOpacity(.10),
-      primarySwatch: const MaterialColor(4293361186,{50: Color( 0xfffdf2e8 )
-        , 100: Color( 0xfffae4d1 )
-        , 200: Color( 0xfff5c9a3 )
-        , 300: Color( 0xfff0ae75 )
-        , 400: Color( 0xffeb9447 )
-        , 500: Color( 0xffe67919 )
-        , 600: Color( 0xffb86114 )
-        , 700: Color( 0xff8a480f )
-        , 800: Color( 0xff5c300a )
-        , 900: Color( 0xff2e1805 )
+     cardColor: ColorManager.primary,
+      colorScheme: ColorScheme(
+          brightness: Brightness.light,
+          primary: ColorManager.white,
+          onPrimary: ColorManager.black,
+          secondary: ColorManager.secondary,
+          onSecondary: ColorManager.white,
+          error: ColorManager.error,
+          onError: ColorManager.error,
+          background: ColorManager.white,
+          onBackground: ColorManager.white, surface: ColorManager.white, onSurface: ColorManager.black),
+      primarySwatch: const MaterialColor(4280765594,{50: Color( 0xffebf0fa )
+        , 100: Color( 0xffd6e0f5 )
+        , 200: Color( 0xffaec1ea )
+        , 300: Color( 0xff85a2e0 )
+        , 400: Color( 0xff5c83d6 )
+        , 500: Color( 0xff3464cb )
+        , 600: Color( 0xff2950a3 )
+        , 700: Color( 0xff1f3c7a )
+        , 800: Color( 0xff152851 )
+        , 900: Color( 0xff0a1429 )
       }),
-    //primarySwatch: MaterialColor(10, ),
     drawerTheme: DrawerThemeData(
       width: 70.w ,
     ),
@@ -99,7 +109,6 @@ ThemeData getAppTheme() {
               BorderSide(color: Colors.red, width: SizeManager.s1_5.sp),
               borderRadius: BorderRadius.all(Radius.circular(SizeManager.s40.sp))
           ),
-          // focused border style
           focusedErrorBorder: OutlineInputBorder(
               borderSide:
               BorderSide(color: ColorManager.primary, width: SizeManager.s1_5.sp),

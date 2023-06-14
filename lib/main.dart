@@ -8,12 +8,12 @@ import 'package:BeWell/core/local/local_notifications.dart';
 import 'package:BeWell/core/services/dep_injection.dart';
 import 'package:sizer/sizer.dart';
 import 'core/local/shared_prefrences.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/utils/theme_manager.dart';
 import 'firebase_options.dart';
 import 'modules/authenticaion/presentation_layer/bloc/auth_bloc.dart';
 import 'modules/main/presentation_layer/bloc/main_bloc.dart';
 import 'modules/main/presentation_layer/screens/courses_screen.dart';
+import 'modules/main/presentation_layer/screens/splash_screen.dart';
 
 
 Future<void> main() async {
@@ -28,7 +28,7 @@ Future<void> main() async {
  if (callWaterReminder == null || callWaterReminder){
   await notification.createWaterReminder() ;
  }
-  await notification.initializeLocalNotifications();
+  //await notification.initializeLocalNotifications();
   await AwesomeNotifications().requestPermissionToSendNotifications();
   Widget? widget;
   ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
@@ -58,15 +58,16 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'BeWell',
           theme: getAppTheme(),
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('ar', 'AE'), // English, no country code
-          ],
-          home: startWidget,
+          // localizationsDelegates: const [
+          //   GlobalMaterialLocalizations.delegate,
+          //   GlobalWidgetsLocalizations.delegate,
+          //   GlobalCupertinoLocalizations.delegate,
+          // ],
+          // supportedLocales: const[
+          //   Locale('ar', 'AE'), // English, no country code
+          // ],
+          locale: const Locale('ar'),
+          home: startWidget//SplashScreen(nextScreen: startWidget),
         ),
       );
     });

@@ -475,28 +475,30 @@ Widget imageScreen({
 }
 
 Widget textScreen({required String text}) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Card(
-        elevation: 5.sp,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.sp),
-        ),
-        child: Container(
-          padding: EdgeInsets.all(10.sp),
-          width: double.infinity,
-          child: Text(
-            text,
-            style: TextStyle(
-                fontSize: FontSizeManager.s18.sp,
-                fontWeight: FontWeightManager.bold),
+  return SingleChildScrollView(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Card(
+          elevation: 5.sp,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.sp),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(10.sp),
+            width: double.infinity,
+            child: Text(
+              text,
+              style: TextStyle(
+                  fontSize: FontSizeManager.s18.sp,
+                  fontWeight: FontWeightManager.bold),
+            ),
           ),
         ),
-      ),
-    ],
+      ],
+    ),
   );
 }
 
@@ -620,13 +622,11 @@ Widget answerBuilder(
 class QuestionWidget extends StatefulWidget {
   final Question question;
   final bool showAnswer;
-  final int questionNumber;
 
   const QuestionWidget({
     super.key,
     required this.question,
     required this.showAnswer,
-    required this.questionNumber,
   });
 
   @override
@@ -653,7 +653,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${widget.questionNumber}: ${widget.question.question}',
+            widget.question.question,
             style: TextStyle(
                 fontSize: 18.sp, fontWeight: FontWeightManager.bold),
           ),

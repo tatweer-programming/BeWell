@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class ColorManager {
-  static Color primary = HexColor("#E67E22");
-  static Color yellow = HexColor('#F9CE00');
-  static Color primaryWhite = HexColor('#ACECCF');
+  static Color primary = HexColor("#274C9A");
+  static Color secondary = HexColor("#5DB134");
   static Color card = HexColor('#D4D7D9');
   static Color grey1 = Colors.grey[200]!;
   static Color grey2 = Colors.grey;
