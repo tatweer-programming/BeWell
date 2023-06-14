@@ -92,10 +92,11 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
           .then((value) async {
         await CacheHelper.saveData(key: 'uid', value: value.user!.uid)
             .then((value) async {
-          ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
+          //ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
+          print(ConstantsManager.userId);
           await FirebaseFirestore.instance
               .collection('users')
-              .doc(ConstantsManager.userId)
+              .doc("8a1la2MLXpTYy9Kt6H9a")
               .get()
               .then((value) {
             ConstantsManager.appUser = UserModel.fromJson(value.data()!);

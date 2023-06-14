@@ -1,18 +1,17 @@
 import 'package:BeWell/core/local/shared_prefrences.dart';
+import 'package:BeWell/core/utils/color_manager.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 
 class LocalNotification {
-   ReceivedAction? initialAction;
-
-
 
   // Initialization
-   Future<void> initializeLocalNotifications() async {
+  Future<void> initializeLocalNotifications() async {
 
     await AwesomeNotifications().initialize(
-      'asset://assets/images/water-cup.png',
+      null,//'asset://assets/images/water-cup.png',
       [
         NotificationChannel(
           channelKey: 'alerts',
@@ -27,42 +26,44 @@ class LocalNotification {
       ],
       debug: true,
     );
-   // Get initial notification action is optional
-   initialAction = await AwesomeNotifications().getInitialNotificationAction(removeFromActionEvents: false);
+    await requestNotificationPermissions();
+    bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
+    if (callWaterReminder == null || callWaterReminder){
+      await createWaterReminder();
+    }
   }
 
 
-   Future<void> startListeningNotificationEvents() async {
-    AwesomeNotifications()
-        .setListeners(onActionReceivedMethod: onActionReceivedMethod);
+  Future<void> startListeningNotificationEvents() async {
+    await AwesomeNotifications().setListeners(
+      onActionReceivedMethod: onActionReceivedMethod,
+      onNotificationDisplayedMethod: onNotificationDisplayedMethod,
+    );
   }
 
 
   @pragma('vm:entry-point')
-   Future<void> onActionReceivedMethod(
+  static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
-      if (receivedAction.buttonKeyPressed == 'confirm') {
-        int currentValue =  await CacheHelper.getData(key: 'waterCups') ;
-        if (currentValue == 8 ){
-          await CacheHelper.saveData(key: 'waterCups', value: 0);
-          await _congratsNotification();
-        }
-        else {
-          await CacheHelper.saveData(key: 'waterCups', value: currentValue+1);
-        }
 
-      }
-      else if (receivedAction.id == 7){
+    final payload = receivedAction.payload ?? {};
+    if (payload["drank"] == "true") {
+      int currentValue =  await CacheHelper.getData(key: 'waterCups') ;
+      print("currentValue           $currentValue");
+      if (currentValue == 8 ){
         await CacheHelper.saveData(key: 'waterCups', value: 0);
+        await _congratsNotification();
       }
-
-
+      else {
+        await CacheHelper.saveData(key: 'waterCups', value: currentValue+1);
+      }
+    }
   }
 
 
 
   // REQUESTING NOTIFICATION PERMISSIONS
-   Future<bool> requestNotificationPermissions() async {
+  Future<bool> requestNotificationPermissions() async {
     await AwesomeNotifications().requestPermissionToSendNotifications(
       channelKey: 'alerts',
       permissions: [
@@ -87,56 +88,54 @@ class LocalNotification {
     }
   }
 
-  // NOTIFICATION CREATION METHODS
-   Future<void> createWaterReminder() async {
+  // Create Water Reminder
+  Future<void> createWaterReminder() async {
    await CacheHelper.saveData(key: 'callWaterReminder', value: false);
     await CacheHelper.saveData(key: 'waterCups', value: 0);
-    DateTime now = DateTime.now();
-    for (int i = 0; i < 8; i++) {
-      await AwesomeNotifications().createNotification(
-        actionButtons: [
-          NotificationActionButton(
-            key: 'confirm',
-            label: 'شربت كوبًا',
-            autoDismissible: true,
-          ),
-          NotificationActionButton(
-            key: 'ignore',
-            label: 'تجاهل',
-            autoDismissible: true,
-            //: ActionType.Default,
-          ),
-        ],
-        content: NotificationContent(
+   for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
+     for (int i = 1; i <= 8; i++) {
+       print("i + (day * 10)         ${i + (day * 10)}");
 
-          id: i + 1,
-          channelKey: 'water-reminder',
-          title: 'تذكير بشرب الماء',
-          body: 'لا تنس شرب كوب من الماء',
-          displayOnBackground: true,
-          displayOnForeground: true,
-          autoDismissible: true,
-          //actionType: ActionType.Default,
-        ),
-        schedule: NotificationCalendar(
-          weekday: DateTime.monday |
-          DateTime.tuesday |
-          DateTime.wednesday |
-          DateTime.thursday |
-          DateTime.friday |
-          DateTime.saturday |
-          DateTime.sunday,
-          hour: now.hour,
-          minute: now.minute + (i * 90),
-          second: now.second,
-          millisecond: now.millisecond,
-          repeats: true,
-        ),
-      );
-    }
-
+       final DateTime notificationTime = DateTime.now()
+           .add(Duration(days: day - DateTime
+           .now()
+           .weekday))
+           .add(Duration(minutes: 2 * (i - 1))); // convert minutes to hours
+       await AwesomeNotifications().createNotification(
+         actionButtons: [
+           NotificationActionButton(
+             key: 'confirm',
+             label: 'شربت كوبًا',
+             autoDismissible: true,
+           ),
+         ],
+         content: NotificationContent(
+           id: i + (day * 10),
+           payload: {
+             "drank": "true",
+           },
+           channelKey: 'water-reminder',
+           title: 'تذكير بشرب الماء',
+           body: 'لا تنس شرب كوب من الماء',
+           displayOnBackground: true,
+           displayOnForeground: true,
+           autoDismissible: true,
+         ),
+         schedule: NotificationCalendar(
+           weekday: day,
+           hour: notificationTime.hour,
+           minute: notificationTime.minute,
+           second: notificationTime.second,
+           millisecond: 0,
+           allowWhileIdle: true,
+         ),
+       );
+     }
+   }
   }
-    Future<void> _congratsNotification() async{
+
+
+  static Future<void> _congratsNotification() async {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: 9,
@@ -150,5 +149,11 @@ class LocalNotification {
     );
   }
 
-
+  /// Use this method to detect every time that a new notification is displayed
+  static Future<void> onNotificationDisplayedMethod(
+      ReceivedNotification receivedNotification) async {
+    if(receivedNotification.id == 9){
+      await CacheHelper.saveData(key: 'waterCups', value: 0);
+    }
+  }
 }

@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'daily_reminder.dart';
 
 class DoneSection extends Equatable{
-  final Map<String,double> progress;
+  final Map<String,dynamic> progress;
   final Map<String,int> done;
   final String studentName;
   final List<DailyReminder> dailyReminder;

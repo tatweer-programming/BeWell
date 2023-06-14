@@ -8,6 +8,7 @@ import 'package:BeWell/core/local/local_notifications.dart';
 import 'package:BeWell/core/services/dep_injection.dart';
 import 'package:sizer/sizer.dart';
 import 'core/local/shared_prefrences.dart';
+// import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/utils/theme_manager.dart';
 import 'firebase_options.dart';
 import 'modules/authenticaion/presentation_layer/bloc/auth_bloc.dart';
@@ -24,12 +25,14 @@ Future<void> main() async {
   await Firebase.initializeApp(
      options: DefaultFirebaseOptions.currentPlatform,
   );
-  bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
- if (callWaterReminder == null || callWaterReminder){
-  await notification.createWaterReminder() ;
- }
-  //await notification.initializeLocalNotifications();
+  await notification.initializeLocalNotifications();
   await AwesomeNotifications().requestPermissionToSendNotifications();
+
+ //  bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
+ // if (callWaterReminder == null || callWaterReminder){
+ // }
+  await notification.createWaterReminder();
+
   Widget? widget;
   ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
   if (ConstantsManager.userId == null || ConstantsManager.userId == '') {

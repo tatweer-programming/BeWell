@@ -187,7 +187,7 @@ Widget lessonBuilder({
                           height: 15.sp,
                         ),
                         Text(
-                          lesson.lessonName,
+                          "درس  ${NumbersManager.engNumberToArabic("${lessonIndex + 1}")}",
                           style: TextStyle(
                               color: ColorManager.black,
                               fontWeight: FontWeightManager.bold,
@@ -287,7 +287,7 @@ Widget lessonBuilder({
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    lesson.lessonName,
+                    "درس  ${NumbersManager.engNumberToArabic("${lessonIndex + 1}")}",
                     style: TextStyle(
                         color: ColorManager.black,
                         fontWeight: FontWeightManager.bold,

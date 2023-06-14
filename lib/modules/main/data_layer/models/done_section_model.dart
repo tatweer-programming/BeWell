@@ -18,7 +18,7 @@ class DoneSectionModel extends DoneSection {
         dailyReminder: List.from(json['dailyReminder'])
             .map((e) => DailyReminderModel.fromJson(e))
             .toList(),
-        progress: Map<String, double>.from(json["progress"]),
+        progress: Map<String, dynamic>.from(json["progress"]),
         done: Map<String, int>.from(json["done"]),
       );
 
