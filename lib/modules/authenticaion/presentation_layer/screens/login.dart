@@ -1,13 +1,10 @@
 import 'package:BeWell/core/utils/color_manager.dart';
 import 'package:BeWell/core/utils/navigation_manager.dart';
-import 'package:BeWell/modules/authenticaion/domain_layer/use_cases/forget_password_usecase.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/components/components.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/forget_password.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/register.dart';
-import 'package:BeWell/modules/main/presentation_layer/bloc/main_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/font_manager.dart';
 import '../../../main/presentation_layer/components/components.dart';
@@ -69,6 +66,7 @@ class LoginScreen extends StatelessWidget {
                             if (value == '') {
                               return 'من فضلك أدخل كلمة المرور';
                             }
+                            return null;
                           }),
                       SizedBox(
                         height: 12.sp,
@@ -104,10 +102,10 @@ class LoginScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('الا تمتلك حساب ؟'),
+                    const Text('الا تمتلك حساب ؟'),
                     TextButton(onPressed: (){
                       NavigationManager.push(context, const RegisterScreen());
-                    }, child: Text('انشئ حساب'))
+                    }, child: const Text('انشئ حساب'))
                   ],
                 ),)
             ],

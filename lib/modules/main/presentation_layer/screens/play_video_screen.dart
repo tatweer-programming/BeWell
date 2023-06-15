@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:sizer/sizer.dart';
 
-import '../bloc/main_bloc.dart';
-
 class PlayVideoScreen extends StatefulWidget {
   final String videoId;
   const PlayVideoScreen({Key? key,required this.videoId}) : super(key: key);

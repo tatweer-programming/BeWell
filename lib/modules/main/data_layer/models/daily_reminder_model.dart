@@ -1,4 +1,3 @@
-import 'package:BeWell/modules/main/data_layer/models/section_model.dart';
 
 import '../../domain_layer/entities/daily_reminder.dart';
 

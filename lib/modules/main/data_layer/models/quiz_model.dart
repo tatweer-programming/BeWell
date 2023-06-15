@@ -1,8 +1,7 @@
 import 'package:BeWell/modules/main/data_layer/models/question_model.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/quiz.dart';
 
-import '../../domain_layer/entities/question.dart';
-
+//ignore: must_be_immutable
 class QuizModel extends Quiz {
   QuizModel({ required super.questions});
 

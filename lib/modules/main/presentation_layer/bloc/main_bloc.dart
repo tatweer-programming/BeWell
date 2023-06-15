@@ -5,8 +5,6 @@ import 'package:BeWell/modules/main/domain_layer/use_cases/done_section_use_case
 import 'package:BeWell/modules/main/domain_layer/use_cases/get_progress_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import '../../../../core/error/remote_error.dart';
 import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/services/dep_injection.dart';
@@ -14,7 +12,6 @@ import '../../../../core/utils/navigation_manager.dart';
 import '../../../authenticaion/presentation_layer/components/components.dart';
 import '../../../authenticaion/presentation_layer/screens/login.dart';
 import '../../domain_layer/entities/course.dart';
-import '../../domain_layer/entities/lesson.dart';
 import '../../domain_layer/use_cases/get_courses_use_case.dart';
 import '../components/components.dart';
 import '../components/test.dart';
@@ -37,8 +34,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     for(int i = 1; i <= courses[courseIndex].lessons.length;i++){
       prefixLesson.add(courses[courseIndex].lessons[i-1].sections.length + prefixLesson[i-1]);
     }
-    print(prefixLesson);
   }
+
 /// TODO : Read this Function
   Future<void> sectionContent({
     required Section section,

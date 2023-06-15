@@ -1,13 +1,10 @@
 import 'package:BeWell/core/utils/navigation_manager.dart';
-import 'package:BeWell/modules/authenticaion/presentation_layer/components/components.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/question.dart';
-import 'package:BeWell/modules/main/presentation_layer/components/test.dart';
 import 'package:BeWell/modules/main/presentation_layer/screens/lessons_screen.dart';
 import 'package:BeWell/modules/main/presentation_layer/screens/seections_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../../../core/utils/font_manager.dart';
 import '../../../../core/utils/numbers_manager.dart';
@@ -526,9 +523,9 @@ Widget answerBuilder(
     required bool isCorrect}) {
   List<int> _trueAnswerText() {
     List<int> trueAnswerText = [];
-    trueAnswer.forEach((element) {
+    for (var element in trueAnswer) {
       trueAnswerText.add(element + 1);
-    });
+    }
     return trueAnswerText;
   }
 
@@ -630,12 +627,12 @@ class QuestionWidget extends StatefulWidget {
   });
 
   @override
-  _QuestionWidgetState createState() => _QuestionWidgetState();
+  QuestionWidgetState createState() => QuestionWidgetState();
 }
 
-class _QuestionWidgetState extends State<QuestionWidget> {
+class QuestionWidgetState extends State<QuestionWidget> {
   List<bool> _selectedAnswers = [];
-  bool _isCorrect = false;
+  final bool _isCorrect = false;
 
   @override
   void initState() {

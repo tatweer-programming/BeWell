@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_localizations:
+    sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -46,7 +47,6 @@ dependencies:
   smooth_page_indicator:
   permission_handler:
   fluttertoast:
-  flutter_local_notifications:
   animated_splash_screen:
 
 
@@ -58,6 +58,7 @@ dependencies:
   firebase_auth:
   cloud_firestore:
   firebase_storage:
+  firebase_core:
 
 
   # youtube
@@ -66,6 +67,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^2.0.1
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/BwWell-Logo1.png"
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -1,7 +1,6 @@
- import 'package:equatable/equatable.dart';
-
  import '../../domain_layer/entities/auth.dart';
 
+ //ignore: must_be_immutable
  class AuthModel extends Auth {
    AuthModel({required String uid, required String token})
        : super(uid: uid, token: token);

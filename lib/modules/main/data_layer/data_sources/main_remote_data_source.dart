@@ -34,7 +34,7 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
   }
 
   @override
-  Future<Either<FirebaseException, void>> doneSection({
+  Future<Either<FirebaseException, Unit>> doneSection({
     required String courseName,
     required double progress,
     required int done,
@@ -50,7 +50,7 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
           "lastUsing": DateTime.now().toString(),
         });
       });
-      return const Right(true);
+      return const Right(unit);
     } on FirebaseException catch (error) {
       return Left(error);
     }

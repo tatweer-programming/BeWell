@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:sizer/sizer.dart';
 import 'values_manager.dart';
 import 'font_manager.dart';
 import 'color_manager.dart';
-import 'font_manager.dart';
 import 'styles_manager.dart';
 
 ThemeData getAppTheme() {
@@ -78,7 +76,6 @@ ThemeData getAppTheme() {
           style: ElevatedButton.styleFrom(
               textStyle: getRegularStyle(
                   color: ColorManager.white, fontSize: FontSizeManager.s16.sp),
-              primary: ColorManager.primary,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(SizeManager.s15.sp)))),
       inputDecorationTheme: InputDecorationTheme(

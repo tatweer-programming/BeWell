@@ -92,8 +92,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
           .then((value) async {
         await CacheHelper.saveData(key: 'uid', value: value.user!.uid)
             .then((value) async {
-          //ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
-          print(ConstantsManager.userId);
+          ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
           await FirebaseFirestore.instance
               .collection('users')
               .doc("8a1la2MLXpTYy9Kt6H9a")
@@ -123,7 +122,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
 
       required String name}) async {
     try {
-      print('10');
       RequestModel request =
           RequestModel(name: name, email: email, id: id, password: password);
       await FirebaseFirestore.instance
@@ -149,7 +147,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       id: id,
     );
     try {
-      print('4');
       final user = FirebaseAuth.instance.currentUser;
       final cred = EmailAuthProvider.credential(
           email: user!.email!, password: oldPassword);
@@ -165,7 +162,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       }
       return const Right(true);
     } on FirebaseAuthException catch (error) {
-      print(error);
       return Left(error);
     }
   }

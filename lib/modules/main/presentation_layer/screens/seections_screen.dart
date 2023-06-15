@@ -1,5 +1,3 @@
-import 'package:BeWell/core/utils/color_manager.dart';
-import 'package:BeWell/core/utils/font_manager.dart';
 import 'package:BeWell/modules/main/presentation_layer/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

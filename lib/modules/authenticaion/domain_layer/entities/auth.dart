@@ -1,6 +1,6 @@
-// import 'package:firebase_auth/firebase_auth.dart' ;
 import 'package:equatable/equatable.dart';
 
+//ignore: must_be_immutable
 class Auth extends Equatable
 {
   String uid;

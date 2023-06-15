@@ -1,11 +1,9 @@
-import 'dart:math';
 import 'package:BeWell/core/utils/color_manager.dart';
  import 'package:BeWell/core/utils/font_manager.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/profile_screen.dart';
 import 'package:BeWell/modules/main/presentation_layer/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/constance_manager.dart';
@@ -109,7 +107,10 @@ class CoursesScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 30.h,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.sp),
+                      borderRadius: BorderRadiusDirectional.only(
+                        bottomEnd: Radius.circular(30.sp),
+                        bottomStart: Radius.circular(30.sp)
+                      ),
                       color: ColorManager.primary,
                     ),
                     child: Row(

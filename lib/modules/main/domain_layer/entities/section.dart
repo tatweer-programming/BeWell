@@ -1,5 +1,4 @@
 import 'package:BeWell/modules/main/data_layer/models/quiz_model.dart';
-import 'package:BeWell/modules/main/domain_layer/entities/quiz.dart';
 import 'package:equatable/equatable.dart';
 
 //ignore: must_be_immutable

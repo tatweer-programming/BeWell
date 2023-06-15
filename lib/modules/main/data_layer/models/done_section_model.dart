@@ -1,6 +1,4 @@
 import 'package:BeWell/modules/main/data_layer/models/daily_reminder_model.dart';
-import 'package:BeWell/modules/main/domain_layer/entities/daily_reminder.dart';
-
 import '../../domain_layer/entities/done_section.dart';
 
 class DoneSectionModel extends DoneSection {

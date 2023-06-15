@@ -23,8 +23,6 @@ class DoneSectionEvent extends MainEvent {
 class LogOutEvent extends MainEvent {
   final BuildContext context;
   const LogOutEvent({required this.context});
-  @override
-  List<Object?> get props => [context];
 }
 class ToContentSectionEvent extends MainEvent {
   final BuildContext context;

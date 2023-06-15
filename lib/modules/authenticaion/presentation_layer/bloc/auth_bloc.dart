@@ -1,21 +1,20 @@
 import 'package:BeWell/core/error/remote_error.dart';
 import 'package:BeWell/core/utils/constance_manager.dart';
 import 'package:BeWell/modules/authenticaion/domain_layer/use_cases/send_auth_request_use_case.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/navigation_manager.dart';
+import '../../../main/presentation_layer/screens/courses_screen.dart';
 import '../../data_layer/models/user_model.dart';
 import '../../domain_layer/use_cases/change_pass_use_case.dart';
 import '../../domain_layer/use_cases/forget_password_usecase.dart';
 import '../../domain_layer/use_cases/get_user_data_use_case.dart';
-import '../../domain_layer/use_cases/login_with_email&pass_usecase.dart';
+import '../../domain_layer/use_cases/login_with_email_and_pass_usecase.dart';
 import '../../domain_layer/use_cases/update_user_data_use_case.dart';
 import '../components/components.dart';
-import '../screens/login.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -81,10 +80,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(LoginErrorAuthState());
         }, (r) async{
-          NavigationManager.pushAndRemove(event.context, const Scaffold());
           defaultToast(msg: "تم تسحيل الدخول بنجاح");
           ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
-          emit(LoginSuccessfulAuthState(context: event.context, uid: ConstantsManager.userId!,));
+          await Future.delayed(const Duration(seconds: 1)).then((value) {
+            if (event.context.mounted) {
+              NavigationManager.pushAndRemove(
+                  event.context, const CoursesScreen());
+              emit(LoginSuccessfulAuthState(
+                context: event.context, uid: ConstantsManager.userId!,));
+            }
+          });
         });
       }
       else if (event is SendAuthRequestEvent) {

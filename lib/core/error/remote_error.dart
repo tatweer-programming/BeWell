@@ -29,8 +29,6 @@ class ExceptionManager implements Exception {
         return "تم إلغاء العملية";
       case "already-exists":
         return "المستند موجود بالفعل";
-      case "permission-denied":
-        return "ليس لديك صلاحية الوصول إلى هذه المجموعة";
       case "data-loss":
         return "حدث فقدان بيانات Firestore";
       case "invalid-argument":

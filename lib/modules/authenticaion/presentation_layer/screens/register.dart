@@ -1,5 +1,3 @@
-import 'package:BeWell/modules/authenticaion/presentation_layer/screens/forget_password.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -79,6 +77,7 @@ class RegisterScreen extends StatelessWidget {
                                 if (value == '') {
                                   return 'من فضلك أدخل الكود';
                                 }
+                                return null;
                               }),
                           SizedBox(
                             height: 10.sp,
@@ -104,6 +103,7 @@ class RegisterScreen extends StatelessWidget {
                                 if (value == '') {
                                   return 'من فضلك أدخل كلمة المرور';
                                 }
+                                return null;
                               }),
                           SizedBox(
                             height: 12.sp,
@@ -135,10 +135,10 @@ class RegisterScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('تمتلك حساب بالفعل ؟'),
+                        const Text('تمتلك حساب بالفعل ؟'),
                         TextButton(onPressed: () {
                           NavigationManager.pop(context);
-                        }, child: Text('تسجيل الدخول'))
+                        }, child: const Text('تسجيل الدخول'))
                       ],
                     ),)
                 ],

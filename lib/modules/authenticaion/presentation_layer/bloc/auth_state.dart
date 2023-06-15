@@ -11,8 +11,7 @@ class AuthInitial extends AuthState {
 
 class ChangeButtonAuthState extends AuthState {
   final int index;
-  ChangeButtonAuthState({required this.index});
-
+  const ChangeButtonAuthState({required this.index});
   @override
   List<Object> get props => [index];
 }
@@ -44,7 +43,7 @@ class SendAuthRequestLoadingAuthState extends AuthState {
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
-
+//ignore: must_be_immutable
 class SendAuthRequestSuccessfulState extends AuthState {
   String uid;
   BuildContext context;
@@ -58,7 +57,7 @@ class SendAuthRequestErrorAuthState extends AuthState {
   @override
   List<Object?> get props => [];
 }
-
+//ignore: must_be_immutable
 class RegisterPhaseOneSuccessfulAuthState extends AuthState {
   BuildContext context;
   RegisterPhaseOneSuccessfulAuthState({required this.context});
@@ -73,6 +72,7 @@ class LoginLoadingAuthState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+//ignore: must_be_immutable
 class LoginSuccessfulAuthState extends AuthState {
   String uid;
   BuildContext context;

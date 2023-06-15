@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import '../entities/course.dart';
 import '../repositories/base_main_repository.dart';
 
 class DoneSectionUseCase {

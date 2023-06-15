@@ -1,5 +1,6 @@
 import '../../domain_layer/entities/user.dart';
 
+//ignore: must_be_immutable
 class UserModel extends AppUser {
    UserModel({required String email,required String id,  required String name ,}) :
          super(name: name ,email: email ,  id: id,);

@@ -1,30 +1,30 @@
 import 'package:shared_preferences/shared_preferences.dart';
 class CacheHelper
 {
-  static  late var sharedPrefrences ;
+  static late SharedPreferences sharedPreferences;
   static init() async {
-    sharedPrefrences = await SharedPreferences.getInstance();
+    sharedPreferences = await SharedPreferences.getInstance();
   }
   static Future <bool?> saveData({required String key, required dynamic value}) async {
     if (value is int) {
-      return await sharedPrefrences?.setInt(key, value);
+      return await sharedPreferences.setInt(key, value);
     } else if (value is String) {
-      return  await sharedPrefrences?.setString(key, value);
+      return  await sharedPreferences.setString(key, value);
     } else if (value is bool) {
-      return await sharedPrefrences?.setBool(key, value);
+      return await sharedPreferences.setBool(key, value);
     }
-    return await sharedPrefrences?.setDouble(key, value);
+    return await sharedPreferences.setDouble(key, value);
   }
 
   static Future <dynamic> getData({required  String key}) async
   {
-    return sharedPrefrences.get(key);
+    return sharedPreferences.get(key);
   }
 
   static Future<bool> removeData({
     required String key,
   })async{
-    return await sharedPrefrences.remove(key);
+    return await sharedPreferences.remove(key);
   }
 
 

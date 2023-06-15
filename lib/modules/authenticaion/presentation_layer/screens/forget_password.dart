@@ -17,7 +17,7 @@ class ForgetPasswordScreen extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if(state is SendEmailSuccessfulAuthState){
+        if (state is SendEmailSuccessfulAuthState) {
           defaultToast(msg: "تم ارسال بريد الكتروني لتغيير كلمة المرور");
           Future.delayed(const Duration(seconds: 5), () {
             NavigationManager.pushAndRemove(context, const LoginScreen());
@@ -28,8 +28,7 @@ class ForgetPasswordScreen extends StatelessWidget {
         return Scaffold(
           body: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 35.sp, horizontal: 15.sp),
+              padding: EdgeInsets.symmetric(vertical: 35.sp, horizontal: 15.sp),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -67,28 +66,27 @@ class ForgetPasswordScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 5.sp),
                     defaultFormField(
-                      prefix: Icons.email,
-                      label: 'البريد الالكتروني',
-                      controller: emailController,
-                       validator: (value) {
-                        if (value == ''){
-                          return 'من فضلك اكتب البريد الالكتروني ';
-                        }
-                        else if (!bloc.isValidEmail(value) ){
-                        return 'من فضلك اكتب صيغة بريد صالحة';
-        }
-                        }
-
-                    ),
+                        prefix: Icons.email,
+                        label: 'البريد الالكتروني',
+                        controller: emailController,
+                        validator: (value) {
+                          if (value == '') {
+                            return 'من فضلك اكتب البريد الالكتروني ';
+                          } else if (!bloc.isValidEmail(value)) {
+                            return 'من فضلك اكتب صيغة بريد صالحة';
+                          }
+                          return null;
+                        }),
                     SizedBox(height: 20.sp),
                     defaultButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                bloc.add(ForgetPasswordAuthEvent(
-                                    email: emailController.text));
-                              }
-                            },
-                            text: "إرسال",)
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          bloc.add(ForgetPasswordAuthEvent(
+                              email: emailController.text));
+                        }
+                      },
+                      text: "إرسال",
+                    )
                   ],
                 ),
               ),
