@@ -22,9 +22,7 @@ Widget defaultFormField(
     keyboardType: type,
     obscureText: obscureText,
     controller: controller,
-    cursorColor: ColorManager.black,
     decoration: InputDecoration(
-
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(5.sp),
         borderSide: BorderSide(width: 1, color: ColorManager.black),),

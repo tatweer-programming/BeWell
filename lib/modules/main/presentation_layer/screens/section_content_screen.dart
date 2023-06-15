@@ -75,6 +75,9 @@ class SectionContentScreen extends StatelessWidget {
                                             if (state
                                                 is! DoneSectionLoadingState) {
                                               return Dialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(25.sp),
+                                                  ),
                                                 child: Padding(
                                                   padding: EdgeInsets.symmetric(
                                                       vertical: 20.sp),
@@ -82,7 +85,7 @@ class SectionContentScreen extends StatelessWidget {
                                                     onPressed: () {
                                                       bloc.add(
                                                           GetProgressEvent());
-                                                      NavigationManager.push(
+                                                      NavigationManager.pushAndRemove(
                                                           context,
                                                           const CoursesScreen());
                                                       bloc.widgets = [Container()];

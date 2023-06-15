@@ -19,13 +19,9 @@ class SectionScreen extends StatelessWidget {
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
         return Scaffold(
+          appBar: AppBar(),
           body: Padding(
-            padding: EdgeInsetsDirectional.only(
-              bottom: 10.sp,
-              start: 10.sp,
-              end: 10.sp,
-              top: 20.sp
-            ),
+            padding: EdgeInsetsDirectional.all(10.sp),
             child: ListView.separated(
               itemBuilder: (context, sectionIndex) => sectionBuilder(
                 section: lesson.sections[sectionIndex],

@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
       splash: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/BwWell-Logo1.png')
+                image: AssetImage('assets/images/BeWell-Logo1.png')
             )
         ),
       ),

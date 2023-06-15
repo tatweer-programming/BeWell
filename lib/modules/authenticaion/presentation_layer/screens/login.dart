@@ -21,10 +21,9 @@ class LoginScreen extends StatelessWidget {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       resizeToAvoidBottomInset: true,
-
       appBar: AppBar(),
       body: Padding(
-        padding: EdgeInsets.all(8.0.sp),
+        padding: EdgeInsets.all(15.sp),
         child: Form(
           key: formKey,
           child: Column(
@@ -43,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 10.sp,
+                        height: 20.sp,
                       ),
                       defaultFormField(
                           label: 'البريد الالكتروني',
@@ -69,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                             return null;
                           }),
                       SizedBox(
-                        height: 12.sp,
+                        height: 15.sp,
                       ),
                       SizedBox(
                           width: double.infinity,

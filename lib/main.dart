@@ -26,12 +26,12 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await notification.initializeLocalNotifications();
-  await AwesomeNotifications().requestPermissionToSendNotifications();
+  // await AwesomeNotifications().requestPermissionToSendNotifications();
 
    bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
-  if (callWaterReminder == null || callWaterReminder){
+ if ((callWaterReminder == null || callWaterReminder) && ConstantsManager.userId != null && ConstantsManager.userId != ''){
    await notification.createWaterReminder();
-   }
+  }
 
   Widget? widget;
   ConstantsManager.userId = await CacheHelper.getData(key: 'uid');

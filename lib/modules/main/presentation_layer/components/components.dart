@@ -203,7 +203,7 @@ Widget lessonBuilder({
                     ),
                     const Spacer(),
                     if (bloc.prefixLesson[lessonIndex] > counter)
-                      const Icon(Icons.lock)
+                       Icon(Icons.lock,color: ColorManager.secondary,)
                   ],
                 ),
               ),
@@ -300,9 +300,9 @@ Widget lessonBuilder({
               ),
               const Spacer(),
               if (bloc.prefixLesson[lessonIndex] > counter)
-                const Icon(Icons.lock)
+                Icon(Icons.lock,color: ColorManager.secondary,)
               else if (course.lessons[lessonIndex].sections.length <= counter)
-                const Icon(Icons.check_circle_rounded)
+                Icon(Icons.check_circle_rounded,color: ColorManager.secondary,)
             ],
           ),
         ),
@@ -396,9 +396,9 @@ Widget sectionBuilder({
               ),
               const Spacer(),
               if (bloc.prefixLesson[lessonIndex] + sectionsIndex > counter)
-                const Icon(Icons.lock)
+                 Icon(Icons.lock,color: ColorManager.secondary,)
               else if (bloc.prefixLesson[lessonIndex] + sectionsIndex < counter)
-                const Icon(Icons.check_circle_rounded)
+                 Icon(Icons.check_circle_rounded,color: ColorManager.secondary,)
             ],
           ),
         ),

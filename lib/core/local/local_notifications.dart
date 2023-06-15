@@ -6,7 +6,7 @@ class LocalNotification {
   // Initialization
   Future<void> initializeLocalNotifications() async {
     await AwesomeNotifications().initialize(
-      null, //'asset://assets/images/water-cup.png',
+      null,
       [
         NotificationChannel(
           channelKey: 'alerts',
@@ -27,7 +27,7 @@ class LocalNotification {
     AwesomeNotifications().actionStream.listen((event) async {
       if (event.payload!["drank"] == "true") {
         int currentValue = await CacheHelper.getData(key: 'waterCups');
-         if (currentValue == 2) {
+         if (currentValue == 7) {
           await CacheHelper.saveData(key: 'waterCups', value: 0);
           await _congratsNotification();
         } else {
@@ -35,7 +35,7 @@ class LocalNotification {
         }
       }
       print("event.id         ${event.id}");
-      if (event.id == 9) {
+      if (event.id == 59) {
         await CacheHelper.saveData(key: 'waterCups', value: 0);
       }
     });
@@ -78,7 +78,7 @@ class LocalNotification {
         final DateTime notificationTime = sevenAM
             .add(Duration(days: day - DateTime.now().weekday))
             .add(Duration(
-                minutes: 112 * i, seconds: 30 * i)); // convert minutes to hours
+          minutes: 112 * i, seconds: 30 * i));
         await AwesomeNotifications().createNotification(
           actionButtons: [
             NotificationActionButton(

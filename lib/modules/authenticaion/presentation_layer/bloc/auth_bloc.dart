@@ -80,7 +80,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(LoginErrorAuthState());
         }, (r) async{
-          defaultToast(msg: "تم تسحيل الدخول بنجاح");
           ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
           await Future.delayed(const Duration(seconds: 1)).then((value) {
             if (event.context.mounted) {
@@ -90,6 +89,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 context: event.context, uid: ConstantsManager.userId!,));
             }
           });
+          defaultToast(msg: "تم تسجيل الدخول بنجاح");
         });
       }
       else if (event is SendAuthRequestEvent) {
