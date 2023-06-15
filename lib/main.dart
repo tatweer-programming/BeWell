@@ -28,10 +28,10 @@ Future<void> main() async {
   await notification.initializeLocalNotifications();
   await AwesomeNotifications().requestPermissionToSendNotifications();
 
-  //  bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
-  // if (callWaterReminder == null || callWaterReminder){
+   bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
+  if (callWaterReminder == null || callWaterReminder){
    await notification.createWaterReminder();
-  // }
+   }
 
   Widget? widget;
   ConstantsManager.userId = await CacheHelper.getData(key: 'uid');

@@ -21,12 +21,6 @@ class LocalNotification {
       ],
       debug: true,
     );
-    await requestNotificationPermissions();
-    bool? callWaterReminder =
-        await CacheHelper.getData(key: 'callWaterReminder');
-    if (callWaterReminder == null || callWaterReminder) {
-      await createWaterReminder();
-    }
   }
 
   Future<void> startListeningNotificationEvents() async {
