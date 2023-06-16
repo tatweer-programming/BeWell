@@ -73,10 +73,8 @@ class LocalNotification {
 
 
   Future<void> scheduleNewNotification() async {
-    print('2');
     bool isAllowed = await requestNotificationPermissions();
     if (isAllowed) {
-      print('2');
       print("Allowed");
       await cancelNotifications();
       await AwesomeNotifications().createNotification(
@@ -108,55 +106,62 @@ class LocalNotification {
 
   // Create Water Reminder
   Future<void> createWaterReminder() async {
-    await CacheHelper.saveData(key: 'callWaterReminder', value: false);
-    await CacheHelper.saveData(key: 'waterCups', value: 0);
-    DateTime sevenAM = DateTime(
-        DateTime
-            .now()
-            .year, DateTime
-        .now()
-        .month, DateTime
-        .now()
-        .day, 7, 0);
-    for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
-      for (int i = 1; i <= 8; i++) {
-        final DateTime notificationTime = sevenAM
-            .add(
-            Duration(days: day - DateTime
-            .now()
-            .weekday))
-            .add(Duration(
-            minutes: 112 * i, seconds: 30 * i));
-        await AwesomeNotifications().createNotification(
-          actionButtons: [
-            NotificationActionButton(
-              key: 'confirm',
-              label: 'شربت كوبًا',
+
+    bool isAllowed = await requestNotificationPermissions();
+    if(isAllowed) {
+      await CacheHelper.saveData(key: 'callWaterReminder', value: false);
+      await CacheHelper.saveData(key: 'waterCups', value: 0);
+      DateTime sevenAM = DateTime(
+          DateTime
+              .now()
+              .year, DateTime
+          .now()
+          .month, DateTime
+          .now()
+          .day, 7, 0);
+      for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
+        for (int i = 1; i <= 8; i++) {
+          final DateTime notificationTime = sevenAM
+              .add(
+              Duration(days: day - DateTime
+                  .now()
+                  .weekday))
+              .add(Duration(
+              minutes: 112 * i, seconds: 30 * i));
+          await AwesomeNotifications().createNotification(
+            actionButtons: [
+              NotificationActionButton(
+                key: 'confirm',
+                label: 'شربت كوبًا',
+                autoDismissible: true,
+              ),
+            ],
+            content: NotificationContent(
+              id: i + (day * 10),
+              payload: {
+                "drank": "true",
+              },
+              channelKey: 'water-reminder',
+              title: 'تذكير بشرب الماء',
+              body: 'لا تنس شرب كوب من الماء',
+              displayOnBackground: true,
+              displayOnForeground: true,
               autoDismissible: true,
             ),
-          ],
-          content: NotificationContent(
-            id: i + (day * 10),
-            payload: {
-              "drank": "true",
-            },
-            channelKey: 'water-reminder',
-            title: 'تذكير بشرب الماء',
-            body: 'لا تنس شرب كوب من الماء',
-            displayOnBackground: true,
-            displayOnForeground: true,
-            autoDismissible: true,
-          ),
-          schedule: NotificationCalendar(
-            weekday: day,
-            hour: notificationTime.hour,
-            minute: notificationTime.minute,
-            second: notificationTime.second,
-            millisecond: 0,
-            allowWhileIdle: true,
-          ),
-        );
+            schedule: NotificationCalendar(
+              weekday: day,
+              hour: notificationTime.hour,
+              minute: notificationTime.minute,
+              second: notificationTime.second,
+              millisecond: 0,
+              allowWhileIdle: true,
+            ),
+          );
+        }
       }
+    }
+    else {
+      DoNothingAction();
     }
   }
 

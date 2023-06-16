@@ -8,7 +8,6 @@ class SendAuthRequestUseCase  {
   SendAuthRequestUseCase(this.baseAuthRepository);
   Future<Either<FirebaseException, String>> call ({required String email, required String password,
     required String id, required String name})  async {
-    print(2);
     return await baseAuthRepository.sendAuthRequest
       (email: email, password: password, id: id, name: name);
   }

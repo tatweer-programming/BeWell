@@ -1,13 +1,14 @@
-import 'dart:convert';
-
 import 'package:BeWell/modules/main/domain_layer/entities/survey_question.dart';
 
 class SurveyQuestionModel extends SurveyQuestion
 {
-  const SurveyQuestionModel({required super.question, required super.maxAnswer ,});
+  const SurveyQuestionModel({required super.question, required super.maxAnswer, required super.minAnswer});
 
-  static SurveyQuestion fromJson (Map <String , dynamic> json){
-   return SurveyQuestion(question: json['question'],
-       maxAnswer: json['maxAnswer'],minAnswer: json['minAnswer'],);
+  factory SurveyQuestionModel.fromJson (Map <String , dynamic> json){
+   return SurveyQuestionModel(
+     question: json['question'],
+       maxAnswer: json['maxAnswer'],
+     minAnswer: json['minAnswer'],
+   );
 }
 }

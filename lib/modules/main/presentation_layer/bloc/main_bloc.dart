@@ -14,7 +14,6 @@ import '../../../authenticaion/presentation_layer/screens/login.dart';
 import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/use_cases/get_courses_use_case.dart';
 import '../components/components.dart';
-import '../components/test.dart';
 import '../screens/section_content_screen.dart';
 import '../screens/play_video_screen.dart';
 part 'main_event.dart';
@@ -51,7 +50,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     }if(section.text != '' && section.text != null){
       widgets.add(textScreen(text: section.text!));
     }if(section.quiz != null && section.quiz!.questions.isNotEmpty){
-      widgets.add(TestQuizScreen(questions: section.quiz!.questions,));
+      widgets.add(questionScreen(questions: section.quiz!.questions,));
+    }if(section.survey != null && section.survey!.questions.isNotEmpty){
+      widgets.add(SurveyScreen(survey: section.survey!,));
     }
   }
   bool showAnswer = false ;

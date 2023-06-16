@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:BeWell/core/utils/constance_manager.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/login.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +14,6 @@ import 'firebase_options.dart';
 import 'modules/authenticaion/presentation_layer/bloc/auth_bloc.dart';
 import 'modules/main/presentation_layer/bloc/main_bloc.dart';
 import 'modules/main/presentation_layer/screens/courses_screen.dart';
-import 'modules/main/presentation_layer/screens/splash_screen.dart';
 
 Future<void> main() async {
   LocalNotification notification = LocalNotification();
@@ -46,9 +44,10 @@ Future<void> main() async {
   await notification.startListeningNotificationEvents();
 }
 
+//ignore: must_be_immutable
 class MyApp extends StatelessWidget {
-  final Widget startWidget;
-  const MyApp({super.key, required this.startWidget});
+  Widget? startWidget;
+  MyApp({super.key, this.startWidget});
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
@@ -76,8 +75,7 @@ class MyApp extends StatelessWidget {
               Locale('ar', 'AE'), // English, no country code
             ],
             locale: const Locale('ar'),
-
-          home: SplashScreen(nextScreen: startWidget),
+          home: startWidget//SplashScreen(nextScreen: startWidget),
         ),
       );
     });
