@@ -20,7 +20,7 @@ class SectionContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PageController pageController = PageController();
-    MainBloc bloc = sl();
+    MainBloc bloc = sl()..add(ScheduleNewNotificationEvent());
     int counter = 0;
     if (bloc.doneSection != null) {
       counter = bloc.doneSection!.done[courseName]!;

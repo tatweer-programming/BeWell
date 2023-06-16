@@ -6,6 +6,7 @@ import 'package:BeWell/modules/main/domain_layer/use_cases/get_progress_use_case
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/error/remote_error.dart';
+import '../../../../core/local/local_notifications.dart';
 import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/navigation_manager.dart';
@@ -117,6 +118,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           }
         });
         emit(LogOutSuccessfulAuthState(context: event.context));
+      }
+      else if (event is ScheduleNewNotificationEvent){
+       await  LocalNotification().scheduleNewNotification();
       }
     });
   }

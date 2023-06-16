@@ -10,7 +10,7 @@ ThemeData getAppTheme() {
     appBarTheme: const AppBarTheme(
       foregroundColor: Color(0xFFfffafafb),
     ),
-    colorScheme: ColorScheme(
+    colorScheme: const ColorScheme(
       background: Color(0xFFff6882b8),
       brightness: Brightness.light,
       error: Color(0xFFffb00020),
@@ -128,12 +128,8 @@ ThemeData getAppTheme() {
     shadowColor: const Color(0xFF000000),
     splashColor: const Color(0xFF66c8c8c8),
     splashFactory: InkSplash.splashFactory,
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(/* ... */),
-    ),
     unselectedWidgetColor: const Color(0xFF8a0a0a0a),
     useMaterial3: false,
-    visualDensity: VisualDensity.compact,
   );
 }
 

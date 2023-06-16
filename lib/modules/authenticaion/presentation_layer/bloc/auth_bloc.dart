@@ -83,9 +83,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
           await Future.delayed(const Duration(seconds: 1)).then((value) {
             if (event.context.mounted) {
-              NavigationManager.pushAndRemove(
-                  event.context, const CoursesScreen());
-              emit(LoginSuccessfulAuthState(
+
+              emit(LoginSuccessfulAuthState (
                 context: event.context, uid: ConstantsManager.userId!,));
             }
           });
