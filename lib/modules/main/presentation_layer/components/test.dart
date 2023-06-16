@@ -50,4 +50,3 @@ class TestQuizScreen extends StatelessWidget {
     );
   }
 }
-
