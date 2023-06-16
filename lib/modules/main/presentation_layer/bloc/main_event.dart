@@ -18,8 +18,7 @@ class DoneSectionEvent extends MainEvent {
     required this.courseName,
     required this.progress,
     required this.done,
-  });
-}
+  });}
 class LogOutEvent extends MainEvent {
   final BuildContext context;
   const LogOutEvent({required this.context});
@@ -36,6 +35,4 @@ class ToContentSectionEvent extends MainEvent {
     required this.context,
 });
 }
-class ShowQuizAnswerEvent extends MainEvent {
-
-}
+class ShowQuizAnswerEvent extends MainEvent {}

@@ -11,6 +11,8 @@ import '../../../../core/utils/numbers_manager.dart';
 import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/entities/lesson.dart';
 import '../../domain_layer/entities/section.dart';
+import '../../domain_layer/entities/survey.dart';
+import '../../domain_layer/entities/survey_question.dart';
 import '../bloc/main_bloc.dart';
 
 Widget courseBuilder({
@@ -738,6 +740,134 @@ class QuestionWidgetState extends State<QuestionWidget> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SurveyWidget extends StatefulWidget {
+  final Survey survey;
+   bool showResult;
+
+  SurveyWidget({required this.survey, this.showResult = false});
+
+  @override
+  _SurveyWidgetState createState() => _SurveyWidgetState();
+}
+class _SurveyWidgetState extends State<SurveyWidget> {
+  List<int> selectedAnswers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    selectedAnswers = List.filled(widget.survey.questions.length, 0);
+  }
+
+  void _onQuestionAnswered(int index, int value) {
+    setState(() {
+      selectedAnswers[index] = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: widget.survey.questions.length,
+          itemBuilder: (context, index) {
+            final question = widget.survey.questions[index];
+            return SurveyQuestionWidget(
+              question: question,
+              onAnswered: (value) => _onQuestionAnswered(index, value),
+            );
+          },
+        ),
+        if (widget.showResult)
+          Container(
+            decoration: BoxDecoration(
+              color: ColorManager.primary,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${selectedAnswers.reduce((a, b) => a + b)}'),
+                Text(widget.survey.result)
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+class SurveyQuestionWidget extends StatefulWidget {
+  final SurveyQuestion question;
+  final Function(int)? onAnswered;
+
+  const SurveyQuestionWidget({super.key, required this.question, this.onAnswered});
+
+  @override
+  _SurveyQuestionWidgetState createState() => _SurveyQuestionWidgetState();
+}
+class _SurveyQuestionWidgetState extends State<SurveyQuestionWidget> {
+  int _selectedAnswer = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.question.question,
+            style: const TextStyle(fontSize: 18 , fontWeight: FontWeightManager.bold, ),
+          ),
+          SizedBox(height: 10.sp),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                widget.question.maxAnswer - widget.question.minAnswer + 1,
+                    (index) {
+                  int value = index + widget.question.minAnswer;
+                  return Padding(
+                    padding:  EdgeInsets.all(1.5.sp),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _selectedAnswer = value;
+                        });
+                        widget.onAnswered?.call(_selectedAnswer);
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: _selectedAnswer == value ? Colors.blue : Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child: Text(
+                          value.toString(),
+                          style: TextStyle(
+                            color: _selectedAnswer == value ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

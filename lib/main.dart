@@ -29,7 +29,8 @@ Future<void> main() async {
   // await AwesomeNotifications().requestPermissionToSendNotifications();
 
    bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
- if ((callWaterReminder == null || callWaterReminder) && ConstantsManager.userId != null && ConstantsManager.userId != ''){
+ if ((callWaterReminder == null || callWaterReminder) &&
+     ConstantsManager.userId != null && ConstantsManager.userId != ''){
    await notification.createWaterReminder();
   }
 

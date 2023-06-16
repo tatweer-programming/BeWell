@@ -7,23 +7,22 @@ import 'styles_manager.dart';
 
 ThemeData getAppTheme() {
   return ThemeData (
-    useMaterial3: false,
       fontFamily: 'Abg',
       hintColor: ColorManager.primary,
       hoverColor: ColorManager.primary.withOpacity(.10),
      cardColor: ColorManager.primary,
-      // colorScheme: ColorScheme(
-      //     brightness: Brightness.light,
-      //     primary: ColorManager.white,
-      //     onPrimary: ColorManager.black,
-      //     secondary: ColorManager.secondary,
-      //     onSecondary: ColorManager.white,
-      //     error: ColorManager.error,
-      //     onError: ColorManager.error,
-      //     background: ColorManager.white,
-      //     onBackground: ColorManager.white,
-      //     surface: ColorManager.white,
-      //     onSurface: ColorManager.black),
+      colorScheme: ColorScheme(
+          brightness: Brightness.light,
+          primary: ColorManager.white,
+          onPrimary: ColorManager.black,
+          secondary: ColorManager.secondary,
+          onSecondary: ColorManager.white,
+          error: ColorManager.error,
+          onError: ColorManager.error,
+          background: ColorManager.white,
+          onBackground: ColorManager.white,
+          surface: ColorManager.white,
+          onSurface: ColorManager.black),
       primarySwatch: const MaterialColor(4280765594,{50: Color( 0xffebf0fa )
         , 100: Color( 0xffd6e0f5 )
         , 200: Color( 0xffaec1ea )
@@ -79,37 +78,6 @@ ThemeData getAppTheme() {
                   color: ColorManager.white, fontSize: FontSizeManager.s16.sp),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(SizeManager.s15.sp)))),
-      inputDecorationTheme: InputDecorationTheme(
-        focusColor: ColorManager.white,
-        hoverColor: ColorManager.white,
-        fillColor: ColorManager.white,
-        // content padding
-          contentPadding: EdgeInsets.all(PaddingManager.p10.sp),
-          // hint style
-          hintStyle: getRegularStyle(color: ColorManager.grey1, fontSize: FontSizeManager.s14.sp),
-          labelStyle:
-          getMediumStyle(color: ColorManager.grey1, fontSize: FontSizeManager.s14.sp),
-          errorStyle: getRegularStyle(color: Colors.red),
-          // enabled border style
-          enabledBorder: OutlineInputBorder(
-              borderSide:
-              BorderSide(color: ColorManager.grey2, width: SizeManager.s1_5.sp),
-              borderRadius:  BorderRadius.all(Radius.circular(SizeManager.s40.sp))),
-           // focused border style
-          focusedBorder: OutlineInputBorder(
-              borderSide:
-              BorderSide(color: ColorManager.primary, width:SizeManager.s1_5.sp),
-              borderRadius:  BorderRadius.all(Radius.circular(SizeManager.s40.sp))),
-          // error border style
-          errorBorder: OutlineInputBorder(
-              borderSide:
-              BorderSide(color: Colors.red, width: SizeManager.s1_5.sp),
-              borderRadius: BorderRadius.all(Radius.circular(SizeManager.s40.sp))
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-              borderSide:
-              BorderSide(color: ColorManager.primary, width: SizeManager.s1_5.sp),
-              borderRadius:  BorderRadius.all(Radius.circular(SizeManager.s40.sp)))),
       iconTheme: IconThemeData(color: ColorManager.primary)
     // label style
   );
