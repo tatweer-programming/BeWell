@@ -1,7 +1,5 @@
 import 'package:BeWell/modules/main/data_layer/models/quiz_model.dart';
 import 'package:BeWell/modules/main/data_layer/models/survey_model.dart';
-import 'package:BeWell/modules/main/domain_layer/entities/quiz.dart';
-
 import '../../domain_layer/entities/section.dart';
 
 //ignore: must_be_immutable
@@ -21,7 +19,4 @@ class SectionsModel extends Section{
           text: json['text'],
           videosIds: List<String>.from(json['videosIds']).map((videoId) => videoId).toList()
       );
-
-
-
 }
