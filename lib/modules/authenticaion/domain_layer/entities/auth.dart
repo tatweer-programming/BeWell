@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 //ignore: must_be_immutable
-class Auth extends Equatable
-{
+class Auth extends Equatable {
   String uid;
   String token;
 

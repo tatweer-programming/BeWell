@@ -20,13 +20,12 @@ abstract class BaseAuthRemoteDataSource {
   Future<Either<FirebaseAuthException, void>> forgetPassword(
       {required String email});
   Future<Either<FirebaseException, UserModel>> getDataUser();
-  Future<Either<FirebaseAuthException, void>> updateDataUser(
-
-      {required String name,
-      required String oldPassword,
-      required String id,
-      required String email,
-      });
+  Future<Either<FirebaseAuthException, void>> updateDataUser({
+    required String name,
+    required String oldPassword,
+    required String id,
+    required String email,
+  });
 
   Future<Either<FirebaseAuthException, void>> changePassword(
       {required String oldPassword, required String newPassword});
@@ -119,7 +118,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       {required String email,
       required String password,
       required String id,
-
       required String name}) async {
     try {
       RequestModel request =
@@ -139,7 +137,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     required String oldPassword,
     required String id,
     required String email,
-
   }) async {
     UserModel userModel = UserModel(
       email: email,

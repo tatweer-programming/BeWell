@@ -3,12 +3,12 @@ import 'package:BeWell/modules/main/domain_layer/entities/survey.dart';
 import 'package:equatable/equatable.dart';
 
 //ignore: must_be_immutable
-class Section extends Equatable{
+class Section extends Equatable {
   String? image;
   String? text;
   List<String>? videosIds;
   QuizModel? quiz;
-  Survey? survey ;
+  Survey? survey;
   Section({
     this.image,
     this.text,
@@ -17,5 +17,5 @@ class Section extends Equatable{
     this.survey,
   });
   @override
-  List<Object?> get props => [text,image,videosIds, survey] ;
+  List<Object?> get props => [text, image, videosIds, survey];
 }

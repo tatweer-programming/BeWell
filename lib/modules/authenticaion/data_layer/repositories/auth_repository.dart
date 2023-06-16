@@ -32,13 +32,16 @@ class AuthRepository extends BaseAuthRepository {
     required String oldPassword,
     required String id,
     required String email,
-
   }) async {
     if (kDebugMode) {
       print(3);
     }
     return await baseAuthRemoteDataSource.updateDataUser(
-        name: name, oldPassword: oldPassword,email: email ,id: id, );
+      name: name,
+      oldPassword: oldPassword,
+      email: email,
+      id: id,
+    );
   }
 
   @override
@@ -51,10 +54,12 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
-  Future<Either<FirebaseException, String>> sendAuthRequest
-      ({required String email, required String password,
-    required String id, required String name}) async {
-    return await baseAuthRemoteDataSource.sendAuthRequest
-      (email: email, password: password, id: id, name: name);
+  Future<Either<FirebaseException, String>> sendAuthRequest(
+      {required String email,
+      required String password,
+      required String id,
+      required String name}) async {
+    return await baseAuthRemoteDataSource.sendAuthRequest(
+        email: email, password: password, id: id, name: name);
   }
 }

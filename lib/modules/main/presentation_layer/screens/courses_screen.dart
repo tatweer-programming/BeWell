@@ -1,7 +1,6 @@
 import 'dart:math';
-
 import 'package:BeWell/core/utils/color_manager.dart';
- import 'package:BeWell/core/utils/font_manager.dart';
+import 'package:BeWell/core/utils/font_manager.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/profile_screen.dart';
 import 'package:BeWell/modules/main/presentation_layer/components/components.dart';
 import 'package:flutter/material.dart';
@@ -42,11 +41,12 @@ class CoursesScreen extends StatelessWidget {
                   ),
                   actions: [
                     TextButton(
-                      child: Text("إغلاق",
+                      child: Text(
+                        "إغلاق",
                         style: TextStyle(
-                          color: ColorManager.black,
-                          fontWeight: FontWeightManager.bold
-                        ),),
+                            color: ColorManager.black,
+                            fontWeight: FontWeightManager.bold),
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -57,155 +57,153 @@ class CoursesScreen extends StatelessWidget {
             );
           });
         }
-          return Builder(
-            builder: (BuildContext context) {
-              return Scaffold(
-                key: scaffoldKey,
-                drawer: Drawer(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      DrawerHeader(
-                        decoration: BoxDecoration(
-                          color: ColorManager.primary,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'BeWell',
-                            style: TextStyle(
-                                color: ColorManager.white,
-                                fontSize: FontSizeManager.s22.sp,
-                                fontWeight: FontWeightManager.bold
-                            ),
-                          ),
-                        ),
-                      ),
-                      ListTile(
-                        title: Text("الصفحة الشخصية",
-                          style: TextStyle(
-                              fontSize: FontSizeManager.s17.sp,
-                              fontWeight: FontWeightManager.bold
-                          ),
-                        ),
-                        onTap: () {
-                          NavigationManager.push(
-                              context, const ProfileScreen());
-                        },
-                      ),
-                      ListTile(
-                        title: Text("تسجيل الخروج",
-                          style: TextStyle(
-                              fontSize: FontSizeManager.s17.sp,
-                              fontWeight: FontWeightManager.bold
-                          ),),
-                        onTap: () {
-                          bloc.add(LogOutEvent(
-                              context: context
-                          ));
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                body: state is! GetProgressLoadingState || state is! GetCoursesLoadingState?
-                Column(
+        return Builder(
+          builder: (BuildContext context) {
+            return Scaffold(
+              key: scaffoldKey,
+              drawer: Drawer(
+                child: ListView(
+                  padding: EdgeInsets.zero,
                   children: [
-                    Container(
-                      width: double.infinity,
-                      height: 30.h,
+                    DrawerHeader(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadiusDirectional.only(
-                            bottomEnd: Radius.circular(30.sp),
-                            bottomStart: Radius.circular(30.sp)
-                        ),
-                        color: ColorManager.secondary,
+                        color: ColorManager.primary,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              scaffoldKey.currentState!.openDrawer();
-                            },
-                            icon: Icon(
-                              Icons.menu,
+                      child: Center(
+                        child: Text(
+                          'BeWell',
+                          style: TextStyle(
                               color: ColorManager.white,
-                              size: 25.sp,
-                            ),
+                              fontSize: FontSizeManager.s22.sp,
+                              fontWeight: FontWeightManager.bold),
+                        ),
+                      ),
+                    ),
+                    ListTile(
+                      title: Text(
+                        "الصفحة الشخصية",
+                        style: TextStyle(
+                            fontSize: FontSizeManager.s17.sp,
+                            fontWeight: FontWeightManager.bold),
+                      ),
+                      onTap: () {
+                        NavigationManager.push(context, const ProfileScreen());
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        "تسجيل الخروج",
+                        style: TextStyle(
+                            fontSize: FontSizeManager.s17.sp,
+                            fontWeight: FontWeightManager.bold),
+                      ),
+                      onTap: () {
+                        bloc.add(LogOutEvent(context: context));
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              body: state is! GetProgressLoadingState ||
+                      state is! GetCoursesLoadingState
+                  ? Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 30.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.only(
+                                bottomEnd: Radius.circular(30.sp),
+                                bottomStart: Radius.circular(30.sp)),
+                            color: ColorManager.secondary,
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Text(
-                                'مرحبا',
-                                style: TextStyle(
+                              IconButton(
+                                onPressed: () {
+                                  scaffoldKey.currentState!.openDrawer();
+                                },
+                                icon: Icon(
+                                  Icons.menu,
                                   color: ColorManager.white,
-                                  fontSize: FontSizeManager.s18.sp,
+                                  size: 25.sp,
                                 ),
                               ),
-                              Text(
-                                ConstantsManager.studentName,
-                                style: TextStyle(
-                                  color: ColorManager.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: FontSizeManager.s22.sp,
-                                ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'مرحبا',
+                                    style: TextStyle(
+                                      color: ColorManager.white,
+                                      fontSize: FontSizeManager.s18.sp,
+                                    ),
+                                  ),
+                                  Text(
+                                    ConstantsManager.studentName,
+                                    style: TextStyle(
+                                      color: ColorManager.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: FontSizeManager.s22.sp,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "الدورات المتاحة",
-                              style: TextStyle(
-                                color: ColorManager.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: FontSizeManager.s22.sp,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10.sp,
-                            ),
-                            Expanded(
-                              child: GridView.count(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                crossAxisCount: 2,
-                                childAspectRatio: 0.65,
-                                physics: const NeverScrollableScrollPhysics(),
-                                children: List.generate(
-                                  bloc.courses.length,
-                                      (courseIndex) =>
-                                      courseBuilder(
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "الدورات المتاحة",
+                                  style: TextStyle(
+                                    color: ColorManager.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: FontSizeManager.s22.sp,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                Expanded(
+                                  child: GridView.count(
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.zero,
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.65,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    children: List.generate(
+                                      bloc.courses.length,
+                                      (courseIndex) => courseBuilder(
                                         course: bloc.courses[courseIndex],
                                         context: context,
                                         courseIndex: courseIndex,
                                         bloc: bloc,
                                       ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                ):
-                Center(child: CircularProgressIndicator(
-                  color: ColorManager.secondary,
-                )),
-              );
-            },
-          );
-        },
+                      ],
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(
+                      color: ColorManager.secondary,
+                    )),
+            );
+          },
+        );
+      },
     );
   }
 }

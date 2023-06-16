@@ -75,9 +75,11 @@ class SectionContentScreen extends StatelessWidget {
                                             if (state
                                                 is! DoneSectionLoadingState) {
                                               return Dialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(25.sp),
-                                                  ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.sp),
+                                                ),
                                                 child: Padding(
                                                   padding: EdgeInsets.symmetric(
                                                       vertical: 20.sp),
@@ -85,20 +87,29 @@ class SectionContentScreen extends StatelessWidget {
                                                     onPressed: () {
                                                       bloc.add(
                                                           GetProgressEvent());
-                                                      NavigationManager.pushAndRemove(
-                                                          context,
-                                                          const CoursesScreen());
-                                                      bloc.widgets = [Container()];
+                                                      NavigationManager
+                                                          .pushAndRemove(
+                                                              context,
+                                                              const CoursesScreen());
+                                                      bloc.widgets = [
+                                                        Container()
+                                                      ];
                                                       bloc.showAnswer = false;
-                                                      bloc.doneButtonString = "التالي";
+                                                      bloc.doneButtonString =
+                                                          "التالي";
                                                     },
-                                                    child:  Text(
-                                                        "الانتقال الي الصفحة الرئيسية",
-                                                    style: TextStyle(
-                                                      color: ColorManager.black,
-                                                      fontSize: FontSizeManager.s14.sp,
-                                                      fontWeight: FontWeightManager.bold
-                                                    ),),
+                                                    child: Text(
+                                                      "الانتقال الي الصفحة الرئيسية",
+                                                      style: TextStyle(
+                                                          color: ColorManager
+                                                              .black,
+                                                          fontSize:
+                                                              FontSizeManager
+                                                                  .s14.sp,
+                                                          fontWeight:
+                                                              FontWeightManager
+                                                                  .bold),
+                                                    ),
                                                   ),
                                                 ),
                                               );

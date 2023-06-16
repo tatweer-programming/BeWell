@@ -1,5 +1,5 @@
 class ExceptionManager implements Exception {
-   dynamic error;
+  dynamic error;
 
   ExceptionManager(this.error);
 

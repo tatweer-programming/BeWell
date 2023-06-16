@@ -206,7 +206,10 @@ Widget lessonBuilder({
                     ),
                     const Spacer(),
                     if (bloc.prefixLesson[lessonIndex] > counter)
-                       Icon(Icons.lock,color: ColorManager.secondary,)
+                      Icon(
+                        Icons.lock,
+                        color: ColorManager.secondary,
+                      )
                   ],
                 ),
               ),
@@ -303,9 +306,15 @@ Widget lessonBuilder({
               ),
               const Spacer(),
               if (bloc.prefixLesson[lessonIndex] > counter)
-                Icon(Icons.lock,color: ColorManager.secondary,)
+                Icon(
+                  Icons.lock,
+                  color: ColorManager.secondary,
+                )
               else if (course.lessons[lessonIndex].sections.length <= counter)
-                Icon(Icons.check_circle_rounded,color: ColorManager.secondary,)
+                Icon(
+                  Icons.check_circle_rounded,
+                  color: ColorManager.secondary,
+                )
             ],
           ),
         ),
@@ -399,9 +408,15 @@ Widget sectionBuilder({
               ),
               const Spacer(),
               if (bloc.prefixLesson[lessonIndex] + sectionsIndex > counter)
-                 Icon(Icons.lock,color: ColorManager.secondary,)
+                Icon(
+                  Icons.lock,
+                  color: ColorManager.secondary,
+                )
               else if (bloc.prefixLesson[lessonIndex] + sectionsIndex < counter)
-                 Icon(Icons.check_circle_rounded,color: ColorManager.secondary,)
+                Icon(
+                  Icons.check_circle_rounded,
+                  color: ColorManager.secondary,
+                )
             ],
           ),
         ),
@@ -412,40 +427,41 @@ Widget sectionBuilder({
 
 Widget questionScreen({
   required List<Question> questions,
-}){
+}) {
   MainBloc bloc = sl();
   return BlocBuilder<MainBloc, MainState>(
-  builder: (context, state) {
-    return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Expanded(
-        child: SingleChildScrollView(
-          child: ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => QuestionWidget(
-                question: questions[index],
-                showAnswer: bloc.showAnswer,
-              ),
-              separatorBuilder: (context, index) => SizedBox(
-                height: 10.sp,
-              ),
-              itemCount: questions.length),
-        ),
-      ),
-      defaultButton(
-          onPressed: () {
-            bloc.add(ShowQuizAnswerEvent());
-          },
-          text: "إظهار الإجابات"
-      ),
-      SizedBox(height: 2.h,)
-    ],
+    builder: (context, state) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => QuestionWidget(
+                        question: questions[index],
+                        showAnswer: bloc.showAnswer,
+                      ),
+                  separatorBuilder: (context, index) => SizedBox(
+                        height: 10.sp,
+                      ),
+                  itemCount: questions.length),
+            ),
+          ),
+          defaultButton(
+              onPressed: () {
+                bloc.add(ShowQuizAnswerEvent());
+              },
+              text: "إظهار الإجابات"),
+          SizedBox(
+            height: 2.h,
+          )
+        ],
+      );
+    },
   );
-  },
-);
 }
 
 Widget defaultButton({
@@ -562,7 +578,7 @@ Widget answerBuilder(
     {required List<int> trueAnswer,
     String? explanation,
     required bool isCorrect}) {
-  List<int> _trueAnswerText() {
+  List<int> trueAnswerText() {
     List<int> trueAnswerText = [];
     for (var element in trueAnswer) {
       trueAnswerText.add(element + 1);
@@ -603,7 +619,7 @@ Widget answerBuilder(
             ),
             if (!isCorrect)
               Text(
-                _trueAnswerText().toString(),
+                trueAnswerText().toString(),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -692,8 +708,8 @@ class QuestionWidgetState extends State<QuestionWidget> {
         children: [
           Text(
             widget.question.question,
-            style: TextStyle(
-                fontSize: 18.sp, fontWeight: FontWeightManager.bold),
+            style:
+                TextStyle(fontSize: 18.sp, fontWeight: FontWeightManager.bold),
           ),
           SizedBox(height: 10.sp),
           ...List.generate(widget.question.answers.length, (index) {
@@ -794,6 +810,7 @@ class SurveyScreen extends StatefulWidget {
   @override
   SurveyScreenState createState() => SurveyScreenState();
 }
+
 class SurveyScreenState extends State<SurveyScreen> {
   List<int> selectedAnswers = [];
 
@@ -842,15 +859,18 @@ class SurveyScreenState extends State<SurveyScreen> {
     );
   }
 }
+
 class SurveyQuestionWidget extends StatefulWidget {
   final SurveyQuestion question;
   final Function(int)? onAnswered;
 
-  const SurveyQuestionWidget({super.key, required this.question, this.onAnswered});
+  const SurveyQuestionWidget(
+      {super.key, required this.question, this.onAnswered});
 
   @override
   SurveyQuestionWidgetState createState() => SurveyQuestionWidgetState();
 }
+
 class SurveyQuestionWidgetState extends State<SurveyQuestionWidget> {
   int _selectedAnswer = 0;
 
@@ -864,7 +884,10 @@ class SurveyQuestionWidgetState extends State<SurveyQuestionWidget> {
         children: [
           Text(
             widget.question.question,
-            style: TextStyle(fontSize: 18.sp , fontWeight: FontWeightManager.bold, ),
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeightManager.bold,
+            ),
           ),
           SizedBox(height: 10.sp),
           SingleChildScrollView(
@@ -873,10 +896,10 @@ class SurveyQuestionWidgetState extends State<SurveyQuestionWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 widget.question.maxAnswer - widget.question.minAnswer + 1,
-                    (index) {
+                (index) {
                   int value = index + widget.question.minAnswer;
                   return Padding(
-                    padding:  EdgeInsets.all(1.5.sp),
+                    padding: EdgeInsets.all(1.5.sp),
                     child: InkWell(
                       onTap: () {
                         setState(() {
@@ -889,14 +912,18 @@ class SurveyQuestionWidgetState extends State<SurveyQuestionWidget> {
                         height: 40.sp,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: _selectedAnswer == value ? ColorManager.primary : ColorManager.white,
+                          color: _selectedAnswer == value
+                              ? ColorManager.primary
+                              : ColorManager.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.grey),
                         ),
                         child: Text(
                           value.toString(),
                           style: TextStyle(
-                            color: _selectedAnswer == value ? Colors.white : Colors.black,
+                            color: _selectedAnswer == value
+                                ? Colors.white
+                                : Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

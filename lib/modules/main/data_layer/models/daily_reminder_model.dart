@@ -1,4 +1,3 @@
-
 import '../../domain_layer/entities/daily_reminder.dart';
 
 class DailyReminderModel extends DailyReminder {
@@ -6,8 +5,6 @@ class DailyReminderModel extends DailyReminder {
     required super.image,
     required super.title,
   });
-  factory DailyReminderModel.fromJson(Map<String, dynamic> json) => DailyReminderModel(
-    image: json["image"],
-    title: json["title"]
-  );
+  factory DailyReminderModel.fromJson(Map<String, dynamic> json) =>
+      DailyReminderModel(image: json["image"], title: json["title"]);
 }

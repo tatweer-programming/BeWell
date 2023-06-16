@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 
 class PlayVideoScreen extends StatefulWidget {
   final String videoId;
-  const PlayVideoScreen({Key? key,required this.videoId}) : super(key: key);
+  const PlayVideoScreen({Key? key, required this.videoId}) : super(key: key);
   @override
   State<PlayVideoScreen> createState() =>
       // ignore: no_logic_in_create_state
@@ -20,7 +20,7 @@ class _PlayVideoFromVimeoIdState extends State<PlayVideoScreen> {
     controller = PodPlayerController(
       playVideoFrom: PlayVideoFrom.youtube(videoId),
       podPlayerConfig: const PodPlayerConfig(
-        videoQualityPriority: [720,144],
+        videoQualityPriority: [720, 144],
         autoPlay: false,
       ),
     )..initialise();

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class DailyReminder extends Equatable{
+class DailyReminder extends Equatable {
   final String title;
   final String image;
   const DailyReminder({
@@ -8,5 +8,5 @@ class DailyReminder extends Equatable{
     required this.title,
   });
   @override
-  List<Object?> get props => [image,title];
+  List<Object?> get props => [image, title];
 }

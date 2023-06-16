@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is LoginSuccessfulAuthState){
+        if (state is LoginSuccessfulAuthState) {
           NavigationManager.pushAndRemove(context, const CoursesScreen());
         }
       },
@@ -100,24 +100,28 @@ class LoginScreen extends StatelessWidget {
                                 onPressed: () {
                                   NavigationManager.push(
                                       context, const ForgetPasswordScreen());
-                                }, child: const Text('هل نسيت كلمة المرور؟ ')),
+                                },
+                                child: const Text('هل نسيت كلمة المرور؟ ')),
                           ),
-
                         ],
                       ),
                     ),
                   ),
-                  Align(alignment: AlignmentDirectional.bottomCenter,
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('الا تمتلك حساب ؟'),
-                        TextButton(onPressed: () {
-                          NavigationManager.push(
-                              context, const RegisterScreen());
-                        }, child: const Text('انشئ حساب'))
+                        TextButton(
+                            onPressed: () {
+                              NavigationManager.push(
+                                  context, const RegisterScreen());
+                            },
+                            child: const Text('انشئ حساب'))
                       ],
-                    ),)
+                    ),
+                  )
                 ],
               ),
             ),

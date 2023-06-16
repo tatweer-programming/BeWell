@@ -11,5 +11,4 @@ class LessonModel extends Lesson {
             .map((e) => SectionsModel.fromJson(e))
             .toList(),
       );
-
 }

@@ -6,12 +6,16 @@ import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/entities/lesson.dart';
 import '../bloc/main_bloc.dart';
 
-
 class SectionScreen extends StatelessWidget {
   final Lesson lesson;
   final Course course;
   final int lessonIndex;
-  const SectionScreen({Key? key, required this.lesson, required this.lessonIndex,required this.course}) : super(key: key);
+  const SectionScreen(
+      {Key? key,
+      required this.lesson,
+      required this.lessonIndex,
+      required this.course})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +30,14 @@ class SectionScreen extends StatelessWidget {
               itemBuilder: (context, sectionIndex) => sectionBuilder(
                 section: lesson.sections[sectionIndex],
                 context: context,
-                bloc:bloc,
+                bloc: bloc,
                 course: course,
-                lessonIndex:lessonIndex,
-                sectionsIndex:sectionIndex,
+                lessonIndex: lessonIndex,
+                sectionsIndex: sectionIndex,
               ),
-              separatorBuilder: (context, index) => SizedBox(height: 10.sp,),
+              separatorBuilder: (context, index) => SizedBox(
+                height: 10.sp,
+              ),
               itemCount: lesson.sections.length,
             ),
           ),

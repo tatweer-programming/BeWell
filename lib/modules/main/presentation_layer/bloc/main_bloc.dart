@@ -29,34 +29,43 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   String doneButtonString = "التالي";
   DoneSection? doneSection;
 
-  void countPrefix(int courseIndex){
+  void countPrefix(int courseIndex) {
     prefixLesson = [0];
-    for(int i = 1; i <= courses[courseIndex].lessons.length;i++){
-      prefixLesson.add(courses[courseIndex].lessons[i-1].sections.length + prefixLesson[i-1]);
+    for (int i = 1; i <= courses[courseIndex].lessons.length; i++) {
+      prefixLesson.add(courses[courseIndex].lessons[i - 1].sections.length +
+          prefixLesson[i - 1]);
     }
   }
 
-/// TODO : Read this Function
+
   Future<void> sectionContent({
     required Section section,
-  }) async{
+  }) async {
     widgets = [];
-    if(section.videosIds!.isNotEmpty && section.videosIds != null){
-      for(var videoId in section.videosIds!) {
+    if (section.videosIds!.isNotEmpty && section.videosIds != null) {
+      for (var videoId in section.videosIds!) {
         widgets.add(PlayVideoScreen(videoId: videoId));
       }
     }
-    if(section.image != '' && section.image != null){
+    if (section.image != '' && section.image != null) {
       widgets.add(imageScreen(image: section.image!));
-    }if(section.text != '' && section.text != null){
+    }
+    if (section.text != '' && section.text != null) {
       widgets.add(textScreen(text: section.text!));
-    }if(section.quiz != null && section.quiz!.questions.isNotEmpty){
-      widgets.add(questionScreen(questions: section.quiz!.questions,));
-    }if(section.survey != null && section.survey!.questions.isNotEmpty){
-      widgets.add(SurveyScreen(survey: section.survey!,));
+    }
+    if (section.quiz != null && section.quiz!.questions.isNotEmpty) {
+      widgets.add(questionScreen(
+        questions: section.quiz!.questions,
+      ));
+    }
+    if (section.survey != null && section.survey!.questions.isNotEmpty) {
+      widgets.add(SurveyScreen(
+        survey: section.survey!,
+      ));
     }
   }
-  bool showAnswer = false ;
+
+  bool showAnswer = false;
   MainBloc(MainInitial mainInitial) : super(MainInitial()) {
     on<MainEvent>((event, emit) async {
       if (event is GetCoursesEvent) {
@@ -69,33 +78,37 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           courses = r;
           emit(GetCoursesSuccessState());
         });
-      }else if (event is ToContentSectionEvent){
+      } else if (event is ToContentSectionEvent) {
         emit(ToContentSectionLoadingState());
-        NavigationManager.push(event.context, SectionContentScreen(
-          courseName: event.courseName,whichSection: event.whichSection,));
+        NavigationManager.push(
+            event.context,
+            SectionContentScreen(
+              courseName: event.courseName,
+              whichSection: event.whichSection,
+            ));
         await sectionContent(section: event.section);
-        if(widgets.length == 1) doneButtonString="انتهاء";
+        if (widgets.length == 1) doneButtonString = "انتهاء";
         emit(ToContentSectionSuccessState());
-      }
-      else if (event is OnPageChangedEvent){
-        if(event.index == widgets.length-1) {
-          doneButtonString= "انتهاء";
-        }else{
+      } else if (event is OnPageChangedEvent) {
+        if (event.index == widgets.length - 1) {
+          doneButtonString = "انتهاء";
+        } else {
           doneButtonString = "التالي";
         }
         emit(OnPageChangedState(doneButtonString));
-      }
-      else if (event is DoneSectionEvent){
+      } else if (event is DoneSectionEvent) {
         emit(DoneSectionLoadingState());
-        var result = await DoneSectionUseCase(sl()).done(courseName: event.courseName,done:event.done,progress: event.progress);
+        var result = await DoneSectionUseCase(sl()).done(
+            courseName: event.courseName,
+            done: event.done,
+            progress: event.progress);
         result.fold((l) {
           errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(DoneSectionErrorState());
         }, (r) {
           emit(DoneSectionSuccessState());
         });
-      }
-      else if (event is GetProgressEvent){
+      } else if (event is GetProgressEvent) {
         emit(GetProgressLoadingState());
         var result = await GetProgressUseCase(sl()).get();
         result.fold((l) {
@@ -106,21 +119,18 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           ConstantsManager.doneSection = r;
           emit(GetProgressSuccessState());
         });
-      }
-      else if (event is ShowQuizAnswerEvent){
+      } else if (event is ShowQuizAnswerEvent) {
         showAnswer = true;
         emit(ShowQuizAnswerState());
-      }
-      else if (event is LogOutEvent){
+      } else if (event is LogOutEvent) {
         CacheHelper.removeData(key: "uid").then((value) {
-          if(value){
+          if (value) {
             NavigationManager.pushAndRemove(event.context, const LoginScreen());
           }
         });
         emit(LogOutSuccessfulAuthState(context: event.context));
-      }
-      else if (event is ScheduleNewNotificationEvent){
-       await  LocalNotification().scheduleNewNotification();
+      } else if (event is ScheduleNewNotificationEvent) {
+        await LocalNotification().scheduleNewNotification();
       }
     });
   }

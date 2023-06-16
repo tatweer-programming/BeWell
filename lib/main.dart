@@ -26,10 +26,11 @@ Future<void> main() async {
   await notification.initializeLocalNotifications();
   // await AwesomeNotifications().requestPermissionToSendNotifications();
 
-   bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
- if ((callWaterReminder == null || callWaterReminder) &&
-     ConstantsManager.userId != null && ConstantsManager.userId != ''){
-   await notification.createWaterReminder();
+  bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
+  if ((callWaterReminder == null || callWaterReminder) &&
+      ConstantsManager.userId != null &&
+      ConstantsManager.userId != '') {
+    await notification.createWaterReminder();
   }
 
   Widget? widget;
@@ -63,20 +64,20 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'BeWell',
-          theme: getAppTheme(),
+            debugShowCheckedModeBanner: false,
+            title: 'BeWell',
+            theme: getAppTheme(),
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const[
+            supportedLocales: const [
               Locale('ar', 'AE'), // English, no country code
             ],
             locale: const Locale('ar'),
-          home: startWidget//SplashScreen(nextScreen: startWidget),
-        ),
+            home: startWidget //SplashScreen(nextScreen: startWidget),
+            ),
       );
     });
   }

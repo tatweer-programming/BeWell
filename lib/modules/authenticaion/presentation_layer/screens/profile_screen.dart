@@ -9,7 +9,6 @@ import '../../../main/presentation_layer/components/components.dart';
 import '../bloc/auth_bloc.dart';
 import '../components/components.dart';
 
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -36,33 +35,45 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text("معدل الدورات",
-                        style: TextStyle(
-                          fontWeight: FontWeightManager.bold,
-                          fontSize: 20.sp
-                        ),),
-                        SizedBox(height: 3.h,),
+                        Text(
+                          "معدل الدورات",
+                          style: TextStyle(
+                              fontWeight: FontWeightManager.bold,
+                              fontSize: 20.sp),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
                         ListView.separated(
-                          shrinkWrap: true,
+                            shrinkWrap: true,
                             padding: EdgeInsets.zero,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) => progress(
-                              courseName: ConstantsManager.doneSection!.progress.keys.toList()[index],
-                              percent: ConstantsManager.doneSection!.progress.values.toList()[index].toString(),
-                            ),
+                                  courseName: ConstantsManager
+                                      .doneSection!.progress.keys
+                                      .toList()[index],
+                                  percent: ConstantsManager
+                                      .doneSection!.progress.values
+                                      .toList()[index]
+                                      .toString(),
+                                ),
                             separatorBuilder: (context, index) => Container(
-                              height: 0.5.h,
-                              color: ColorManager.card,
-                            ),
-                            itemCount: ConstantsManager.doneSection!.progress.values.length
+                                  height: 0.5.h,
+                                  color: ColorManager.card,
+                                ),
+                            itemCount: ConstantsManager
+                                .doneSection!.progress.values.length),
+                        SizedBox(
+                          height: 3.h,
                         ),
-                        SizedBox(height: 3.h,),
                         Text(
                           'تغير كلمة المرور ',
                           style: TextStyle(
                               fontSize: 20.sp, fontWeight: FontWeight.w900),
                         ),
-                        SizedBox(height: 3.h,),
+                        SizedBox(
+                          height: 3.h,
+                        ),
                         defaultFormField(
                           label: 'كلمة المرور',
                           prefix: Icons.lock_outline,
@@ -130,7 +141,7 @@ class ProfileScreen extends StatelessWidget {
                           height: 2.5.h,
                         ),
                         defaultButton(
-                            onPressed: (){
+                            onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 bloc.add(ChangePassEvent(
                                     context: context,
@@ -138,8 +149,7 @@ class ProfileScreen extends StatelessWidget {
                                     oldPassword: oldPasswordController.text));
                               }
                             },
-                            text: "تغير"
-                        )
+                            text: "تغير")
                       ]),
                 ),
               ),

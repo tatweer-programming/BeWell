@@ -1,17 +1,18 @@
 import '../../domain_layer/entities/course.dart';
 import 'lesson_model.dart';
 
-class CourseModel extends Course{
+class CourseModel extends Course {
   const CourseModel({
     required super.courseName,
     required super.courseImage,
     required super.lessons,
   });
 
-  factory CourseModel.fromJson(Map<String, dynamic> json) =>
-      CourseModel(
+  factory CourseModel.fromJson(Map<String, dynamic> json) => CourseModel(
         courseName: json['courseName'],
         courseImage: json['courseImage'],
-        lessons: List.from(json["lessons"]).map((e) => LessonModel.fromJson(e)).toList(),
+        lessons: List.from(json["lessons"])
+            .map((e) => LessonModel.fromJson(e))
+            .toList(),
       );
 }

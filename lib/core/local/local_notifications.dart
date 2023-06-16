@@ -36,7 +36,7 @@ class LocalNotification {
           await CacheHelper.saveData(key: 'waterCups', value: currentValue + 1);
         }
       }
-      print("event.id         ${event.id}");
+      debugPrint("event.id         ${event.id}");
       if (event.id == 59) {
         await CacheHelper.saveData(key: 'waterCups', value: 0);
       }
@@ -59,7 +59,7 @@ class LocalNotification {
       return true;
     } else {
       var result =
-      await AwesomeNotifications().requestPermissionToSendNotifications();
+          await AwesomeNotifications().requestPermissionToSendNotifications();
 
       if (result == true) {
         return true;
@@ -71,11 +71,10 @@ class LocalNotification {
 
   /// LAST USING NOTIFICATION
 
-
   Future<void> scheduleNewNotification() async {
     bool isAllowed = await requestNotificationPermissions();
     if (isAllowed) {
-      print("Allowed");
+      debugPrint("Allowed");
       await cancelNotifications();
       await AwesomeNotifications().createNotification(
           content: NotificationContent(
@@ -83,19 +82,17 @@ class LocalNotification {
               id: 1,
               channelKey: 'alerts',
               title: "اشتقنا",
-              body:
-              "لم تستخدم التطبيق منذ فترة. نحن نفتقدك",
+              body: "لم تستخدم التطبيق منذ فترة. نحن نفتقدك",
               displayOnBackground: true,
               backgroundColor: ColorManager.primary,
               notificationLayout: NotificationLayout.Default,
-              payload: {
-                'notificationId': '1234567890'
-              }),
+              payload: {'notificationId': '1234567890'}),
           schedule: NotificationCalendar.fromDate(
-              date: DateTime.now().add(const Duration(seconds: 1,))));
-    }
-    else {
-      print('4');
+              date: DateTime.now().add(const Duration(
+            seconds: 1,
+          ))));
+    } else {
+      debugPrint('4');
       DoNothingAction();
     }
   }
@@ -106,28 +103,17 @@ class LocalNotification {
 
   // Create Water Reminder
   Future<void> createWaterReminder() async {
-
     bool isAllowed = await requestNotificationPermissions();
-    if(isAllowed) {
+    if (isAllowed) {
       await CacheHelper.saveData(key: 'callWaterReminder', value: false);
       await CacheHelper.saveData(key: 'waterCups', value: 0);
       DateTime sevenAM = DateTime(
-          DateTime
-              .now()
-              .year, DateTime
-          .now()
-          .month, DateTime
-          .now()
-          .day, 7, 0);
+          DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 0);
       for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
         for (int i = 1; i <= 8; i++) {
           final DateTime notificationTime = sevenAM
-              .add(
-              Duration(days: day - DateTime
-                  .now()
-                  .weekday))
-              .add(Duration(
-              minutes: 112 * i, seconds: 30 * i));
+              .add(Duration(days: day - DateTime.now().weekday))
+              .add(Duration(minutes: 112 * i, seconds: 30 * i));
           await AwesomeNotifications().createNotification(
             actionButtons: [
               NotificationActionButton(
@@ -159,8 +145,7 @@ class LocalNotification {
           );
         }
       }
-    }
-    else {
+    } else {
       DoNothingAction();
     }
   }

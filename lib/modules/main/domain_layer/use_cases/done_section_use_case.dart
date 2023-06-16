@@ -10,6 +10,6 @@ class DoneSectionUseCase {
     required int done,
   }) {
     return baseMainRepository.doneSection(
-        courseName: courseName,done:done, progress: progress);
+        courseName: courseName, done: done, progress: progress);
   }
 }

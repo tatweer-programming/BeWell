@@ -11,6 +11,7 @@ class ChangeButtonAuthenticationEvent extends AuthEvent {
   @override
   List<Object?> get props => [index];
 }
+
 //ignore: must_be_immutable
 class LoginEvent extends AuthEvent {
   String email;
@@ -40,6 +41,7 @@ class SendAuthRequestEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
 //ignore: must_be_immutable
 class CheckEmailEvent extends AuthEvent {
   String email;

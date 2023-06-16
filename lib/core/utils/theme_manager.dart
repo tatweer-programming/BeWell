@@ -1,9 +1,8 @@
+// ignore_for_file: use_full_hex_values_for_flutter_colors
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'values_manager.dart';
-import 'font_manager.dart';
 import 'color_manager.dart';
-import 'styles_manager.dart';
 
 ThemeData getAppTheme() {
   return ThemeData (

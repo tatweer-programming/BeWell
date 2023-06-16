@@ -22,6 +22,7 @@ class ChangeVisibilityState extends AuthState {
   @override
   List<Object> get props => [isVisible];
 }
+
 class OldChangeVisibilityState extends AuthState {
   final bool isVisible;
   const OldChangeVisibilityState({required this.isVisible});
@@ -43,12 +44,12 @@ class SendAuthRequestLoadingAuthState extends AuthState {
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
+
 //ignore: must_be_immutable
 class SendAuthRequestSuccessfulState extends AuthState {
   String uid;
   BuildContext context;
-  SendAuthRequestSuccessfulState(
-      {required this.context, required this.uid});
+  SendAuthRequestSuccessfulState({required this.context, required this.uid});
   @override
   List<Object?> get props => [context];
 }
@@ -57,6 +58,7 @@ class SendAuthRequestErrorAuthState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+
 //ignore: must_be_immutable
 class RegisterPhaseOneSuccessfulAuthState extends AuthState {
   BuildContext context;
@@ -72,6 +74,7 @@ class LoginLoadingAuthState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+
 //ignore: must_be_immutable
 class LoginSuccessfulAuthState extends AuthState {
   String uid;
@@ -80,6 +83,7 @@ class LoginSuccessfulAuthState extends AuthState {
   @override
   List<Object?> get props => [context];
 }
+
 class LoginErrorAuthState extends AuthState {
   @override
   List<Object?> get props => [];
@@ -90,40 +94,47 @@ class LoginErrorAuthState extends AuthState {
 class SendEmailSuccessfulAuthState extends AuthState {
   @override
   List<Object?> get props => [];
-}class GetMyDataSuccessState extends AuthState {
+}
+
+class GetMyDataSuccessState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+
 class GetMyDataLoadingState extends AuthState {
   @override
   List<Object?> get props => [];
-}class UpdateMyDataSuccessState extends AuthState {
+}
+
+class UpdateMyDataSuccessState extends AuthState {
   final BuildContext context;
   const UpdateMyDataSuccessState({required this.context});
   @override
   List<Object?> get props => [];
-}class UpdateMyDataErrorState extends AuthState {
+}
+
+class UpdateMyDataErrorState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+
 class NavigationToChangePassScreenState extends AuthState {
   final BuildContext context;
-  const NavigationToChangePassScreenState(
-      {required this.context});
+  const NavigationToChangePassScreenState({required this.context});
   @override
   List<Object?> get props => [context];
 }
+
 class ChangePassScreenSuccessState extends AuthState {
   final BuildContext context;
-  const ChangePassScreenSuccessState(
-      {required this.context});
+  const ChangePassScreenSuccessState({required this.context});
   @override
   List<Object?> get props => [context];
 }
+
 class ChangePassScreenErrorState extends AuthState {
   final BuildContext context;
-  const ChangePassScreenErrorState(
-      {required this.context});
+  const ChangePassScreenErrorState({required this.context});
   @override
   List<Object?> get props => [context];
 }

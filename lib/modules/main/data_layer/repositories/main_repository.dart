@@ -13,18 +13,19 @@ class MainRepository extends BaseMainRepository {
   Future<Either<FirebaseException, List<Course>>> getCourses() async {
     return await baseMainRemoteDataSource.getCourses();
   }
+
   @override
   Future<Either<FirebaseException, void>> doneSection({
     required String courseName,
     required double progress,
     required int done,
-}) async {
+  }) async {
     return await baseMainRemoteDataSource.doneSection(
-        courseName: courseName,done:done, progress: progress);
+        courseName: courseName, done: done, progress: progress);
   }
+
   @override
   Future<Either<FirebaseException, DoneSection>> getProgress() async {
     return await baseMainRemoteDataSource.getProgress();
   }
-
 }

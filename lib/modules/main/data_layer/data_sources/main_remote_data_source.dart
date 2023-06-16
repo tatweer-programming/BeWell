@@ -3,7 +3,6 @@ import 'package:BeWell/modules/main/domain_layer/entities/done_section.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:BeWell/modules/main/data_layer/models/course_models.dart';
-
 import '../../../../core/utils/constance_manager.dart';
 import '../../domain_layer/entities/course.dart';
 

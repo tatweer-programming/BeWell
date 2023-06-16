@@ -27,7 +27,9 @@ class LessonScreen extends StatelessWidget {
                 bloc: bloc,
                 lessonIndex: lessonIndex,
               ),
-              separatorBuilder: (context, index) => SizedBox(height: 10.sp,),
+              separatorBuilder: (context, index) => SizedBox(
+                height: 10.sp,
+              ),
               itemCount: course.lessons.length,
             ),
           ),
