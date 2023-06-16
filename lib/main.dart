@@ -44,9 +44,10 @@ Future<void> main() async {
   await notification.startListeningNotificationEvents();
 }
 
+//ignore: must_be_immutable
 class MyApp extends StatelessWidget {
-  final Widget startWidget;
-  const MyApp({super.key, required this.startWidget});
+  Widget? startWidget;
+  MyApp({super.key, this.startWidget});
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
@@ -74,7 +75,6 @@ class MyApp extends StatelessWidget {
               Locale('ar', 'AE'), // English, no country code
             ],
             locale: const Locale('ar'),
-
           home: startWidget//SplashScreen(nextScreen: startWidget),
         ),
       );
