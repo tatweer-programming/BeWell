@@ -832,12 +832,13 @@ class SurveyScreenState extends State<SurveyScreen> {
     );
   }
   String _getMessage(Map<List<int> , String> result, int degree){
+
     String message = '';
     for (var element in result.keys) {
-      if (degree >= element[0] && degree < element[1]){
+
+      if ((degree >= element[0] && degree <= element[1] )|| (degree >= element[1] && degree < element[0])){
         message =result[element] ?? '';
       }
-
     }
   return message;
   }
