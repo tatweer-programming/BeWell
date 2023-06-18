@@ -1,5 +1,4 @@
 // ignore_for_file: void_checks
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -90,21 +89,25 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         await CacheHelper.saveData(key: 'uid', value: value.user!.uid);
-
-          ConstantsManager.userId = value.user!.uid;
+         ConstantsManager.userId = value.user!.uid;
           await FirebaseFirestore.instance
               .collection('users')
               .doc(ConstantsManager.userId)
               .get()
               .then((value) {
+
             ConstantsManager.appUser = UserModel.fromJson(value.data()!);
+            print(ConstantsManager.appUser!.email);
+
           });
-          await CacheHelper.saveData(
-                  key: 'studentName', value: ConstantsManager.appUser!.name)
-              .then((value) async {
-            ConstantsManager.studentName =
-                await CacheHelper.getData(key: 'studentName');
-          });
+          print(ConstantsManager.appUser!.name);
+          print(ConstantsManager.appUser!.email);
+        await CacheHelper.saveData(
+            key: 'studentName', value: ConstantsManager.appUser!.name)
+            .then((value) async {
+          ConstantsManager.studentName =
+          await CacheHelper.getData(key: 'studentName');
+        });
       });
       return Right(response);
     } on FirebaseAuthException catch (error) {

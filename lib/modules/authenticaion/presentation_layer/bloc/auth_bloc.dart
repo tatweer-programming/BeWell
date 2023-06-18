@@ -1,6 +1,7 @@
 import 'package:BeWell/core/error/remote_error.dart';
 import 'package:BeWell/core/utils/constance_manager.dart';
 import 'package:BeWell/modules/authenticaion/domain_layer/use_cases/send_auth_request_use_case.dart';
+import 'package:BeWell/modules/main/presentation_layer/screens/courses_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,20 +73,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email: event.email,
           password: event.password,
         );
-        result.fold((l) {
+        result.fold((l) async{
           errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(LoginErrorAuthState());
         }, (r) async {
           ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
-          await Future.delayed(const Duration(seconds: 1)).then((value) {
-            if (event.context.mounted) {
-              emit(LoginSuccessfulAuthState(
-                context: event.context,
-                uid: ConstantsManager.userId!,
-              ));
-            }
-          });
+          NavigationManager.pushAndRemove(event.context, const CoursesScreen());
           defaultToast(msg: "تم تسجيل الدخول بنجاح");
+          emit(const LoginSuccessfulAuthState());
         });
       } else if (event is SendAuthRequestEvent) {
         debugPrint('1');

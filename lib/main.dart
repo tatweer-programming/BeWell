@@ -26,6 +26,14 @@ Future<void> main() async {
   await notification.initializeLocalNotifications();
   // await AwesomeNotifications().requestPermissionToSendNotifications();
 
+  Widget? widget;
+  ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
+  ConstantsManager.studentName = await CacheHelper.getData(key: 'studentName');
+  if (ConstantsManager.userId == null || ConstantsManager.userId == '') {
+    widget = const LoginScreen();
+  } else {
+    widget = const CoursesScreen();
+  }
   bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
   if ((callWaterReminder == null || callWaterReminder) &&
       ConstantsManager.userId != null &&
@@ -33,13 +41,6 @@ Future<void> main() async {
     await notification.createWaterReminder();
   }
 
-  Widget? widget;
-  ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
-  if (ConstantsManager.userId == null || ConstantsManager.userId == '') {
-    widget = const LoginScreen();
-  } else {
-    widget = const CoursesScreen();
-  }
   runApp(MyApp(startWidget: widget));
 
   await notification.startListeningNotificationEvents();
@@ -56,8 +57,9 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<MainBloc>(
             create: (BuildContext context) => sl()
+              ..add(GetDailyReminderEvent())
               ..add(GetCoursesEvent())
-              //..add(GetProgressEvent()),
+              ..add(GetProgressEvent())
           ),
           BlocProvider<AuthBloc>(
             create: (BuildContext context) => sl(),

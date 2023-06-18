@@ -9,6 +9,7 @@ class SectionsModel extends Section {
     required super.sectionName,
     super.image,
     super.text,
+    super.reminder,
     super.quiz,
     super.survey,
   });
@@ -18,19 +19,9 @@ class SectionsModel extends Section {
       image: json['image'],
       sectionName: json['sectionName'],
       text: json['text'],
+      reminder: json['reminder'],
       videosIds: json['videosIds'] != null ? List<String>.from(json['videosIds'])
           .map((videoId) => videoId)
           .toList() : null
   );
-
-  Map<String, dynamic> toJson() {
-    return {
-      "quiz": quiz?.toJson(),
-      "videosIds":videosIds,
-      "image":image,
-      "text":text,
-      "survey":survey,
-      "sectionName":sectionName,
-    };
-  }
 }

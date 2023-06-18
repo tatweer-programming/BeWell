@@ -77,11 +77,9 @@ class LoginLoadingAuthState extends AuthState {
 
 //ignore: must_be_immutable
 class LoginSuccessfulAuthState extends AuthState {
-  String uid;
-  BuildContext context;
-  LoginSuccessfulAuthState({required this.context, required this.uid});
+  const LoginSuccessfulAuthState();
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [];
 }
 
 class LoginErrorAuthState extends AuthState {

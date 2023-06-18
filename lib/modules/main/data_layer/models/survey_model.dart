@@ -7,13 +7,22 @@ class SurveyModel extends Survey {
     required super.result,
   });
 
-  static Survey? fromJson(Map<String, dynamic>? json) {
+  static SurveyModel? fromJson(Map<String, dynamic>? json) {
     if (json != null) {
-      return Survey(
-        questions: List.from(json["questions"])
-            .map((e) => SurveyQuestionModel.fromJson(e))
-            .toList(),
-        result: json['result'],
+      final List<dynamic> questionsJson = json['questions'];
+      final List<SurveyQuestionModel> questions = questionsJson
+          .map((questionJson) => SurveyQuestionModel.fromJson(questionJson))
+          .toList();
+
+      final Map<String, dynamic> resultJson = json['result'];
+      final Map<List<int>, String> result = resultJson.map((key, value) {
+        final List<int> parsedKey =
+        key.split(',').map((str) => int.parse(str)).toList();
+        return MapEntry(parsedKey, value);
+      });
+      return SurveyModel(
+        questions: questions,
+        result: result
       );
     }
     return null;

@@ -6,16 +6,12 @@ class DoneSectionModel extends DoneSection {
     required super.studentName,
     required super.done,
     required super.lastUsing,
-    required super.dailyReminder,
     required super.progress,
   });
   factory DoneSectionModel.fromJson(Map<String, dynamic> json) =>
       DoneSectionModel(
         studentName: json['studentName'],
         lastUsing: json['lastUsing'],
-        dailyReminder: List.from(json['dailyReminder'])
-            .map((e) => DailyReminderModel.fromJson(e))
-            .toList(),
         progress: Map<String, dynamic>.from(json["progress"]),
         done: Map<String, int>.from(json["done"]),
       );

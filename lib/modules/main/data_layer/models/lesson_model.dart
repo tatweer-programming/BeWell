@@ -13,10 +13,4 @@ class LessonModel extends Lesson {
             .map((e) => SectionsModel.fromJson(e))
             .toList(),
       );
-  Map<String, dynamic> toJson() {
-    return {
-      "lessonName": lessonName,
-      "sections": sections.map((e) => e.toJson()).toList(),
-    };
-  }
 }

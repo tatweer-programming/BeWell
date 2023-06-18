@@ -5,5 +5,5 @@ class ConstantsManager {
   static String? userId  ;
   static UserModel? appUser;
   static DoneSection? doneSection;
-  static String studentName ="";
+  static String? studentName;
 }

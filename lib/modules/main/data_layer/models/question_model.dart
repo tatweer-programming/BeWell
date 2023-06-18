@@ -14,12 +14,4 @@ class QuestionModel extends Question {
       answers: List<String>.from(json['answers']).map((e) => e).toList(),
     );
   }
-
-  Map <String, dynamic> toJson() {
-    return {
-      'question': question,
-      'trueAnswer': trueAnswer,
-      'answers': answers,
-    };
-  }
 }

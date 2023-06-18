@@ -1,10 +1,13 @@
 import 'package:BeWell/core/utils/constance_manager.dart';
+import 'package:BeWell/modules/main/domain_layer/entities/daily_reminder.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/done_section.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/section.dart';
 import 'package:BeWell/modules/main/domain_layer/use_cases/done_section_use_case.dart';
+import 'package:BeWell/modules/main/domain_layer/use_cases/get_daily_reminder_use_case.dart';
 import 'package:BeWell/modules/main/domain_layer/use_cases/get_progress_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
 import '../../../../core/error/remote_error.dart';
 import '../../../../core/local/local_notifications.dart';
 import '../../../../core/local/shared_prefrences.dart';
@@ -28,6 +31,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   List<int> prefixLesson = [];
   String doneButtonString = "التالي";
   DoneSection? doneSection;
+  List<DailyReminder> dailyReminder = [];
 
   void countPrefix(int courseIndex) {
     prefixLesson = [0];
@@ -45,7 +49,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     if (section.text != '' && section.text != null) {
       widgets.add(textScreen(text: section.text!));
     }
-    if (section.videosIds!.isNotEmpty && section.videosIds != null) {
+    if (section.videosIds != null && section.videosIds!.isNotEmpty) {
       for (var videoId in section.videosIds!) {
         widgets.add(PlayVideoScreen(videoId: videoId));
       }
@@ -56,17 +60,20 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       ));
     }
     if (section.image != '' && section.image != null) {
-      widgets.add(imageScreen(image: section.image!));
+      widgets.add(imageScreen(image: section.image!,height: 60.h));
     }
     if (section.survey != null && section.survey!.questions.isNotEmpty) {
       widgets.add(SurveyScreen(
         survey: section.survey!,
       ));
     }
-
+    if (section.reminder != '' && section.reminder != null) {
+      widgets.add(textScreen(text: section.reminder!));
+    }
   }
 
   bool showAnswer = false;
+  bool showResult = false;
   MainBloc(MainInitial mainInitial) : super(MainInitial()) {
     on<MainEvent>((event, emit) async {
       if (event is GetCoursesEvent) {
@@ -78,6 +85,17 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         }, (r) {
           courses = r;
           emit(GetCoursesSuccessState());
+        });
+      }
+      else if (event is GetDailyReminderEvent) {
+        emit(GetDailyReminderLoadingState());
+        var res = await GetDailyReminderUseCase(sl()).get();
+        res.fold((l) {
+          errorToast(msg: ExceptionManager(l).translatedMessage());
+          emit(GetDailyReminderErrorState());
+        }, (r) {
+          dailyReminder = r;
+          emit(GetDailyReminderSuccessState());
         });
       } else if (event is ToContentSectionEvent) {
         emit(ToContentSectionLoadingState());
@@ -116,21 +134,25 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(GetProgressErrorState());
         }, (r) {
-          doneSection = r;
           ConstantsManager.doneSection = r;
+          doneSection = r;
           emit(GetProgressSuccessState());
         });
       } else if (event is ShowQuizAnswerEvent) {
         showAnswer = true;
         emit(ShowQuizAnswerState());
+      }else if (event is ShowSurveyAnswerEvent) {
+        showResult = true;
+        emit(ShowSurveyAnswerState());
       } else if (event is LogOutEvent) {
         CacheHelper.removeData(key: "uid").then((value) {
           if (value) {
             NavigationManager.pushAndRemove(event.context, const LoginScreen());
+            emit(LogOutSuccessfulAuthState(context: event.context));
           }
         });
-        emit(LogOutSuccessfulAuthState(context: event.context));
-      } else if (event is ScheduleNewNotificationEvent) {
+      }
+      else if (event is ScheduleNewNotificationEvent) {
         await LocalNotification().scheduleNewNotification();
       }
     });

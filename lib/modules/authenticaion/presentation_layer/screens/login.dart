@@ -22,11 +22,7 @@ class LoginScreen extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is LoginSuccessfulAuthState) {
-          NavigationManager.pushAndRemove(context, const CoursesScreen());
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: true,
@@ -79,6 +75,7 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(
                             height: 15.sp,
                           ),
+                          state is! LoginLoadingAuthState ?
                           SizedBox(
                               width: double.infinity,
                               height: 40.sp,
@@ -91,7 +88,8 @@ class LoginScreen extends StatelessWidget {
                                           context: context));
                                     }
                                   },
-                                  text: 'تسجيل الدخول')),
+                                  text: 'تسجيل الدخول')):
+                          const Center(child: CircularProgressIndicator()),
                           SizedBox(
                             height: 12.sp,
                           ),

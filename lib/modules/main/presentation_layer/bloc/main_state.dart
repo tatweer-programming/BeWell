@@ -10,6 +10,12 @@ class GetCoursesLoadingState extends MainState {}
 class GetCoursesSuccessState extends MainState {}
 
 class GetCoursesErrorState extends MainState {}
+// GetDailyReminder
+class GetDailyReminderLoadingState extends MainState {}
+
+class GetDailyReminderSuccessState extends MainState {}
+
+class GetDailyReminderErrorState extends MainState {}
 
 // ToContentSection
 class ToContentSectionLoadingState extends MainState {}
@@ -36,6 +42,7 @@ class OnPageChangedState extends MainState {
 }
 
 class ShowQuizAnswerState extends MainState {}
+class ShowSurveyAnswerState extends MainState {}
 
 class LogOutSuccessfulAuthState extends MainState {
   final BuildContext context;

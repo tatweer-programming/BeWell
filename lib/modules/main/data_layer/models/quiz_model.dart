@@ -15,10 +15,4 @@ class QuizModel extends Quiz {
     }
     return null;
   }
-
-  Map <String , dynamic> toJson(){
-    return {
-      'questions' : questions.map((e) => e.toJson()).toList(),
-    };
-  }
 }

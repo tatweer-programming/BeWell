@@ -42,7 +42,7 @@ Widget courseBuilder({
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AspectRatio(
-              aspectRatio: 0.9.sp,
+              aspectRatio: 0.8.sp,
               child: Container(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 decoration: BoxDecoration(
@@ -55,7 +55,7 @@ Widget courseBuilder({
               ),
             ),
             SizedBox(
-              height: 2.sp,
+              height: 5.sp,
             ),
             Text(
               course.courseName,
@@ -90,7 +90,8 @@ Widget lessonBuilder({
   required MainBloc bloc,
 }) {
   int counter = 0;
-  if (bloc.doneSection != null && bloc.doneSection!.done[course.courseName] != null) {
+  if (bloc.doneSection != null &&
+      bloc.doneSection!.done[course.courseName] != null) {
     counter = bloc.doneSection!.done[course.courseName]!;
   }
   if (bloc.prefixLesson[lessonIndex] == counter) {
@@ -110,31 +111,31 @@ Widget lessonBuilder({
               builder: (BuildContext context) {
                 return BlocBuilder<MainBloc, MainState>(
                     builder: (context, state) {
-                      return AlertDialog(
-                        content: const Text(
-                          "يجب ان تنتهي من الدرس السابق اولاً",
-                          style: TextStyle(
-                            fontWeight: FontWeightManager.bold,
-                          ),
-                        ),
-                        actions: [
-                          Center(
-                            child: TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("موافق")),
-                          ),
-                        ],
-                      );
-                    });
+                  return AlertDialog(
+                    content: const Text(
+                      "يجب ان تنتهي من الدرس السابق اولاً",
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.bold,
+                      ),
+                    ),
+                    actions: [
+                      Center(
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text("موافق")),
+                      ),
+                    ],
+                  );
+                });
               });
         }
       },
       child: Card(
         elevation: 5.sp,
         shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.sp)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.sp)),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.3,
           width: double.infinity,
@@ -180,39 +181,34 @@ Widget lessonBuilder({
                 padding: EdgeInsets.symmetric(horizontal: 10.sp),
                 child: Row(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 15.sp,
-                        ),
-                        Text(
-                          lesson.lessonName,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-
-                          style: TextStyle(
-                              color: ColorManager.black,
-                              fontWeight: FontWeightManager.bold,
-                              fontSize: FontSizeManager.s15.sp),
-                        ),
-                        SizedBox(
-                          height: 20.sp,
-                        ),
-                        Text(
-                          "${NumbersManager.engNumberToArabic("${lesson.sections.length}")} قسم ",
-                          style: TextStyle(
-                              color: ColorManager.grey2,
-                              fontSize: FontSizeManager.s12.sp),
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 15.sp,
+                          ),
+                          Text(
+                            lesson.lessonName,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                                color: ColorManager.black,
+                                fontWeight: FontWeightManager.bold,
+                                fontSize: FontSizeManager.s15.sp),
+                          ),
+                          SizedBox(
+                            height: 20.sp,
+                          ),
+                          Text(
+                            "${NumbersManager.engNumberToArabic("${lesson.sections.length}")} قسم ",
+                            style: TextStyle(
+                                color: ColorManager.grey2,
+                                fontSize: FontSizeManager.s12.sp),
+                          ),
+                        ],
+                      ),
                     ),
-                    const Spacer(),
-                    if (bloc.prefixLesson[lessonIndex] > counter)
-                      Icon(
-                        Icons.lock,
-                        color: ColorManager.secondary,
-                      )
                   ],
                 ),
               ),
@@ -238,24 +234,24 @@ Widget lessonBuilder({
             builder: (BuildContext context) {
               return BlocBuilder<MainBloc, MainState>(
                   builder: (context, state) {
-                    return AlertDialog(
-                      content: const Text(
-                        "يجب ان تنتهي من الدرس السابق اولاً",
-                        style: TextStyle(
-                          fontWeight: FontWeightManager.bold,
-                        ),
-                      ),
-                      actions: [
-                        Center(
-                          child: TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("موافق")),
-                        ),
-                      ],
-                    );
-                  });
+                return AlertDialog(
+                  content: const Text(
+                    "يجب ان تنتهي من الدرس السابق اولاً",
+                    style: TextStyle(
+                      fontWeight: FontWeightManager.bold,
+                    ),
+                  ),
+                  actions: [
+                    Center(
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("موافق")),
+                    ),
+                  ],
+                );
+              });
             });
       }
     },
@@ -339,7 +335,8 @@ Widget sectionBuilder({
   required int sectionsIndex,
 }) {
   int counter = 0;
-  if (bloc.doneSection != null && bloc.doneSection!.done[course.courseName] != null) {
+  if (bloc.doneSection != null &&
+      bloc.doneSection!.done[course.courseName] != null) {
     counter = bloc.doneSection!.done[course.courseName]!;
   }
   return InkWell(
@@ -356,24 +353,24 @@ Widget sectionBuilder({
             builder: (BuildContext context) {
               return BlocBuilder<MainBloc, MainState>(
                   builder: (context, state) {
-                    return AlertDialog(
-                      content: const Text(
-                        "يجب ان تنتهي من القسم السابق اولاً",
-                        style: TextStyle(
-                          fontWeight: FontWeightManager.bold,
-                        ),
-                      ),
-                      actions: [
-                        Center(
-                          child: TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("موافق")),
-                        ),
-                      ],
-                    );
-                  });
+                return AlertDialog(
+                  content: const Text(
+                    "يجب ان تنتهي من القسم السابق اولاً",
+                    style: TextStyle(
+                      fontWeight: FontWeightManager.bold,
+                    ),
+                  ),
+                  actions: [
+                    Center(
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("موافق")),
+                    ),
+                  ],
+                );
+              });
             });
       }
     },
@@ -448,12 +445,12 @@ Widget questionScreen({
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => QuestionWidget(
-                    question: questions[index],
-                    showAnswer: bloc.showAnswer,
-                  ),
+                        question: questions[index],
+                        showAnswer: bloc.showAnswer,
+                      ),
                   separatorBuilder: (context, index) => SizedBox(
-                    height: 10.sp,
-                  ),
+                        height: 10.sp,
+                      ),
                   itemCount: questions.length),
             ),
           ),
@@ -473,6 +470,7 @@ Widget questionScreen({
 
 Widget imageScreen({
   required String image,
+  required double height,
 }) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -483,7 +481,7 @@ Widget imageScreen({
           borderRadius: BorderRadius.circular(10.sp),
         ),
         child: Container(
-          height: 30.h,
+          height: height,
           width: double.infinity,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: BoxDecoration(
@@ -531,14 +529,14 @@ Widget textScreen({required String text}) {
 
 Widget questionBuilder(
     {required Question question,
-      required bool showAnswer,
-      required BuildContext context,
-      required int index}) {
+    required bool showAnswer,
+    required BuildContext context,
+    required int index}) {
   return Column(
     children: [
       Text('$index - ${question.question}',
           style:
-          const TextStyle(fontWeight: FontWeightManager.bold, fontSize: 19),
+              const TextStyle(fontWeight: FontWeightManager.bold, fontSize: 19),
           maxLines: 3),
       SizedBox(
         height: 5.sp,
@@ -549,8 +547,8 @@ Widget questionBuilder(
 
 Widget answerBuilder(
     {required List<int> trueAnswer,
-      String? explanation,
-      required bool isCorrect}) {
+    String? explanation,
+    required bool isCorrect}) {
   List<int> trueAnswerText() {
     List<int> trueAnswerText = [];
     for (var element in trueAnswer) {
@@ -606,40 +604,40 @@ Widget answerBuilder(
         ),
         explanation != null
             ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.edit,
-                  color: ColorManager.primary,
-                ),
-                SizedBox(
-                  width: 5.sp,
-                ),
-                const Text(
-                  'التفسير : ',
-                  style: TextStyle(
-                    fontWeight: FontWeightManager.bold,
-                    fontSize: 18,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.edit,
+                        color: ColorManager.primary,
+                      ),
+                      SizedBox(
+                        width: 5.sp,
+                      ),
+                      const Text(
+                        'التفسير : ',
+                        style: TextStyle(
+                          fontWeight: FontWeightManager.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            Text(
-              explanation,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(
-              width: 5.sp,
-            ),
-          ],
-        )
+                  Text(
+                    explanation,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5.sp,
+                  ),
+                ],
+              )
             : const SizedBox()
       ],
     ),
@@ -682,7 +680,7 @@ class QuestionWidgetState extends State<QuestionWidget> {
           Text(
             widget.question.question,
             style:
-            TextStyle(fontSize: 18.sp, fontWeight: FontWeightManager.bold),
+                TextStyle(fontSize: 18.sp, fontWeight: FontWeightManager.bold),
           ),
           SizedBox(height: 10.sp),
           ...List.generate(widget.question.answers.length, (index) {
@@ -776,9 +774,12 @@ class QuestionWidgetState extends State<QuestionWidget> {
 //ignore: must_be_immutable
 class SurveyScreen extends StatefulWidget {
   final Survey survey;
-  bool showResult;
+  MainBloc bloc = sl();
 
-  SurveyScreen({super.key, required this.survey, this.showResult = false});
+  SurveyScreen({
+    super.key,
+    required this.survey,
+  });
 
   @override
   SurveyScreenState createState() => SurveyScreenState();
@@ -795,52 +796,68 @@ class SurveyScreenState extends State<SurveyScreen> {
 
   void _onQuestionAnswered(int index, int value) {
     setState(() {
-      selectedAnswers[index] = value;
+      selectedAnswers[index] = 8 - value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: widget.survey.questions.length,
-          itemBuilder: (context, index) {
-            final question = widget.survey.questions[index];
-            return SurveyQuestionWidget(
-              question: question,
-              onAnswered: (value) => _onQuestionAnswered(index, value),
-            );
-          },
-        ),
-        if (widget.showResult)
-          Container(
-            decoration: BoxDecoration(
-              color: ColorManager.primary,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('${selectedAnswers.reduce((a, b) => a + b)}'),
-                Text(_getMessage(widget.survey.result , selectedAnswers.reduce((a, b) => a + b)))
-              ],
-            ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: widget.survey.questions.length,
+            itemBuilder: (context, index) {
+              final question = widget.survey.questions[index];
+              return SurveyQuestionWidget(
+                question: question,
+                onAnswered: (value) => _onQuestionAnswered(index, value),
+              );
+            },
           ),
-      ],
+          if (widget.bloc.showResult)
+            Container(
+              decoration: BoxDecoration(
+                color: ColorManager.primary,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${selectedAnswers.reduce((a, b) => a + b)}'),
+                  Text(_getMessage(widget.survey.result,
+                      selectedAnswers.reduce((a, b) => a + b)))
+                ],
+              ),
+            ),
+          SizedBox(
+            height: 2.h,
+          ),
+          defaultButton(
+              onPressed: () {
+                setState(() {
+                  widget.bloc.add(ShowSurveyAnswerEvent());
+                });
+              },
+              text: "إظهار النتيجة"),
+          SizedBox(
+            height: 2.h,
+          )
+        ],
+      ),
     );
   }
-  String _getMessage(Map<List<int> , String> result, int degree){
 
+  String _getMessage(Map<List<int>, String> result, int degree) {
     String message = '';
     for (var element in result.keys) {
-
-      if ((degree >= element[0] && degree <= element[1] )|| (degree >= element[1] && degree < element[0])){
-        message =result[element] ?? '';
+      if ((degree >= element[0] && degree <= element[1]) ||
+          (degree >= element[1] && degree < element[0])) {
+        message = result[element] ?? '';
       }
     }
-  return message;
+    return message;
   }
 }
 
@@ -880,7 +897,7 @@ class SurveyQuestionWidgetState extends State<SurveyQuestionWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 widget.question.maxAnswer - widget.question.minAnswer + 1,
-                    (index) {
+                (index) {
                   int value = index + widget.question.minAnswer;
                   return Padding(
                     padding: EdgeInsets.all(1.5.sp),

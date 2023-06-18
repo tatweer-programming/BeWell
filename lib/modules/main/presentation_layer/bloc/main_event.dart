@@ -5,6 +5,7 @@ abstract class MainEvent {
 }
 
 class GetCoursesEvent extends MainEvent {}
+class GetDailyReminderEvent extends MainEvent {}
 
 class GetProgressEvent extends MainEvent {}
 
@@ -43,5 +44,6 @@ class ToContentSectionEvent extends MainEvent {
 }
 
 class ShowQuizAnswerEvent extends MainEvent {}
+class ShowSurveyAnswerEvent extends MainEvent {}
 
 class ScheduleNewNotificationEvent extends MainEvent {}
