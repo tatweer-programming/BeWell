@@ -81,7 +81,7 @@ class LocalNotification {
               displayOnForeground: true,
               id: 1,
               channelKey: 'alerts',
-              title: "اشتقنا",
+              title: "تذكير الاستخدام",
               body: "لم تستخدم التطبيق منذ فترة. نحن نفتقدك",
               displayOnBackground: true,
               backgroundColor: ColorManager.primary,
@@ -89,7 +89,7 @@ class LocalNotification {
               payload: {'notificationId': '1234567890'}),
           schedule: NotificationCalendar.fromDate(
               date: DateTime.now().add(const Duration(
-            seconds: 1,
+            days: 2,
           ))));
     } else {
       debugPrint('4');

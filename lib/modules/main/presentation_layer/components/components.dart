@@ -824,12 +824,22 @@ class SurveyScreenState extends State<SurveyScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('${selectedAnswers.reduce((a, b) => a + b)}'),
-                Text(widget.survey.result)
+                Text(_getMessage(widget.survey.result , selectedAnswers.reduce((a, b) => a + b)))
               ],
             ),
           ),
       ],
     );
+  }
+  String _getMessage(Map<List<int> , String> result, int degree){
+    String message = '';
+    for (var element in result.keys) {
+      if (degree >= element[0] && degree < element[1]){
+        message =result[element] ?? '';
+      }
+
+    }
+  return message;
   }
 }
 
