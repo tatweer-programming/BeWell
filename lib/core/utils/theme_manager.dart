@@ -1,13 +1,16 @@
-// ignore_for_file: use_full_hex_values_for_flutter_colors
-
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'color_manager.dart';
 
 ThemeData getAppTheme() {
   return ThemeData (
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       foregroundColor: Color(0xFFfffafafb),
+      backgroundColor: ColorManager.white,
+      elevation: 0,
+      iconTheme: IconThemeData(
+        color: ColorManager.black
+      )
     ),
     colorScheme: const ColorScheme(
       background: Color(0xFFff6882b8),
@@ -122,13 +125,17 @@ ThemeData getAppTheme() {
     primaryIconTheme:  IconThemeData(
        color: ColorManager.white
     ),
-    scaffoldBackgroundColor: const Color(0xFFfafafa),
+    scaffoldBackgroundColor: ColorManager.white,
     secondaryHeaderColor: const Color(0xFF889dc7),
     shadowColor: const Color(0xFF000000),
     splashColor: const Color(0xFF66c8c8c8),
     splashFactory: InkSplash.splashFactory,
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(/* ... */),
+    ),
     unselectedWidgetColor: const Color(0xFF8a0a0a0a),
     useMaterial3: false,
+    visualDensity: VisualDensity.compact,
   );
 }
 

@@ -89,12 +89,12 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       final response = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
-        await CacheHelper.saveData(key: 'uid', value: value.user!.uid)
-            .then((value) async {
-          ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
+        await CacheHelper.saveData(key: 'uid', value: value.user!.uid);
+
+          ConstantsManager.userId = value.user!.uid;
           await FirebaseFirestore.instance
               .collection('users')
-              .doc("8a1la2MLXpTYy9Kt6H9a")
+              .doc(ConstantsManager.userId)
               .get()
               .then((value) {
             ConstantsManager.appUser = UserModel.fromJson(value.data()!);
@@ -105,7 +105,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
             ConstantsManager.studentName =
                 await CacheHelper.getData(key: 'studentName');
           });
-        });
       });
       return Right(response);
     } on FirebaseAuthException catch (error) {

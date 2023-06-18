@@ -5,10 +5,18 @@ import '../../domain_layer/entities/lesson.dart';
 class LessonModel extends Lesson {
   const LessonModel({
     required super.sections,
+    required super.lessonName,
   });
   factory LessonModel.fromJson(Map<String, dynamic> json) => LessonModel(
+        lessonName: json["lessonName"],
         sections: List.from(json["sections"])
             .map((e) => SectionsModel.fromJson(e))
             .toList(),
       );
+  Map<String, dynamic> toJson() {
+    return {
+      "lessonName": lessonName,
+      "sections": sections.map((e) => e.toJson()).toList(),
+    };
+  }
 }

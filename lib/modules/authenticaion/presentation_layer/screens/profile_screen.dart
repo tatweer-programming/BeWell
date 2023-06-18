@@ -88,11 +88,11 @@ class ProfileScreen extends StatelessWidget {
                           controller: oldPasswordController,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'من فضلك اكتب كلمة المرور ';
+                              return 'من فضلك ادخل كلمة المرور ';
                             }
                             if (passwordController.text ==
                                 oldPasswordController.text) {
-                              return 'كلمة المرور القديمة هي هي الجديدة ';
+                              return 'كلمة المرور القديمة هي نفس كلمة المرور الجديدة ';
                             }
                             return null;
                           },
@@ -115,7 +115,7 @@ class ProfileScreen extends StatelessWidget {
                           controller: passwordController,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'من فضلك اكتب كلمة المرور';
+                              return 'من فضلك ادخل كلمة المرور ';
                             }
                             return null;
                           },
@@ -132,7 +132,7 @@ class ProfileScreen extends StatelessWidget {
                             if (value!.isEmpty ||
                                 passwordController.text !=
                                     confirmPasswordController.text) {
-                              return 'من فضلك تأكد من كتابة كلمة المرور تاني';
+                              return 'من فضلك تأكد من كتابة كلمة المرور ';
                             }
                             return null;
                           },

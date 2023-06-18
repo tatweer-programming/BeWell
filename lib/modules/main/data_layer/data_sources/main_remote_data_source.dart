@@ -21,7 +21,7 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
   Future<Either<FirebaseException, List<Course>>> getCourses() async {
     try {
       List<Course> courseModel = [];
-      await FirebaseFirestore.instance.collection("course").get().then((value) {
+      await FirebaseFirestore.instance.collection("courses").get().then((value) {
         for (var element in value.docs) {
           courseModel.add(CourseModel.fromJson(element.data()));
         }
@@ -41,7 +41,8 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
     try {
       var document = FirebaseFirestore.instance
           .collection("progress")
-          .doc(ConstantsManager.studentName);
+          .doc(ConstantsManager.userId);
+          //.doc("8a1la2MLXpTYy9Kt6H9a");
       FirebaseFirestore.instance.runTransaction((transaction) async {
         transaction.update(document, {
           "done.$courseName": done,
@@ -61,7 +62,8 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
       DoneSectionModel? doneSectionModel;
       await FirebaseFirestore.instance
           .collection("progress")
-          .doc(ConstantsManager.studentName)
+          .doc(ConstantsManager.userId)
+          //.doc("8a1la2MLXpTYy9Kt6H9a")
           .get()
           .then((value) {
         doneSectionModel = DoneSectionModel.fromJson(value.data()!);

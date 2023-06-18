@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 
 //ignore: must_be_immutable
 class Section extends Equatable {
+  final String sectionName;
   String? image;
   String? text;
   List<String>? videosIds;
@@ -11,11 +12,12 @@ class Section extends Equatable {
   Survey? survey;
   Section({
     this.image,
+    required this.sectionName,
     this.text,
     this.quiz,
     this.videosIds,
     this.survey,
   });
   @override
-  List<Object?> get props => [text, image, videosIds, survey];
+  List<Object?> get props => [text,sectionName, image, videosIds, survey];
 }

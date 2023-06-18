@@ -42,27 +42,28 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     required Section section,
   }) async {
     widgets = [];
+    if (section.text != '' && section.text != null) {
+      widgets.add(textScreen(text: section.text!));
+    }
     if (section.videosIds!.isNotEmpty && section.videosIds != null) {
       for (var videoId in section.videosIds!) {
         widgets.add(PlayVideoScreen(videoId: videoId));
       }
-    }
-    if (section.image != '' && section.image != null) {
-      widgets.add(imageScreen(image: section.image!));
-    }
-    if (section.text != '' && section.text != null) {
-      widgets.add(textScreen(text: section.text!));
     }
     if (section.quiz != null && section.quiz!.questions.isNotEmpty) {
       widgets.add(questionScreen(
         questions: section.quiz!.questions,
       ));
     }
+    if (section.image != '' && section.image != null) {
+      widgets.add(imageScreen(image: section.image!));
+    }
     if (section.survey != null && section.survey!.questions.isNotEmpty) {
       widgets.add(SurveyScreen(
         survey: section.survey!,
       ));
     }
+
   }
 
   bool showAnswer = false;

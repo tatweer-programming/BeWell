@@ -48,6 +48,7 @@ dependencies:
   permission_handler:
   fluttertoast:
   animated_splash_screen:
+  file_picker:
 
 
 # bloc

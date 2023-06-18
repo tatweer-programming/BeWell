@@ -1,8 +1,18 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:BeWell/core/utils/color_manager.dart';
 import 'package:BeWell/core/utils/font_manager.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/profile_screen.dart';
+import 'package:BeWell/modules/main/data_layer/models/course_models.dart';
+import 'package:BeWell/modules/main/data_layer/models/lesson_model.dart';
+import 'package:BeWell/modules/main/data_layer/models/question_model.dart';
+import 'package:BeWell/modules/main/data_layer/models/quiz_model.dart';
+import 'package:BeWell/modules/main/data_layer/models/section_model.dart';
 import 'package:BeWell/modules/main/presentation_layer/components/components.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -17,10 +27,11 @@ class CoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
+    CourseModel? courseModel;
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
-        if (state is GetCoursesSuccessState) {
+      if (state is GetCoursesSuccessState && bloc.doneSection != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             int i = Random().nextInt(bloc.doneSection!.dailyReminder.length);
             showDialog(
@@ -86,8 +97,7 @@ class CoursesScreen extends StatelessWidget {
                             fontSize: FontSizeManager.s17.sp,
                             fontWeight: FontWeightManager.bold),
                       ),
-                      onTap: () {
-                        NavigationManager.push(context, const ProfileScreen());
+                      onTap: () async {
                       },
                     ),
                     ListTile(
@@ -143,6 +153,8 @@ class CoursesScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     ConstantsManager.studentName,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                     style: TextStyle(
                                       color: ColorManager.white,
                                       fontWeight: FontWeight.bold,

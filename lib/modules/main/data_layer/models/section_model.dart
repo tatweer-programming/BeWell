@@ -6,6 +6,7 @@ import '../../domain_layer/entities/section.dart';
 class SectionsModel extends Section {
   SectionsModel({
     super.videosIds,
+    required super.sectionName,
     super.image,
     super.text,
     super.quiz,
@@ -15,8 +16,21 @@ class SectionsModel extends Section {
       quiz: QuizModel.fromJson(json['quiz']),
       survey: SurveyModel.fromJson(json['survey']),
       image: json['image'],
+      sectionName: json['sectionName'],
       text: json['text'],
-      videosIds: List<String>.from(json['videosIds'])
+      videosIds: json['videosIds'] != null ? List<String>.from(json['videosIds'])
           .map((videoId) => videoId)
-          .toList());
+          .toList() : null
+  );
+
+  Map<String, dynamic> toJson() {
+    return {
+      "quiz": quiz?.toJson(),
+      "videosIds":videosIds,
+      "image":image,
+      "text":text,
+      "survey":survey,
+      "sectionName":sectionName,
+    };
+  }
 }

@@ -1,9 +1,10 @@
+import 'package:BeWell/modules/main/data_layer/models/question_model.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/question.dart';
 import 'package:equatable/equatable.dart';
 
 //ignore: must_be_immutable
 class Quiz extends Equatable {
-  List<Question> questions;
+  List<QuestionModel> questions;
   Quiz({
     required this.questions,
   });

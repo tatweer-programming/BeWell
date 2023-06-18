@@ -7,11 +7,19 @@ class QuestionModel extends Question {
     required super.answers,
   });
 
-  static Question fromJson(Map<String, dynamic> json) {
-    return Question(
+  factory QuestionModel.fromJson(Map<String, dynamic> json) {
+    return QuestionModel(
       question: json['question'],
       trueAnswer: List<int>.from(json['trueAnswer']).map((e) => e).toList(),
       answers: List<String>.from(json['answers']).map((e) => e).toList(),
     );
+  }
+
+  Map <String, dynamic> toJson() {
+    return {
+      'question': question,
+      'trueAnswer': trueAnswer,
+      'answers': answers,
+    };
   }
 }

@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<MainBloc>(
             create: (BuildContext context) => sl()
               ..add(GetCoursesEvent())
-              ..add(GetProgressEvent()),
+              //..add(GetProgressEvent()),
           ),
           BlocProvider<AuthBloc>(
             create: (BuildContext context) => sl(),
