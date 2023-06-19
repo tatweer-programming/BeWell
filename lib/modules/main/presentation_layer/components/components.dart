@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../../../core/utils/font_manager.dart';
+import '../../../../core/utils/language_manager.dart';
 import '../../../../core/utils/numbers_manager.dart';
 import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/entities/lesson.dart';
@@ -515,6 +516,7 @@ Widget textScreen({required String text}) {
               width: double.infinity,
               child: Text(
                 text,
+                textDirection: LanguageManager.isTextArabic(text)? TextDirection.rtl :TextDirection.ltr,
                 style: TextStyle(
                     fontSize: FontSizeManager.s17.sp,
                     fontWeight: FontWeightManager.bold),
@@ -818,17 +820,20 @@ class SurveyScreenState extends State<SurveyScreen> {
             },
           ),
           if (widget.bloc.showResult)
-            Container(
-              decoration: BoxDecoration(
-                color: ColorManager.primary,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('${selectedAnswers.reduce((a, b) => a + b)}'),
-                  Text(_getMessage(widget.survey.result,
-                      selectedAnswers.reduce((a, b) => a + b)))
-                ],
+            Card(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ColorManager.white,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('${selectedAnswers.reduce((a, b) => a + b)}'),
+                    Text(_getMessage(widget.survey.result,
+                        selectedAnswers.reduce((a, b) => a + b)),
+                    )
+                  ],
+                ),
               ),
             ),
           SizedBox(
@@ -837,7 +842,7 @@ class SurveyScreenState extends State<SurveyScreen> {
           defaultButton(
               onPressed: () {
                 setState(() {
-                  widget.bloc.add(ShowSurveyAnswerEvent());
+                  widget.bloc.showResult = true;
                 });
               },
               text: "إظهار النتيجة"),

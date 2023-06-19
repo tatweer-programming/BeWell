@@ -44,6 +44,5 @@ class ToContentSectionEvent extends MainEvent {
 }
 
 class ShowQuizAnswerEvent extends MainEvent {}
-class ShowSurveyAnswerEvent extends MainEvent {}
 
 class ScheduleNewNotificationEvent extends MainEvent {}

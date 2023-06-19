@@ -14,6 +14,7 @@ import 'firebase_options.dart';
 import 'modules/authenticaion/presentation_layer/bloc/auth_bloc.dart';
 import 'modules/main/presentation_layer/bloc/main_bloc.dart';
 import 'modules/main/presentation_layer/screens/courses_screen.dart';
+import 'modules/main/presentation_layer/screens/splash_screen.dart';
 
 Future<void> main() async {
   LocalNotification notification = LocalNotification();
@@ -76,9 +77,10 @@ class MyApp extends StatelessWidget {
             ],
             supportedLocales: const [
               Locale('ar', 'AE'), // English, no country code
+              Locale('en', 'US'), // English, no country code
             ],
-            locale: const Locale('ar'),
-            home: startWidget //SplashScreen(nextScreen: startWidget),
+            locale: const Locale('ar',"en"),
+            home: SplashScreen(nextScreen: startWidget!),
             ),
       );
     });
