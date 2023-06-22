@@ -52,10 +52,9 @@ class ProfileScreen extends StatelessWidget {
                                   courseName: ConstantsManager
                                       .doneSection!.progress.keys
                                       .toList()[index],
-                                  percent: ConstantsManager
+                                  percent: (ConstantsManager
                                       .doneSection!.progress.values
-                                      .toList()[index]
-                                      .toString(),
+                                      .toList()[index].round().toString()),
                                 ),
                             separatorBuilder: (context, index) => Container(
                                   height: 0.5.h,

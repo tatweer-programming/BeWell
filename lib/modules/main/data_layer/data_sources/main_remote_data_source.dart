@@ -14,7 +14,7 @@ abstract class BaseMainRemoteDataSource {
   Future<Either<FirebaseException, List<DailyReminder>>> getDailyReminder();
   Future<Either<FirebaseException, void>> doneSection({
     required String courseName,
-    required double progress,
+    required int progress,
     required int done,
   });
 }
@@ -52,7 +52,7 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
   @override
   Future<Either<FirebaseException, Unit>> doneSection({
     required String courseName,
-    required double progress,
+    required int progress,
     required int done,
   }) async {
     try {
@@ -64,7 +64,6 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
           "done.$courseName": done,
           "progress.$courseName": progress,
           "lastUsing": DateTime.now().toString(),
-          "studentName":ConstantsManager.studentName
         });
       });
       return const Right(unit);
@@ -76,16 +75,21 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
   @override
   Future<Either<FirebaseException, DoneSection>> getProgress() async {
     try {
-      DoneSectionModel? doneSectionModel;
-      await FirebaseFirestore.instance
+      var document = FirebaseFirestore.instance
           .collection("progress")
-          .doc(ConstantsManager.userId)
-          .get()
-          .then((value) {
-            print("getProgress");
-        doneSectionModel = DoneSectionModel.fromJson(value.data()!);
-      });
-      return Right(doneSectionModel!);
+          .doc(ConstantsManager.userId);
+      var progress = await document.get();
+      DoneSectionModel doneSectionModel = DoneSectionModel(studentName: ConstantsManager.studentName!,
+          done: const {},
+          lastUsing:  DateTime.now().toString(),
+          progress: const {});
+      if(!progress.exists) {
+        document.set(doneSectionModel.toJson());
+      }
+      else {
+        doneSectionModel = DoneSectionModel.fromJson(progress.data()!);
+      }
+      return Right(doneSectionModel);
     } on FirebaseException catch (error) {
       return Left(error);
     }

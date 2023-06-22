@@ -6,4 +6,5 @@ class ConstantsManager {
   static UserModel? appUser;
   static DoneSection? doneSection;
   static String? studentName;
+  static bool lastDailyReminder = false;
 }

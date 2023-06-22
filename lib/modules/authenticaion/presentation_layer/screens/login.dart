@@ -3,7 +3,6 @@ import 'package:BeWell/core/utils/navigation_manager.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/components/components.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/forget_password.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/register.dart';
-import 'package:BeWell/modules/main/presentation_layer/screens/courses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';

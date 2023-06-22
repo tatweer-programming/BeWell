@@ -22,7 +22,7 @@ class MainRepository extends BaseMainRepository {
   @override
   Future<Either<FirebaseException, void>> doneSection({
     required String courseName,
-    required double progress,
+    required int progress,
     required int done,
   }) async {
     return await baseMainRemoteDataSource.doneSection(

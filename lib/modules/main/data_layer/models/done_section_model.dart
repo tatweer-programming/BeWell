@@ -1,4 +1,3 @@
-import 'package:BeWell/modules/main/data_layer/models/daily_reminder_model.dart';
 import '../../domain_layer/entities/done_section.dart';
 
 class DoneSectionModel extends DoneSection {
@@ -12,7 +11,7 @@ class DoneSectionModel extends DoneSection {
       DoneSectionModel(
         studentName: json['studentName'],
         lastUsing: json['lastUsing'],
-        progress: Map<String, dynamic>.from(json["progress"]),
+        progress: Map<String, int>.from(json["progress"]),
         done: Map<String, int>.from(json["done"]),
       );
 

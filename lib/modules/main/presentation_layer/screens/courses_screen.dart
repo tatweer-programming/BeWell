@@ -1,24 +1,12 @@
-import 'dart:io';
 import 'dart:math';
 import 'package:BeWell/core/utils/color_manager.dart';
 import 'package:BeWell/core/utils/font_manager.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/profile_screen.dart';
-import 'package:BeWell/modules/main/data_layer/models/course_models.dart';
-import 'package:BeWell/modules/main/data_layer/models/lesson_model.dart';
-import 'package:BeWell/modules/main/data_layer/models/question_model.dart';
-import 'package:BeWell/modules/main/data_layer/models/quiz_model.dart';
-import 'package:BeWell/modules/main/data_layer/models/section_model.dart';
-import 'package:BeWell/modules/main/data_layer/models/servey_question_model.dart';
-import 'package:BeWell/modules/main/data_layer/models/survey_model.dart';
-import 'package:BeWell/modules/main/domain_layer/entities/survey_question.dart';
 import 'package:BeWell/modules/main/presentation_layer/components/components.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/constance_manager.dart';
 import '../../../../core/utils/navigation_manager.dart';
@@ -30,11 +18,12 @@ class CoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    // final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
-      if (state is GetCoursesSuccessState && bloc.dailyReminder.isNotEmpty) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (ConstantsManager.lastDailyReminder &&
+            bloc.dailyReminder.isNotEmpty) {
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
             int i = Random().nextInt(bloc.dailyReminder.length);
             showDialog(
               context: context,
@@ -45,8 +34,11 @@ class CoursesScreen extends StatelessWidget {
                     children: [
                       const Text(
                         "time to stand and move a little for one minute ",
+                        textDirection: TextDirection.ltr,
                       ),
-                      SizedBox(height: 2.h,),
+                      SizedBox(
+                        height: 2.h,
+                      ),
                       Text(
                         bloc.dailyReminder[i].title,
                       ),
@@ -57,8 +49,7 @@ class CoursesScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         imageScreen(
-                          height: 30.h,
-                            image: bloc.dailyReminder[i].image),
+                            height: 30.h, image: bloc.dailyReminder[i].image),
                       ],
                     ),
                   ),
@@ -78,13 +69,15 @@ class CoursesScreen extends StatelessWidget {
                 );
               },
             );
+            await CacheHelper.saveData(
+                key: "dailyReminder", value: DateTime.now().toString());
+            ConstantsManager.lastDailyReminder = false;
           });
         }
         return Builder(
           builder: (BuildContext context) {
             return Scaffold(
-              key: scaffoldKey,
-              drawer: Drawer(
+              endDrawer: Drawer(
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
@@ -130,55 +123,59 @@ class CoursesScreen extends StatelessWidget {
               body: state is! GetProgressLoadingState ||
                       state is! GetCoursesLoadingState
                   ? SingleChildScrollView(
-                    child: Column(
+                      child: Column(
                         children: [
                           Container(
                             width: double.infinity,
-                            height: 30.h,
+                            height: 28.h,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadiusDirectional.only(
                                   bottomEnd: Radius.circular(30.sp),
                                   bottomStart: Radius.circular(30.sp)),
                               color: ColorManager.secondary,
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  child: IconButton(
-                                    onPressed: () {
-                                      scaffoldKey.currentState!.openDrawer();
-                                    },
-                                    icon: Icon(
-                                      Icons.menu,
-                                      color: ColorManager.white,
-                                      size: 25.sp,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
                                         'مرحبا',
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: ColorManager.white,
                                           fontSize: FontSizeManager.s18.sp,
                                         ),
                                       ),
-                                      Text(
-                                        ConstantsManager.studentName!,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                          color: ColorManager.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: FontSizeManager.s22.sp,
-                                        ),
+                                    ),
+                                    Expanded(
+                                      child: Builder(
+                                        builder: (context) {
+                                          return IconButton(
+                                            onPressed: () {
+                                              Scaffold.of(context).openEndDrawer();
+                                            },
+                                            icon: Icon(
+                                              Icons.menu,
+                                              color: ColorManager.white,
+                                              size: 25.sp,
+                                            ),
+                                          );
+                                        }
                                       ),
-                                    ],
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  ConstantsManager.studentName!,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: ColorManager.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: FontSizeManager.s22.sp,
                                   ),
                                 ),
                               ],
@@ -222,7 +219,7 @@ class CoursesScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                  )
+                    )
                   : Center(
                       child: CircularProgressIndicator(
                       color: ColorManager.secondary,

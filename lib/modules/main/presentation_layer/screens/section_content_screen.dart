@@ -1,5 +1,4 @@
 import 'package:BeWell/core/utils/navigation_manager.dart';
-import 'package:BeWell/modules/main/presentation_layer/screens/courses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -22,7 +21,8 @@ class SectionContentScreen extends StatelessWidget {
     final PageController pageController = PageController();
     MainBloc bloc = sl()..add(ScheduleNewNotificationEvent());
     int counter = 0;
-    if (bloc.doneSection != null && bloc.doneSection!.done[courseName] != null) {
+    if (bloc.doneSection != null &&
+        bloc.doneSection!.done[courseName] != null) {
       counter = bloc.doneSection!.done[courseName]!;
     }
     return BlocBuilder<MainBloc, MainState>(
@@ -33,6 +33,8 @@ class SectionContentScreen extends StatelessWidget {
                   onPressed: () {
                     bloc.showAnswer = false;
                     bloc.doneButtonString = "التالي";
+                    bloc.pageView = -1;
+                    bloc.pageIndex = 0;
                     NavigationManager.pop(context);
                   },
                   icon: const Icon(Icons.arrow_back)),
@@ -46,88 +48,123 @@ class SectionContentScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: PageView(
+                              //physics: const NeverScrollableScrollPhysics(),
+                              // physics: (bloc.pageView != bloc.pageIndex) || bloc.showAnswer ? const BouncingScrollPhysics():const NeverScrollableScrollPhysics(),
                               onPageChanged: (index) {
                                 bloc.add(OnPageChangedEvent(index: index));
                               },
                               controller: pageController,
-                              children: List.generate(bloc.widgets.length,
-                                  (index) => bloc.widgets[index]),
+                              children: List.generate(
+                                bloc.widgets.length,
+                                (index) => bloc.widgets[index],
+                              ),
                             ),
                           ),
-                          defaultButton(
-                              text: bloc.doneButtonString,
-                              onPressed: () {
-                                if (bloc.doneButtonString == "انتهاء") {
-                                  if (whichSection == counter) {
-                                    bloc.add(DoneSectionEvent(
-                                        courseName: courseName,
-                                        done: ++counter,
-                                        progress: counter *
-                                            100 /
-                                            bloc.prefixLesson.last));
-                                  }
-                                  showDialog(
-                                      //barrierDismissible: false,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return BlocBuilder<MainBloc, MainState>(
-                                          builder: (context, state) {
-                                            if (state
-                                                is! DoneSectionLoadingState) {
-                                              return Dialog(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.sp),
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 20.sp),
-                                                  child: TextButton(
-                                                    onPressed: () {
-                                                      bloc.add(
-                                                          GetProgressEvent());
-                                                      NavigationManager
-                                                          .pushAndRemove(
-                                                              context,
-                                                              const CoursesScreen());
-                                                      bloc.widgets = [
-                                                        Container()
-                                                      ];
-                                                      bloc.showAnswer = false;
-                                                      bloc.doneButtonString =
-                                                          "التالي";
-                                                    },
-                                                    child: Text(
-                                                      "الانتقال الي الصفحة الرئيسية",
-                                                      style: TextStyle(
-                                                          color: ColorManager
-                                                              .black,
-                                                          fontSize:
-                                                              FontSizeManager
-                                                                  .s14.sp,
-                                                          fontWeight:
-                                                              FontWeightManager
-                                                                  .bold),
+                          bloc.pageView != bloc.pageIndex || bloc.showAnswer || bloc.showResult
+                              ? defaultButton(
+                                  text: bloc.doneButtonString,
+                                  onPressed: () {
+                                    if (bloc.doneButtonString == "انتهاء") {
+                                      if (whichSection == counter) {
+                                        bloc.add(DoneSectionEvent(
+                                            courseName: courseName,
+                                            done: ++counter,
+                                            progress: (counter *
+                                                100 /
+                                                bloc.prefixLesson.last).round()));
+                                      }
+                                      showDialog(
+                                          //barrierDismissible: false,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return BlocBuilder<MainBloc,
+                                                MainState>(
+                                              builder: (context, state) {
+                                                if (state
+                                                    is! DoneSectionLoadingState) {
+                                                  return Dialog(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25.sp),
                                                     ),
-                                                  ),
-                                                ),
-                                              );
-                                            } else {
-                                              return Container();
-                                            }
-                                          },
-                                        );
-                                      });
-                                } else {
-                                  pageController.nextPage(
-                                    duration: const Duration(
-                                      milliseconds: 750,
-                                    ),
-                                    curve: Curves.fastLinearToSlowEaseIn,
-                                  );
-                                }
-                              }),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 20.sp),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Text(
+                                                            "تم الإنتهاء بنجاح",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    ColorManager
+                                                                        .secondary,
+                                                                fontSize:
+                                                                    FontSizeManager
+                                                                        .s18.sp,
+                                                                fontWeight:
+                                                                    FontWeightManager
+                                                                        .bold),
+                                                          ),
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              bloc.add(
+                                                                  GetProgressEvent());
+                                                              NavigationManager
+                                                                  .pop(context);
+                                                              NavigationManager
+                                                                  .pop(context);
+                                                              bloc.widgets = [
+                                                                Container()
+                                                              ];
+                                                              bloc.showAnswer =
+                                                                  false;
+                                                              bloc.doneButtonString =
+                                                                  "التالي";
+                                                              bloc.pageView =
+                                                                  -1;
+                                                              bloc.pageIndex =
+                                                                  0;
+                                                            },
+                                                            child: Text(
+                                                              "موافق",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      ColorManager
+                                                                          .black,
+                                                                  fontSize:
+                                                                      FontSizeManager
+                                                                          .s14
+                                                                          .sp,
+                                                                  fontWeight:
+                                                                      FontWeightManager
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return Container();
+                                                }
+                                              },
+                                            );
+                                          });
+                                    } else {
+                                      pageController.nextPage(
+                                        duration: const Duration(
+                                          milliseconds: 750,
+                                        ),
+                                        curve: Curves.fastLinearToSlowEaseIn,
+                                      );
+                                    }
+                                  })
+                              : Container(),
                           SizedBox(
                             height: 4.h,
                           ),

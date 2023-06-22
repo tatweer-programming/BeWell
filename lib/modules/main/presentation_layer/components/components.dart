@@ -35,45 +35,53 @@ Widget courseBuilder({
     child: Card(
       elevation: 5.sp,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.sp),
+        borderRadius: BorderRadius.circular(10.sp),
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.all(10.sp),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsetsDirectional.all(5.sp),
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
           children: [
-            AspectRatio(
-              aspectRatio: 0.8.sp,
-              child: Container(
+            Container(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 decoration: BoxDecoration(
                     color: ColorManager.card,
-                    borderRadius: BorderRadius.circular(20.sp),
+                    borderRadius: BorderRadius.circular(10.sp),
                     image: DecorationImage(
                       image: NetworkImage(course.courseImage),
                       fit: BoxFit.cover,
                     )),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: ColorManager.black.withOpacity(.1),
+                borderRadius: BorderRadius.circular(10.sp),
               ),
-            ),
-            SizedBox(
-              height: 5.sp,
-            ),
-            Text(
-              course.courseName,
-              style: TextStyle(
-                fontSize: FontSizeManager.s14.sp,
-                fontWeight: FontWeightManager.semiBold,
-              ),
-            ),
-            SizedBox(
-              height: 5.sp,
-            ),
-            Text(
-              "${NumbersManager.engNumberToArabic("${course.lessons.length}")} دروس ",
-              style: TextStyle(
-                fontSize: FontSizeManager.s12.sp,
-                color: ColorManager.grey2,
-                fontWeight: FontWeightManager.regular,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    course.courseName,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: FontSizeManager.s14.sp,
+                      fontWeight: FontWeightManager.semiBold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2.sp,
+                  ),
+                  Text(
+                    "${NumbersManager.engNumberToArabic("${course.lessons.length}")} دروس ",
+                    style: TextStyle(
+                      fontSize: FontSizeManager.s12.sp,
+                      color: ColorManager.black,
+                      fontWeight: FontWeightManager.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -308,7 +316,6 @@ Widget lessonBuilder({
                   ],
                 ),
               ),
-              //const Spacer(),
               if (bloc.prefixLesson[lessonIndex] > counter)
                 Icon(
                   Icons.lock,
@@ -519,7 +526,7 @@ Widget textScreen({required String text}) {
                 textDirection: LanguageManager.isTextArabic(text)? TextDirection.rtl :TextDirection.ltr,
                 style: TextStyle(
                     fontSize: FontSizeManager.s17.sp,
-                    fontWeight: FontWeightManager.bold),
+                    fontWeight: FontWeightManager.regular),
               ),
             ),
           ),
@@ -825,14 +832,10 @@ class SurveyScreenState extends State<SurveyScreen> {
                 decoration: BoxDecoration(
                   color: ColorManager.white,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${selectedAnswers.reduce((a, b) => a + b)}'),
-                    Text(_getMessage(widget.survey.result,
-                        selectedAnswers.reduce((a, b) => a + b)),
-                    )
-                  ],
+                child: Text(_getMessage(widget.survey.result,
+                    selectedAnswers.reduce((a, b) => a + b)),
+                  textDirection: LanguageManager.isTextArabic(_getMessage(widget.survey.result,
+                      selectedAnswers.reduce((a, b) => a + b)))? TextDirection.rtl :TextDirection.ltr,
                 ),
               ),
             ),
@@ -890,6 +893,7 @@ class SurveyQuestionWidgetState extends State<SurveyQuestionWidget> {
         children: [
           Text(
             widget.question.question,
+            textDirection: LanguageManager.isTextArabic(widget.question.question)? TextDirection.rtl :TextDirection.ltr,
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeightManager.bold,

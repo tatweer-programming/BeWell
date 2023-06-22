@@ -16,7 +16,7 @@ class OnPageChangedEvent extends MainEvent {
 
 class DoneSectionEvent extends MainEvent {
   final String courseName;
-  final double progress;
+  final int progress;
   final int done;
   DoneSectionEvent({
     required this.courseName,

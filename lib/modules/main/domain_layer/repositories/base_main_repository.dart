@@ -8,7 +8,7 @@ abstract class BaseMainRepository {
   Future<Either<Exception, List<Course>>> getCourses();
   Future<Either<FirebaseException, void>> doneSection({
     required String courseName,
-    required double progress,
+    required int progress,
     required int done,
   });
   Future<Either<FirebaseException, DoneSection>> getProgress();

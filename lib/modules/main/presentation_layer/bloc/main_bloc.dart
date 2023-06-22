@@ -32,6 +32,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   String doneButtonString = "التالي";
   DoneSection? doneSection;
   List<DailyReminder> dailyReminder = [];
+  int pageView = -1;
+  int pageIndex = 0;
 
   void countPrefix(int courseIndex) {
     prefixLesson = [0];
@@ -45,29 +47,38 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Future<void> sectionContent({
     required Section section,
   }) async {
+    int page = -1;
     widgets = [];
     if (section.text != '' && section.text != null) {
       widgets.add(textScreen(text: section.text!));
+      ++page;
     }
     if (section.videosIds != null && section.videosIds!.isNotEmpty) {
       for (var videoId in section.videosIds!) {
         widgets.add(PlayVideoScreen(videoId: videoId));
+        ++page;
       }
     }
     if (section.quiz != null && section.quiz!.questions.isNotEmpty) {
+      ++page;
+      pageView = page;
       widgets.add(questionScreen(
         questions: section.quiz!.questions,
       ));
     }
     if (section.image != '' && section.image != null) {
+      ++page;
       widgets.add(imageScreen(image: section.image!,height: 60.h));
     }
     if (section.survey != null && section.survey!.questions.isNotEmpty) {
+      ++page;
+      pageView = page;
       widgets.add(SurveyScreen(
         survey: section.survey!,
       ));
     }
     if (section.reminder != '' && section.reminder != null) {
+      ++page;
       widgets.add(textScreen(text: section.reminder!));
     }
   }
@@ -114,6 +125,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         } else {
           doneButtonString = "التالي";
         }
+        pageIndex = event.index;
         emit(OnPageChangedState(doneButtonString));
       } else if (event is DoneSectionEvent) {
         emit(DoneSectionLoadingState());

@@ -4,8 +4,9 @@ import 'color_manager.dart';
 
 ThemeData getAppTheme() {
   return ThemeData (
+    fontFamily: 'Abg',
     appBarTheme: AppBarTheme(
-      foregroundColor: Color(0xFFfffafafb),
+      foregroundColor: const Color(0xFFfffafafb),
       backgroundColor: ColorManager.white,
       elevation: 0,
       iconTheme: IconThemeData(

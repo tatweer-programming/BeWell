@@ -97,11 +97,8 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
               .then((value) {
 
             ConstantsManager.appUser = UserModel.fromJson(value.data()!);
-            print(ConstantsManager.appUser!.email);
 
           });
-          print(ConstantsManager.appUser!.name);
-          print(ConstantsManager.appUser!.email);
         await CacheHelper.saveData(
             key: 'studentName', value: ConstantsManager.appUser!.name)
             .then((value) async {

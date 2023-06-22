@@ -33,6 +33,19 @@ Future<void> main() async {
   if (ConstantsManager.userId == null || ConstantsManager.userId == '') {
     widget = const LoginScreen();
   } else {
+    String? lastDailyReminder = await CacheHelper.getData(key: "dailyReminder");
+    if (lastDailyReminder != null) {
+      DateTime lastDate = DateTime.parse(lastDailyReminder);
+      DateTime currentDate = DateTime.now();
+      if(lastDate.day != currentDate.day ||
+          lastDate.month != currentDate.month ||
+          lastDate.year != currentDate.year){
+        ConstantsManager.lastDailyReminder = true;
+      }
+    }
+    else{
+      ConstantsManager.lastDailyReminder = true;
+    }
     widget = const CoursesScreen();
   }
   bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
