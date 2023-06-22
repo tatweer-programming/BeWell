@@ -32,6 +32,7 @@ class SectionContentScreen extends StatelessWidget {
               leading: IconButton(
                   onPressed: () {
                     bloc.showAnswer = false;
+                    bloc.showResult = false;
                     bloc.doneButtonString = "التالي";
                     bloc.pageView = -1;
                     bloc.pageIndex = 0;
@@ -51,6 +52,7 @@ class SectionContentScreen extends StatelessWidget {
                               //physics: const NeverScrollableScrollPhysics(),
                               // physics: (bloc.pageView != bloc.pageIndex) || bloc.showAnswer ? const BouncingScrollPhysics():const NeverScrollableScrollPhysics(),
                               onPageChanged: (index) {
+                                print(bloc.showResult);
                                 bloc.add(OnPageChangedEvent(index: index));
                               },
                               controller: pageController,
@@ -123,6 +125,7 @@ class SectionContentScreen extends StatelessWidget {
                                                               ];
                                                               bloc.showAnswer =
                                                                   false;
+                                                              bloc.showResult = false;
                                                               bloc.doneButtonString =
                                                                   "التالي";
                                                               bloc.pageView =

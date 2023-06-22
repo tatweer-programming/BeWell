@@ -53,8 +53,9 @@ Widget courseBuilder({
                     )),
             ),
             Container(
+              height: 10.h,
               decoration: BoxDecoration(
-                color: ColorManager.black.withOpacity(.1),
+                color: ColorManager.white.withOpacity(.7),
                 borderRadius: BorderRadius.circular(10.sp),
               ),
               child: Column(
@@ -845,7 +846,7 @@ class SurveyScreenState extends State<SurveyScreen> {
           defaultButton(
               onPressed: () {
                 setState(() {
-                  widget.bloc.showResult = true;
+                  widget.bloc.add(ShowSurveyAnswerEvent());
                 });
               },
               text: "إظهار النتيجة"),
@@ -889,7 +890,7 @@ class SurveyQuestionWidgetState extends State<SurveyQuestionWidget> {
       margin: EdgeInsets.symmetric(vertical: 8.sp),
       padding: EdgeInsets.all(10.sp),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             widget.question.question,
@@ -918,8 +919,8 @@ class SurveyQuestionWidgetState extends State<SurveyQuestionWidget> {
                         widget.onAnswered?.call(_selectedAnswer);
                       },
                       child: Container(
-                        width: 40.sp,
-                        height: 40.sp,
+                        width: 30.sp,
+                        height: 30.sp,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: _selectedAnswer == value

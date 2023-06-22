@@ -153,6 +153,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is ShowQuizAnswerEvent) {
         showAnswer = true;
         emit(ShowQuizAnswerState());
+      }else if (event is ShowSurveyAnswerEvent) {
+        showResult = true;
+        emit(ShowSurveyAnswerState());
       }else if (event is LogOutEvent) {
         CacheHelper.removeData(key: "uid").then((value) {
           if (value) {

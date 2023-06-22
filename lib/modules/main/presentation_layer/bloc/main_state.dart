@@ -42,6 +42,7 @@ class OnPageChangedState extends MainState {
 }
 
 class ShowQuizAnswerState extends MainState {}
+class ShowSurveyAnswerState extends MainState {}
 
 class LogOutSuccessfulAuthState extends MainState {
   final BuildContext context;

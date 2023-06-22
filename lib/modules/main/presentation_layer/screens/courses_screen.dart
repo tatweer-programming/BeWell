@@ -127,7 +127,7 @@ class CoursesScreen extends StatelessWidget {
                         children: [
                           Container(
                             width: double.infinity,
-                            height: 28.h,
+                            height: 25.h,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadiusDirectional.only(
                                   bottomEnd: Radius.circular(30.sp),
