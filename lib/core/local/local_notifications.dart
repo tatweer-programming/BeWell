@@ -3,6 +3,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../utils/color_manager.dart';
+import '../utils/constance_manager.dart';
 
 class LocalNotification {
   // Initialization
@@ -28,15 +29,14 @@ class LocalNotification {
   Future<void> startListeningNotificationEvents() async {
     AwesomeNotifications().actionStream.listen((event) async {
       if (event.payload!["drank"] == "true") {
-        int currentValue = await CacheHelper.getData(key: 'waterCups');
-        if (currentValue == 7) {
+        ConstantsManager.waterCups = await CacheHelper.getData(key: 'waterCups');
+        if (ConstantsManager.waterCups == 7) {
           await CacheHelper.saveData(key: 'waterCups', value: 0);
           await _congratsNotification();
         } else {
-          await CacheHelper.saveData(key: 'waterCups', value: currentValue + 1);
+          await CacheHelper.saveData(key: 'waterCups', value: ConstantsManager.waterCups! + 1);
         }
       }
-      debugPrint("event.id         ${event.id}");
       if (event.id == 59) {
         await CacheHelper.saveData(key: 'waterCups', value: 0);
       }
