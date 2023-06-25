@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:BeWell/core/utils/constance_manager.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/login.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,11 +26,12 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await notification.initializeLocalNotifications();
-  // await AwesomeNotifications().requestPermissionToSendNotifications();
+  await AwesomeNotifications().requestPermissionToSendNotifications();
 
   Widget? widget;
   ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
   ConstantsManager.studentName = await CacheHelper.getData(key: 'studentName');
+
   if (ConstantsManager.userId == null || ConstantsManager.userId == '') {
     widget = const LoginScreen();
   } else {
@@ -48,8 +50,9 @@ Future<void> main() async {
     }
     widget = const CoursesScreen();
   }
+
   bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
-  if ((callWaterReminder == null || callWaterReminder) &&
+  if (//(callWaterReminder == null || callWaterReminder) &&
       ConstantsManager.userId != null &&
       ConstantsManager.userId != '') {
     await notification.createWaterReminder();

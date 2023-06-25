@@ -537,32 +537,14 @@ Widget textScreen({required String text}) {
   );
 }
 
-Widget questionBuilder(
-    {required Question question,
-    required bool showAnswer,
-    required BuildContext context,
-    required int index}) {
-  return Column(
-    children: [
-      Text('$index - ${question.question}',
-          style:
-              const TextStyle(fontWeight: FontWeightManager.bold, fontSize: 19),
-          maxLines: 3),
-      SizedBox(
-        height: 5.sp,
-      ),
-    ],
-  );
-}
-
 Widget answerBuilder(
     {required List<int> trueAnswer,
-    String? explanation,
+    required List<String> answers,
     required bool isCorrect}) {
-  List<int> trueAnswerText() {
-    List<int> trueAnswerText = [];
+  List<String> trueAnswerText() {
+    List<String> trueAnswerText = [];
     for (var element in trueAnswer) {
-      trueAnswerText.add(element + 1);
+      trueAnswerText.add(answers[element]);
     }
     return trueAnswerText;
   }
@@ -575,80 +557,38 @@ Widget answerBuilder(
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+        Row(
           children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.check_circle,
-                  color: ColorManager.primary,
-                ),
-                SizedBox(
-                  width: 5.sp,
-                ),
-                Text(
-                  isCorrect ? 'إجابة صحيحة' : 'الإجابة الصحيحة :',
-                  style: const TextStyle(
-                    fontWeight: FontWeightManager.bold,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
+            Icon(
+              Icons.check_circle,
+              color: ColorManager.primary,
             ),
-            if (!isCorrect)
-              Text(
-                trueAnswerText().toString(),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
-              ),
             SizedBox(
               width: 5.sp,
             ),
+            Text(
+              isCorrect ? 'إجابة صحيحة' : 'الإجابة الصحيحة :',
+              style: const TextStyle(
+                fontWeight: FontWeightManager.bold,
+                fontSize: 18,
+              ),
+            ),
           ],
         ),
-        explanation != null
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.edit,
-                        color: ColorManager.primary,
-                      ),
-                      SizedBox(
-                        width: 5.sp,
-                      ),
-                      const Text(
-                        'التفسير : ',
-                        style: TextStyle(
-                          fontWeight: FontWeightManager.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    explanation,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5.sp,
-                  ),
-                ],
-              )
-            : const SizedBox()
+        if (!isCorrect)
+          Text(
+            trueAnswerText().toString(),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        SizedBox(
+          width: 5.sp,
+        ),
       ],
     ),
   );
@@ -699,7 +639,7 @@ class QuestionWidgetState extends State<QuestionWidget> {
           SizedBox(height: 10.sp),
           if (widget.showAnswer)
             answerBuilder(
-                trueAnswer: widget.question.trueAnswer, isCorrect: _isCorrect),
+                trueAnswer: widget.question.trueAnswer,answers: widget.question.answers, isCorrect: _isCorrect),
         ],
       ),
     );

@@ -60,7 +60,6 @@ class LocalNotification {
     } else {
       var result =
           await AwesomeNotifications().requestPermissionToSendNotifications();
-
       if (result == true) {
         return true;
       } else {
@@ -108,12 +107,12 @@ class LocalNotification {
       await CacheHelper.saveData(key: 'callWaterReminder', value: false);
       await CacheHelper.saveData(key: 'waterCups', value: 0);
       DateTime sevenAM = DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 0);
+          DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 0 ,0,0,0);
+      DateTime notificationTime = sevenAM;
       for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
         for (int i = 1; i <= 8; i++) {
-          final DateTime notificationTime = sevenAM
-              .add(Duration(days: day - DateTime.now().weekday))
-              .add(Duration(minutes: 112 * i, seconds: 30 * i));
+          print(" notificationTime hour   ${notificationTime.hour}");
+          print(" notificationTime  minute ${notificationTime.minute}");
           await AwesomeNotifications().createNotification(
             actionButtons: [
               NotificationActionButton(
@@ -139,10 +138,13 @@ class LocalNotification {
               hour: notificationTime.hour,
               minute: notificationTime.minute,
               second: notificationTime.second,
-              millisecond: 0,
+              millisecond: notificationTime.millisecond,
+              repeats: true,
               allowWhileIdle: true,
             ),
           );
+          notificationTime = notificationTime.add(Duration(days: day))
+        .add(Duration(seconds: 6720 * (i - 1)));
         }
       }
     } else {
