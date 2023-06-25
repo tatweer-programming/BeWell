@@ -54,6 +54,7 @@ Widget courseBuilder({
             ),
             Container(
               height: 10.h,
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: ColorManager.white.withOpacity(.7),
                 borderRadius: BorderRadius.circular(10.sp),
@@ -522,13 +523,7 @@ Widget textScreen({required String text}) {
             child: Container(
               padding: EdgeInsets.all(10.sp),
               width: double.infinity,
-              child: Text(
-                text,
-                textDirection: LanguageManager.isTextArabic(text)? TextDirection.rtl :TextDirection.ltr,
-                style: TextStyle(
-                    fontSize: FontSizeManager.s17.sp,
-                    fontWeight: FontWeightManager.regular),
-              ),
+              child: LanguageManager.formatText(text)
             ),
           ),
         ],
@@ -580,8 +575,6 @@ Widget answerBuilder(
         if (!isCorrect)
           Text(
             trueAnswerText().toString(),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 18,
             ),

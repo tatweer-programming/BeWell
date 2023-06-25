@@ -44,7 +44,13 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: 3.h,
                         ),
-                        ListView.separated(
+                        ConstantsManager
+                            .doneSection!.progress.isEmpty ?
+                            Text("لم تقم بالبدأ في اي دورات بعد ",
+                            style: TextStyle(
+                              fontSize: FontSizeManager.s15.sp
+                            ),)
+                            :ListView.separated(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
                             physics: const NeverScrollableScrollPhysics(),

@@ -71,29 +71,22 @@ class LocalNotification {
   /// LAST USING NOTIFICATION
 
   Future<void> scheduleNewNotification() async {
-    bool isAllowed = await requestNotificationPermissions();
-    if (isAllowed) {
-      debugPrint("Allowed");
-      await cancelNotifications();
-      await AwesomeNotifications().createNotification(
-          content: NotificationContent(
-              displayOnForeground: true,
-              id: 1,
-              channelKey: 'alerts',
-              title: "تذكير الاستخدام",
-              body: "لم تستخدم التطبيق منذ فترة. نحن نفتقدك",
-              displayOnBackground: true,
-              backgroundColor: ColorManager.primary,
-              notificationLayout: NotificationLayout.Default,
-              payload: {'notificationId': '1234567890'}),
-          schedule: NotificationCalendar.fromDate(
-              date: DateTime.now().add(const Duration(
-            days: 2,
-          ))));
-    } else {
-      debugPrint('4');
-      DoNothingAction();
-    }
+    await cancelNotifications();
+    await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            displayOnForeground: true,
+            id: 1,
+            channelKey: 'alerts',
+            title: "تذكير الاستخدام",
+            body: "لم تستخدم التطبيق منذ فترة. نحن نفتقدك",
+            displayOnBackground: true,
+            backgroundColor: ColorManager.primary,
+            notificationLayout: NotificationLayout.Default,
+            payload: {'notificationId': '1234567890'}),
+        schedule: NotificationCalendar.fromDate(
+            date: DateTime.now().add(const Duration(
+          days: 2,
+        ))));
   }
 
   static Future<void> cancelNotifications() async {
@@ -106,13 +99,12 @@ class LocalNotification {
     if (isAllowed) {
       await CacheHelper.saveData(key: 'callWaterReminder', value: false);
       await CacheHelper.saveData(key: 'waterCups', value: 0);
-      DateTime sevenAM = DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 0 ,0,0,0);
+      DateTime sevenAM = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day, 7, 0, 0, 0, 0);
       DateTime notificationTime = sevenAM;
       for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
         for (int i = 1; i <= 8; i++) {
-          print(" notificationTime hour   ${notificationTime.hour}");
-          print(" notificationTime  minute ${notificationTime.minute}");
+          notificationTime = sevenAM.add(Duration(seconds: 6720 * (i - 1)));
           await AwesomeNotifications().createNotification(
             actionButtons: [
               NotificationActionButton(
@@ -143,8 +135,6 @@ class LocalNotification {
               allowWhileIdle: true,
             ),
           );
-          notificationTime = notificationTime.add(Duration(days: day))
-        .add(Duration(seconds: 6720 * (i - 1)));
         }
       }
     } else {

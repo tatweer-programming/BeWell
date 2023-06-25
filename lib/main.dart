@@ -51,9 +51,7 @@ Future<void> main() async {
     widget = const CoursesScreen();
   }
 
-  bool? callWaterReminder = await CacheHelper.getData(key: 'callWaterReminder');
-  if (//(callWaterReminder == null || callWaterReminder) &&
-      ConstantsManager.userId != null &&
+  if (ConstantsManager.userId != null &&
       ConstantsManager.userId != '') {
     await notification.createWaterReminder();
   }

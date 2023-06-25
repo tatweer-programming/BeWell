@@ -18,7 +18,6 @@ class CoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
-    // final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
         if (ConstantsManager.lastDailyReminder &&
