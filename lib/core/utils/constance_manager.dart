@@ -7,4 +7,5 @@ class ConstantsManager {
   static DoneSection? doneSection;
   static String? studentName;
   static bool lastDailyReminder = false;
+  static int waterCups = 0;
 }

@@ -90,7 +90,7 @@ class LocalNotification {
   }
 
   static Future<void> cancelNotifications() async {
-    await AwesomeNotifications().cancelAllSchedules();
+    await AwesomeNotifications().cancelSchedulesByChannelKey("alerts");
   }
 
   // Create Water Reminder

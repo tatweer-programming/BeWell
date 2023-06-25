@@ -31,6 +31,7 @@ Future<void> main() async {
   Widget? widget;
   ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
   ConstantsManager.studentName = await CacheHelper.getData(key: 'studentName');
+  ConstantsManager.waterCups = await CacheHelper.getData(key: 'waterCups');
 
   if (ConstantsManager.userId == null || ConstantsManager.userId == '') {
     widget = const LoginScreen();

@@ -45,6 +45,7 @@ class ProfileScreen extends StatelessWidget {
                           height: 3.h,
                         ),
                         ConstantsManager
+                            .doneSection != null && ConstantsManager
                             .doneSection!.progress.isEmpty ?
                             Text("لم تقم بالبدأ في اي دورات بعد ",
                             style: TextStyle(
@@ -68,6 +69,28 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                             itemCount: ConstantsManager
                                 .doneSection!.progress.values.length),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("عدد اكواب المياه",
+                              style: TextStyle(
+                                  fontWeight: FontWeightManager.bold,
+                                  fontSize: 20.sp),
+                            ),
+                            Text(
+                              ConstantsManager.waterCups.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeightManager.bold,
+                                  fontSize: 20.sp),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
                         SizedBox(
                           height: 3.h,
                         ),
