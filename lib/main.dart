@@ -33,6 +33,8 @@ Future<void> main() async {
   ConstantsManager.studentName = await CacheHelper.getData(key: 'studentName');
   ConstantsManager.waterCups = await CacheHelper.getData(key: 'waterCups');
 
+
+
   if (ConstantsManager.userId == null || ConstantsManager.userId == '') {
     widget = const LoginScreen();
   } else {
@@ -51,14 +53,14 @@ Future<void> main() async {
     }
     widget = const CoursesScreen();
   }
-
-  if (ConstantsManager.userId != null &&
+  bool? callWaterReminder = await CacheHelper.getData(key: "callWaterReminder");
+  if ((callWaterReminder == null || callWaterReminder)&&
+      ConstantsManager.userId != null &&
       ConstantsManager.userId != '') {
     await notification.createWaterReminder();
   }
 
   runApp(MyApp(startWidget: widget));
-
   await notification.startListeningNotificationEvents();
 }
 

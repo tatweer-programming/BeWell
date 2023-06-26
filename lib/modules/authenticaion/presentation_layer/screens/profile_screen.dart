@@ -67,8 +67,9 @@ class ProfileScreen extends StatelessWidget {
                                   height: 0.5.h,
                                   color: ColorManager.card,
                                 ),
-                            itemCount: ConstantsManager
-                                .doneSection!.progress.values.length),
+                            itemCount:ConstantsManager
+                                .doneSection != null ? ConstantsManager
+                                .doneSection!.progress.values.length:0),
                         SizedBox(
                           height: 3.h,
                         ),
@@ -81,7 +82,7 @@ class ProfileScreen extends StatelessWidget {
                                   fontSize: 20.sp),
                             ),
                             Text(
-                              ConstantsManager.waterCups.toString(),
+                              ConstantsManager.waterCups == null ? "0" : ConstantsManager.waterCups.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeightManager.bold,
                                   fontSize: 20.sp),

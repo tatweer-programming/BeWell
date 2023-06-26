@@ -3,7 +3,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../utils/color_manager.dart';
-import '../utils/constance_manager.dart';
 
 class LocalNotification {
   // Initialization
@@ -29,12 +28,13 @@ class LocalNotification {
   Future<void> startListeningNotificationEvents() async {
     AwesomeNotifications().actionStream.listen((event) async {
       if (event.payload!["drank"] == "true") {
-        ConstantsManager.waterCups = await CacheHelper.getData(key: 'waterCups');
-        if (ConstantsManager.waterCups == 7) {
+        int currentValue = await CacheHelper.getData(key: 'waterCups');
+        print(" currentValue  $currentValue");
+        if (currentValue == 7) {
           await CacheHelper.saveData(key: 'waterCups', value: 0);
           await _congratsNotification();
         } else {
-          await CacheHelper.saveData(key: 'waterCups', value: ConstantsManager.waterCups! + 1);
+          await CacheHelper.saveData(key: 'waterCups', value: currentValue + 1);
         }
       }
       if (event.id == 59) {
@@ -100,11 +100,11 @@ class LocalNotification {
       await CacheHelper.saveData(key: 'callWaterReminder', value: false);
       await CacheHelper.saveData(key: 'waterCups', value: 0);
       DateTime sevenAM = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day, 7, 0, 0, 0, 0);
+          DateTime.now().day, 1, 15, 0, 0, 0);
       DateTime notificationTime = sevenAM;
       for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
         for (int i = 1; i <= 8; i++) {
-          notificationTime = sevenAM.add(Duration(seconds: 6720 * (i - 1)));
+          notificationTime = sevenAM.add(Duration(days: day)).add(Duration(seconds: 60 * (i - 1)));
           await AwesomeNotifications().createNotification(
             actionButtons: [
               NotificationActionButton(
@@ -146,7 +146,7 @@ class LocalNotification {
   Future<void> _congratsNotification() async {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
-        id: 39,
+        id: 59,
         payload: {
           "drank": "false",
         },

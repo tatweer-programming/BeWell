@@ -101,8 +101,11 @@ class CoursesScreen extends StatelessWidget {
                             fontSize: FontSizeManager.s17.sp,
                             fontWeight: FontWeightManager.bold),
                       ),
-                      onTap: () {
-                        NavigationManager.push(context, const ProfileScreen());
+                      onTap: () async {
+                        await CacheHelper.getData(key: 'waterCups').then((value){
+                          ConstantsManager.waterCups = value;
+                          NavigationManager.push(context, const ProfileScreen());
+                        });
                       },
                     ),
                     ListTile(
