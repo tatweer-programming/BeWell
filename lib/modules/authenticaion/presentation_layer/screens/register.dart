@@ -102,6 +102,9 @@ class RegisterScreen extends StatelessWidget {
                                 if (value == '') {
                                   return 'من فضلك أدخل كلمة المرور';
                                 }
+                                else if (value.length < 7) {
+                                  return 'يجب ان لا تقل كلمة المرور عن 8 احرف';
+                                }
                                 return null;
                               }),
                           SizedBox(
