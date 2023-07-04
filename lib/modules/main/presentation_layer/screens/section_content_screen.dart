@@ -117,28 +117,30 @@ class SectionContentScreen extends StatelessWidget {
                                                       FontWeightManager
                                                           .bold),
                                                 ),
-                                                state is GetProgressLoadingState ?
-                                                const CircularProgressIndicator() :
+                                                // state is GetProgressLoadingState ?
+                                                // const CircularProgressIndicator() :
                                                 TextButton(
                                                   onPressed: () {
                                                     bloc.add(
                                                         GetProgressEvent());
-                                                    NavigationManager
-                                                        .pop(context);
-                                                    NavigationManager
-                                                        .pop(context);
-                                                    bloc.widgets = [
-                                                      Container()
-                                                    ];
-                                                    bloc.showAnswer =
-                                                    false;
-                                                    bloc.showResult = false;
-                                                    bloc.doneButtonString =
-                                                    "التالي";
-                                                    bloc.pageView =
-                                                    -1;
-                                                    bloc.pageIndex =
-                                                    0;
+                                                    if(state is GetProgressLoadingState) {
+                                                      NavigationManager
+                                                          .pop(context);
+                                                      NavigationManager
+                                                          .pop(context);
+                                                      bloc.widgets = [
+                                                        Container()
+                                                      ];
+                                                      bloc.showAnswer =
+                                                      false;
+                                                      bloc.showResult = false;
+                                                      bloc.doneButtonString =
+                                                      "التالي";
+                                                      bloc.pageView =
+                                                      -1;
+                                                      bloc.pageIndex =
+                                                      0;
+                                                    }
                                                   },
                                                   child: Text(
                                                     "موافق",

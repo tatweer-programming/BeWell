@@ -77,8 +77,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(LoginErrorAuthState());
         }, (r) async {
-          ConstantsManager.userId = await CacheHelper.getData(key: 'uid');
-          NavigationManager.pushAndRemove(event.context, const CoursesScreen());
+          await CacheHelper.getData(key: 'uid').then((value) {
+            ConstantsManager.userId = value;
+            NavigationManager.pushAndRemove(event.context, const CoursesScreen());
+          });
           defaultToast(msg: "تم تسجيل الدخول بنجاح");
           emit(const LoginSuccessfulAuthState());
         });

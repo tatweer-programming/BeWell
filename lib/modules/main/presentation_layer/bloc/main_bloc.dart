@@ -160,8 +160,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         CacheHelper.removeData(key: "uid").then((value) {
           if (value) {
             NavigationManager.pushAndRemove(event.context, const LoginScreen());
-            emit(LogOutSuccessfulAuthState(context: event.context));
           }
+          emit(LogOutSuccessfulAuthState(context: event.context));
         });
       }
       else if (event is ScheduleNewNotificationEvent) {

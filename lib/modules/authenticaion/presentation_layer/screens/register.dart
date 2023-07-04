@@ -62,19 +62,7 @@ class RegisterScreen extends StatelessWidget {
                               controller: nameController,
                               validator: (value) {
                                 if (value == '') {
-                                  return 'من فضلك أدخل البريد الالكتروني';
-                                }
-                                return null;
-                              }),
-                          SizedBox(
-                            height: 10.sp,
-                          ),
-                          defaultFormField(
-                              label: 'كود الطالب',
-                              controller: idController,
-                              validator: (value) {
-                                if (value == '') {
-                                  return 'من فضلك أدخل الكود';
+                                  return 'من فضلك أدخل الاسم رباعي';
                                 }
                                 return null;
                               }),
@@ -89,6 +77,18 @@ class RegisterScreen extends StatelessWidget {
                                   return 'من فضلك أدخل البريد الالكتروني';
                                 } else if (!bloc.isValidEmail(value)) {
                                   return 'من فضلك أدخل بريد الكتروني صحيح';
+                                }
+                                return null;
+                              }),
+                          SizedBox(
+                            height: 10.sp,
+                          ),
+                          defaultFormField(
+                              label: 'الرقم الجامعي',
+                              controller: idController,
+                              validator: (value) {
+                                if (value == '') {
+                                  return 'من فضلك أدخل الرقم الجامعي';
                                 }
                                 return null;
                               }),
@@ -124,7 +124,6 @@ class RegisterScreen extends StatelessWidget {
                                     }
                                   },
                                   text: 'انشئ حساب')),
-
 
                         ],
                       ),

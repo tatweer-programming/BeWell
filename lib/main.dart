@@ -45,6 +45,7 @@ Future<void> main() async {
       if(lastDate.day != currentDate.day ||
           lastDate.month != currentDate.month ||
           lastDate.year != currentDate.year){
+        await CacheHelper.saveData(key: 'waterCups', value: 0);
         ConstantsManager.lastDailyReminder = true;
       }
     }

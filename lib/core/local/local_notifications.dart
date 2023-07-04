@@ -85,7 +85,7 @@ class LocalNotification {
             payload: {'notificationId': '1234567890'}),
         schedule: NotificationCalendar.fromDate(
             date: DateTime.now().add(const Duration(
-          days: 2,
+         days: 2,
         ))));
   }
 
@@ -97,14 +97,15 @@ class LocalNotification {
   Future<void> createWaterReminder() async {
     bool isAllowed = await requestNotificationPermissions();
     if (isAllowed) {
+      await scheduleNewNotification();
       await CacheHelper.saveData(key: 'callWaterReminder', value: false);
       await CacheHelper.saveData(key: 'waterCups', value: 0);
       DateTime sevenAM = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day, 1, 15, 0, 0, 0);
+          DateTime.now().day, 7, 0, 0, 0, 0);
       DateTime notificationTime = sevenAM;
       for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
         for (int i = 1; i <= 8; i++) {
-          notificationTime = sevenAM.add(Duration(days: day)).add(Duration(seconds: 60 * (i - 1)));
+          notificationTime = sevenAM.add(Duration(days: day)).add(Duration(seconds: 6720 * (i - 1)));
           await AwesomeNotifications().createNotification(
             actionButtons: [
               NotificationActionButton(
