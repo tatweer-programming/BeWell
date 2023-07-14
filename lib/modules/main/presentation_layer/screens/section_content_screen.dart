@@ -52,11 +52,10 @@ class SectionContentScreen extends StatelessWidget {
                     Expanded(
                       child: PageView(
                         physics: (bloc.pageView != bloc.pageIndex) ||
-                            bloc.showAnswer
+                            bloc.showAnswer || bloc.showResult
                             ? const BouncingScrollPhysics()
                             : const NeverScrollableScrollPhysics(),
                         onPageChanged: (index) {
-                          print(bloc.showResult);
                           bloc.add(OnPageChangedEvent(index: index));
                         },
                         controller: pageController,
