@@ -1,7 +1,7 @@
 import 'package:BeWell/core/local/shared_prefrences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import '../utils/color_manager.dart';
 
 class LocalNotification {
@@ -44,29 +44,29 @@ class LocalNotification {
   }
 
   // REQUESTING NOTIFICATION PERMISSIONS
-  Future<bool> requestNotificationPermissions() async {
-    await AwesomeNotifications().requestPermissionToSendNotifications(
-      channelKey: 'alerts',
-      permissions: [
-        NotificationPermission.Light,
-        NotificationPermission.Alert,
-        NotificationPermission.Sound,
-        NotificationPermission.Vibration,
-      ],
-    );
-    if (await Permission.scheduleExactAlarm.isGranted &&
-        await Permission.notification.isGranted) {
-      return true;
-    } else {
-      var result =
-          await AwesomeNotifications().requestPermissionToSendNotifications();
-      if (result == true) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
+  // Future<bool> requestNotificationPermissions() async {
+  //   await AwesomeNotifications().requestPermissionToSendNotifications(
+  //     channelKey: 'alerts',
+  //     permissions: [
+  //       NotificationPermission.Light,
+  //       NotificationPermission.Alert,
+  //       NotificationPermission.Sound,
+  //       NotificationPermission.Vibration,
+  //     ],
+  //   );
+  //   if (await Permission.scheduleExactAlarm.isGranted &&
+  //       await Permission.notification.isGranted) {
+  //     return true;
+  //   } else {
+  //     var result =
+  //         await AwesomeNotifications().requestPermissionToSendNotifications();
+  //     if (result == true) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   }
+  // }
 
   /// LAST USING NOTIFICATION
 
@@ -95,7 +95,7 @@ class LocalNotification {
 
   // Create Water Reminder
   Future<void> createWaterReminder() async {
-    bool isAllowed = await requestNotificationPermissions();
+    bool isAllowed = await AwesomeNotifications().requestPermissionToSendNotifications();
     if (isAllowed) {
       await scheduleNewNotification();
       await CacheHelper.saveData(key: 'callWaterReminder', value: false);

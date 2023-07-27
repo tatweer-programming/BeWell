@@ -1,4 +1,4 @@
-package com.example.be_well
+package com.learn.be_well
 
 import io.flutter.embedding.android.FlutterActivity
 
