@@ -6,15 +6,17 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../../../core/utils/font_manager.dart';
+import '../../domain_layer/entities/section.dart';
 import '../bloc/main_bloc.dart';
 import '../components/components.dart';
 
 class SectionContentScreen extends StatelessWidget {
   final String courseName;
+  final Section section;
   final int whichSection;
 
   const SectionContentScreen(
-      {Key? key, required this.courseName, required this.whichSection})
+      {Key? key, required this.courseName,required this.section, required this.whichSection})
       : super(key: key);
 
   @override
@@ -29,6 +31,7 @@ class SectionContentScreen extends StatelessWidget {
     }
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
+        print(state);
         return Scaffold(
             appBar: AppBar(
               leading: IconButton(
@@ -74,6 +77,7 @@ class SectionContentScreen extends StatelessWidget {
                             if (whichSection == counter) {
                               bloc.add(DoneSectionEvent(
                                   courseName: courseName,
+                                  section: section,
                                   done: ++counter,
                                   progress: (counter *
                                       100 /
@@ -86,8 +90,7 @@ class SectionContentScreen extends StatelessWidget {
                                   return BlocBuilder<MainBloc,
                                       MainState>(
                                     builder: (context, state) {
-                                      if (state
-                                      is! DoneSectionLoadingState) {
+                                      if (state is! DoneSectionLoadingState) {
                                         return Dialog(
                                           shape:
                                           RoundedRectangleBorder(
@@ -122,7 +125,7 @@ class SectionContentScreen extends StatelessWidget {
                                                   onPressed: () {
                                                     bloc.add(
                                                         GetProgressEvent());
-                                                    if(state is GetProgressLoadingState) {
+                                                    //if(state is GetProgressSuccessState) {
                                                       NavigationManager
                                                           .pop(context);
                                                       NavigationManager
@@ -139,7 +142,7 @@ class SectionContentScreen extends StatelessWidget {
                                                       -1;
                                                       bloc.pageIndex =
                                                       0;
-                                                    }
+                                                 //   }
                                                   },
                                                   child: Text(
                                                     "موافق",

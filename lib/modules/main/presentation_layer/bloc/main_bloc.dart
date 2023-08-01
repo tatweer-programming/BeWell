@@ -114,6 +114,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
             event.context,
             SectionContentScreen(
               courseName: event.courseName,
+              section: event.section,
               whichSection: event.whichSection,
             ));
         await sectionContent(section: event.section);
@@ -131,6 +132,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(DoneSectionLoadingState());
         var result = await DoneSectionUseCase(sl()).done(
             courseName: event.courseName,
+            section: event.section,
             done: event.done,
             progress: event.progress);
         result.fold((l) {

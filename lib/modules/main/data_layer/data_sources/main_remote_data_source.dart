@@ -1,6 +1,8 @@
 import 'package:BeWell/modules/main/data_layer/models/daily_reminder_model.dart';
 import 'package:BeWell/modules/main/data_layer/models/done_section_model.dart';
+import 'package:BeWell/modules/main/data_layer/models/statistics_model.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/done_section.dart';
+import 'package:BeWell/modules/main/domain_layer/entities/section.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:BeWell/modules/main/data_layer/models/course_models.dart';
@@ -14,6 +16,7 @@ abstract class BaseMainRemoteDataSource {
   Future<Either<FirebaseException, List<DailyReminder>>> getDailyReminder();
   Future<Either<FirebaseException, void>> doneSection({
     required String courseName,
+    required Section section,
     required int progress,
     required int done,
   });
@@ -52,6 +55,7 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
   @override
   Future<Either<FirebaseException, Unit>> doneSection({
     required String courseName,
+    required Section section,
     required int progress,
     required int done,
   }) async {
@@ -59,7 +63,19 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
       var document = FirebaseFirestore.instance
           .collection("progress")
           .doc(ConstantsManager.userId);
+      var statistics = FirebaseFirestore.instance
+          .collection("statistics")
+          .doc("statistics");
+
+      StatisticsModel statisticsModel =
+      StatisticsModel(
+          sectionName: section.sectionName,
+          quiz: section.quiz
+      );
       FirebaseFirestore.instance.runTransaction((transaction) async {
+        section.quiz != null ?transaction.update(statistics, {
+          "statistics": FieldValue.arrayUnion([statisticsModel.toJson()])
+        }):null;
         transaction.update(document, {
           "done.$courseName": done,
           "progress.$courseName": progress,

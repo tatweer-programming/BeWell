@@ -1,3 +1,4 @@
+import 'package:BeWell/core/utils/constance_manager.dart';
 import 'package:BeWell/core/utils/navigation_manager.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/question.dart';
 import 'package:BeWell/modules/main/presentation_layer/screens/lessons_screen.dart';
@@ -456,7 +457,7 @@ Widget questionScreen({
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => QuestionWidget(
                         question: questions[index],
-                        showAnswer: bloc.showAnswer,
+                        showAnswer: bloc.showAnswer, index: index,questionLength: questions.length
                       ),
                   separatorBuilder: (context, index) => SizedBox(
                         height: 10.sp,
@@ -464,11 +465,6 @@ Widget questionScreen({
                   itemCount: questions.length),
             ),
           ),
-          defaultButton(
-              onPressed: () {
-                bloc.add(ShowQuizAnswerEvent());
-              },
-              text: "إظهار الإجابات"),
           SizedBox(
             height: 2.h,
           )
@@ -590,11 +586,15 @@ Widget answerBuilder(
 class QuestionWidget extends StatefulWidget {
   final Question question;
   final bool showAnswer;
+  final int index;
+  final int questionLength;
 
   const QuestionWidget({
     super.key,
     required this.question,
     required this.showAnswer,
+    required this.index,
+    required this.questionLength,
   });
 
   @override
@@ -603,7 +603,9 @@ class QuestionWidget extends StatefulWidget {
 
 class QuestionWidgetState extends State<QuestionWidget> {
   List<bool> _selectedAnswers = [];
+  List<int> _selectedAnswersIndexes = [];
   final bool _isCorrect = false;
+  MainBloc bloc = sl();
 
   @override
   void initState() {
@@ -614,27 +616,41 @@ class QuestionWidgetState extends State<QuestionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.sp, horizontal: 20.sp),
-      padding: EdgeInsets.all(10.sp),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.question.question,
-            style:
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 10.sp, horizontal: 20.sp),
+          padding: EdgeInsets.all(10.sp),
+          child: Column(
+            children: [
+              Text(
+                widget.question.question,
+                style:
                 TextStyle(fontSize: 18.sp, fontWeight: FontWeightManager.bold),
+              ),
+              SizedBox(height: 10.sp),
+              ...List.generate(widget.question.answers.length, (index) {
+                return _buildChoice(index);
+              }),
+              SizedBox(height: 10.sp),
+              if (widget.showAnswer)
+                answerBuilder(
+                    trueAnswer: widget.question.trueAnswer,answers: widget.question.answers, isCorrect: _isCorrect),
+            ],
           ),
-          SizedBox(height: 10.sp),
-          ...List.generate(widget.question.answers.length, (index) {
-            return _buildChoice(index);
-          }),
-          SizedBox(height: 10.sp),
-          if (widget.showAnswer)
-            answerBuilder(
-                trueAnswer: widget.question.trueAnswer,answers: widget.question.answers, isCorrect: _isCorrect),
-        ],
-      ),
+        ),
+        if(widget.index == widget.questionLength-1 && _selectedAnswersIndexes.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 10.sp),
+            child: defaultButton(
+                onPressed: () {
+                  bloc.add(ShowQuizAnswerEvent());
+                },
+                text: "إظهار الإجابات"),
+          ),
+      ],
     );
   }
 
@@ -679,8 +695,20 @@ class QuestionWidgetState extends State<QuestionWidget> {
               _selectedAnswers =
                   List.generate(widget.question.answers.length, (_) => false);
               _selectedAnswers[index] = true;
+              if(_selectedAnswersIndexes.contains(index)) {
+                _selectedAnswersIndexes.remove(index);
+              } else {
+                _selectedAnswersIndexes.add(index);
+              }
+              widget.question.studentsGrades = {ConstantsManager.studentName! : _selectedAnswersIndexes};
             } else {
               _selectedAnswers[index] = !_selectedAnswers[index];
+              if(_selectedAnswersIndexes.contains(index)) {
+                _selectedAnswersIndexes.remove(index);
+              } else {
+                _selectedAnswersIndexes.add(index);
+              }
+              widget.question.studentsGrades = {ConstantsManager.studentName! : _selectedAnswersIndexes};
             }
           });
         }

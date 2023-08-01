@@ -16,10 +16,12 @@ class OnPageChangedEvent extends MainEvent {
 
 class DoneSectionEvent extends MainEvent {
   final String courseName;
+  final Section section;
   final int progress;
   final int done;
   DoneSectionEvent({
     required this.courseName,
+    required this.section,
     required this.progress,
     required this.done,
   });

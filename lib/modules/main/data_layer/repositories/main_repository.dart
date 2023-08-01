@@ -1,4 +1,5 @@
 import 'package:BeWell/modules/main/domain_layer/entities/done_section.dart';
+import 'package:BeWell/modules/main/domain_layer/entities/section.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -22,11 +23,12 @@ class MainRepository extends BaseMainRepository {
   @override
   Future<Either<FirebaseException, void>> doneSection({
     required String courseName,
+    required Section section,
     required int progress,
     required int done,
   }) async {
     return await baseMainRemoteDataSource.doneSection(
-        courseName: courseName, done: done, progress: progress);
+        courseName: courseName, done: done,section: section, progress: progress);
   }
 
   @override

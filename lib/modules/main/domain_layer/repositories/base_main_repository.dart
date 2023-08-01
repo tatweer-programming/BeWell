@@ -1,3 +1,4 @@
+import 'package:BeWell/modules/main/domain_layer/entities/section.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import '../entities/course.dart';
@@ -8,6 +9,7 @@ abstract class BaseMainRepository {
   Future<Either<Exception, List<Course>>> getCourses();
   Future<Either<FirebaseException, void>> doneSection({
     required String courseName,
+    required Section section,
     required int progress,
     required int done,
   });
