@@ -26,6 +26,12 @@ class DoneSectionEvent extends MainEvent {
     required this.done,
   });
 }
+class StatisticsEvent extends MainEvent {
+  final Section section;
+  StatisticsEvent({
+    required this.section,
+  });
+}
 
 class LogOutEvent extends MainEvent {
   final BuildContext context;

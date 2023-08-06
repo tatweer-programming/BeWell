@@ -14,5 +14,8 @@ abstract class BaseMainRepository {
     required int done,
   });
   Future<Either<FirebaseException, DoneSection>> getProgress();
+  Future<Either<FirebaseException, Unit>> statistics({
+    required Section section,
+  });
   Future<Either<FirebaseException, List<DailyReminder>>> getDailyReminder();
 }

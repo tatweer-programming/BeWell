@@ -30,6 +30,12 @@ class MainRepository extends BaseMainRepository {
     return await baseMainRemoteDataSource.doneSection(
         courseName: courseName, done: done,section: section, progress: progress);
   }
+  @override
+  Future<Either<FirebaseException, Unit>> statistics({
+    required Section section,
+  }) async {
+    return await baseMainRemoteDataSource.statistics(section: section);
+  }
 
   @override
   Future<Either<FirebaseException, DoneSection>> getProgress() async {

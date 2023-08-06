@@ -17,6 +17,7 @@ import '../../../authenticaion/presentation_layer/components/components.dart';
 import '../../../authenticaion/presentation_layer/screens/login.dart';
 import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/use_cases/get_courses_use_case.dart';
+import '../../domain_layer/use_cases/statistics_use_case.dart';
 import '../components/components.dart';
 import '../screens/section_content_screen.dart';
 import '../screens/play_video_screen.dart';
@@ -140,6 +141,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           emit(DoneSectionErrorState());
         }, (r) {
           emit(DoneSectionSuccessState());
+        });
+      } else if (event is StatisticsEvent) {
+        emit(StatisticsLoadingState());
+        var result = await StatisticsUseCase(sl()).call(
+            section: event.section,);
+        result.fold((l) {
+          errorToast(msg: ExceptionManager(l).translatedMessage());
+          emit(StatisticsErrorState());
+        }, (r) {
+          emit(StatisticsSuccessState());
         });
       } else if (event is GetProgressEvent) {
         emit(GetProgressLoadingState());

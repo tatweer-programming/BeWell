@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 //ignore: must_be_immutable
 class Statistics extends Equatable {
-  final String sectionName;
+  String? sectionName;
   QuizModel? quiz;
   Statistics({
     this.quiz,

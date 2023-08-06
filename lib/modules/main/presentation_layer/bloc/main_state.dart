@@ -28,6 +28,12 @@ class DoneSectionLoadingState extends MainState {}
 class DoneSectionSuccessState extends MainState {}
 
 class DoneSectionErrorState extends MainState {}
+//  statistics
+class StatisticsLoadingState extends MainState {}
+
+class StatisticsSuccessState extends MainState {}
+
+class StatisticsErrorState extends MainState {}
 
 // GetProgress
 class GetProgressLoadingState extends MainState {}

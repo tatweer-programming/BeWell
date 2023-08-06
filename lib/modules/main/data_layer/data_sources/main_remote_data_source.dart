@@ -12,6 +12,9 @@ import '../../domain_layer/entities/daily_reminder.dart';
 
 abstract class BaseMainRemoteDataSource {
   Future<Either<FirebaseException, List<Course>>> getCourses();
+  Future<Either<FirebaseException, Unit>> statistics({
+    required Section section,
+  });
   Future<Either<FirebaseException, DoneSection>> getProgress();
   Future<Either<FirebaseException, List<DailyReminder>>> getDailyReminder();
   Future<Either<FirebaseException, void>> doneSection({
@@ -63,25 +66,52 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
       var document = FirebaseFirestore.instance
           .collection("progress")
           .doc(ConstantsManager.userId);
-      var statistics = FirebaseFirestore.instance
-          .collection("statistics")
-          .doc("statistics");
 
-      StatisticsModel statisticsModel =
-      StatisticsModel(
-          sectionName: section.sectionName,
-          quiz: section.quiz
-      );
       FirebaseFirestore.instance.runTransaction((transaction) async {
-        section.quiz != null ?transaction.update(statistics, {
-          "statistics": FieldValue.arrayUnion([statisticsModel.toJson()])
-        }):null;
         transaction.update(document, {
           "done.$courseName": done,
           "progress.$courseName": progress,
           "lastUsing": DateTime.now().toString(),
         });
       });
+      return const Right(unit);
+    } on FirebaseException catch (error) {
+      return Left(error);
+    }
+  }
+
+  @override
+  Future<Either<FirebaseException, Unit>> statistics({
+    required Section section,
+  }) async {
+    try {
+      var statistics = FirebaseFirestore.instance
+          .collection("statistics")
+          .doc("statistics");
+      var statisticsGet = await statistics.get();
+      StatisticsModel statisticsModel2 ,statisticsModel = StatisticsModel(
+          quiz: section.quiz!,
+          sectionName: section.sectionName
+      );
+      if(statisticsGet.exists) {
+        statisticsModel2 = StatisticsModel.fromJson(statisticsGet.data()!);
+        if(statisticsModel2.sectionName == section.sectionName) {
+          statisticsModel2.quiz = section.quiz;
+          statisticsModel = statisticsModel2;
+        }
+        FirebaseFirestore.instance.runTransaction((transaction) async {
+              section.quiz != null ? transaction.update(statistics,
+                  statisticsModel.toJson()
+               ) : null;
+            });
+      }
+      else{
+        FirebaseFirestore.instance.runTransaction((transaction) async {
+          section.quiz != null ?transaction.set(statistics,
+              statisticsModel.toJson()
+          ):null;
+        });
+      }
       return const Right(unit);
     } on FirebaseException catch (error) {
       return Left(error);

@@ -83,6 +83,7 @@ class SectionContentScreen extends StatelessWidget {
                                       100 /
                                       bloc.prefixLesson.last).round()));
                             }
+                            bloc.add(StatisticsEvent(section: section,));
                             showDialog(
                                 barrierDismissible: false,
                                 context: context,
