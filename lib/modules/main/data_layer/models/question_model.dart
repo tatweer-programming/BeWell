@@ -11,6 +11,7 @@ class QuestionModel extends Question {
   factory QuestionModel.fromJson(Map<String, dynamic> json) {
     return QuestionModel(
       question: json['question'],
+      studentsGrades: json['studentsGrades'],
       trueAnswer: List<int>.from(json['trueAnswer']).map((e) => e).toList(),
       answers: List<String>.from(json['answers']).map((e) => e).toList(),
     );

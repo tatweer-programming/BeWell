@@ -1,5 +1,6 @@
 import 'package:BeWell/modules/main/data_layer/models/daily_reminder_model.dart';
 import 'package:BeWell/modules/main/data_layer/models/done_section_model.dart';
+import 'package:BeWell/modules/main/data_layer/models/quiz_model.dart';
 import 'package:BeWell/modules/main/data_layer/models/statistics_model.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/done_section.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/section.dart';
@@ -30,7 +31,10 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
   Future<Either<FirebaseException, List<Course>>> getCourses() async {
     try {
       List<Course> courseModel = [];
-      await FirebaseFirestore.instance.collection("courses").get().then((value) {
+      await FirebaseFirestore.instance
+          .collection("courses")
+          .get()
+          .then((value) {
         for (var element in value.docs) {
           courseModel.add(CourseModel.fromJson(element.data()));
         }
@@ -40,14 +44,20 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
       return Left(error);
     }
   }
+
   @override
-  Future<Either<FirebaseException, List<DailyReminder>>> getDailyReminder() async {
+  Future<Either<FirebaseException, List<DailyReminder>>>
+      getDailyReminder() async {
     try {
       List<DailyReminder> dailyReminder = [];
-      await FirebaseFirestore.instance.collection("dailyReminder").doc("dailyReminder").get()
+      await FirebaseFirestore.instance
+          .collection("dailyReminder")
+          .doc("dailyReminder")
+          .get()
           .then((value) {
-        dailyReminder = List.from(value.data()!['dailyReminder']).map((e)
-        => DailyReminderModel.fromJson(e)).toList();
+        dailyReminder = List.from(value.data()!['dailyReminder'])
+            .map((e) => DailyReminderModel.fromJson(e))
+            .toList();
       });
       return Right(dailyReminder);
     } on FirebaseException catch (error) {
@@ -85,31 +95,51 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
     required Section section,
   }) async {
     try {
-      var statistics = FirebaseFirestore.instance
-          .collection("statistics")
-          .doc("statistics");
+      var statistics =
+          FirebaseFirestore.instance.collection("statistics").doc("statistics");
+
       var statisticsGet = await statistics.get();
-      StatisticsModel statisticsModel2 ,statisticsModel = StatisticsModel(
-          quiz: section.quiz!,
-          sectionName: section.sectionName
-      );
-      if(statisticsGet.exists) {
-        statisticsModel2 = StatisticsModel.fromJson(statisticsGet.data()!);
-        if(statisticsModel2.sectionName == section.sectionName) {
-          statisticsModel2.quiz = section.quiz;
-          statisticsModel = statisticsModel2;
-        }
+      StatisticsModel statisticsModel = StatisticsModel(
+              quiz: section.quiz!, sectionName: section.sectionName);
+      if (statisticsGet.exists) {
+        statisticsGet.data()!.forEach((key, value) {
+          QuizModel? quizModel = QuizModel.fromJson(value);
+          print(quizModel);
+          // check if quiz is exists
+          if (section.quiz != null &&
+              key == section.sectionName) {
+            for (int i = 0; i < section.quiz!.questions.length; i++) {
+              // check if student is tested
+              if (quizModel!.questions[i].studentsGrades!
+                  .containsKey(ConstantsManager.studentName)) {
+                // if student is tested , i will update it
+                quizModel.questions[i]
+                        .studentsGrades![ConstantsManager.studentName!] =
+                    section.quiz!.questions[i]
+                        .studentsGrades![ConstantsManager.studentName!];
+              } else {
+                // else , i will add it
+                quizModel.questions[i].studentsGrades!.addAll({
+                  ConstantsManager.studentName!: section.quiz!.questions[i]
+                      .studentsGrades![ConstantsManager.studentName!]
+                });
+              }
+              statisticsModel.quiz = quizModel;
+            }
+          }
+        });
         FirebaseFirestore.instance.runTransaction((transaction) async {
-              section.quiz != null ? transaction.update(statistics,
-                  statisticsModel.toJson()
-               ) : null;
-            });
+          section.quiz != null
+              ? transaction.update(statistics, statisticsModel.toJson())
+              : null;
+        });
       }
-      else{
+      // else , i will add a new quiz
+      else {
         FirebaseFirestore.instance.runTransaction((transaction) async {
-          section.quiz != null ?transaction.set(statistics,
-              statisticsModel.toJson()
-          ):null;
+          section.quiz != null
+              ? transaction.set(statistics, statisticsModel.toJson())
+              : null;
         });
       }
       return const Right(unit);
@@ -125,14 +155,14 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
           .collection("progress")
           .doc(ConstantsManager.userId);
       var progress = await document.get();
-      DoneSectionModel doneSectionModel = DoneSectionModel(studentName: ConstantsManager.studentName!,
+      DoneSectionModel doneSectionModel = DoneSectionModel(
+          studentName: ConstantsManager.studentName!,
           done: const {},
-          lastUsing:  DateTime.now().toString(),
+          lastUsing: DateTime.now().toString(),
           progress: const {});
-      if(!progress.exists) {
+      if (!progress.exists) {
         document.set(doneSectionModel.toJson());
-      }
-      else {
+      } else {
         doneSectionModel = DoneSectionModel.fromJson(progress.data()!);
       }
       return Right(doneSectionModel);

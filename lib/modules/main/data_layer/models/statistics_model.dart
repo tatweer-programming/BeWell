@@ -8,11 +8,16 @@ class StatisticsModel extends Statistics {
       {super.quiz,
       super.sectionName});
 
-  factory StatisticsModel.fromJson(Map<String, dynamic> json) {
+  factory StatisticsModel.fromJson({
+    required String key,
+    required dynamic value,
+}) {
     return StatisticsModel(
-      quiz: QuizModel.fromJson(json[dynamic]),
+      sectionName: key,
+      quiz: QuizModel.fromJson(value),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       sectionName!: quiz?.toJson(),
