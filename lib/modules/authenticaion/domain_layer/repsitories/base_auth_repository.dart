@@ -22,4 +22,8 @@ abstract class BaseAuthRepository {
 
   Future<Either<FirebaseAuthException, void>> changePassword(
       {required String oldPassword, required String newPassword});
+  Future<Either<FirebaseAuthException, bool>> deleteUser({
+    required String email,
+    required String password,
+  });
 }

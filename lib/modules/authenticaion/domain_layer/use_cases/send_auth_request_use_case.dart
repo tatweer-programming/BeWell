@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../repsitories/base_auth_repository.dart';
 
-class SendAuthRequestUseCase {
+class RegisterUseCase {
   final BaseAuthRepository baseAuthRepository;
-  SendAuthRequestUseCase(this.baseAuthRepository);
+  RegisterUseCase(this.baseAuthRepository);
   Future<Either<FirebaseException, String>> call(
       {required String email,
       required String password,

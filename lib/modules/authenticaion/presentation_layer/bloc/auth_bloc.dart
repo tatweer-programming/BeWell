@@ -1,6 +1,8 @@
 import 'package:BeWell/core/error/remote_error.dart';
 import 'package:BeWell/core/utils/constance_manager.dart';
+import 'package:BeWell/modules/authenticaion/domain_layer/use_cases/delete_user_use_case.dart';
 import 'package:BeWell/modules/authenticaion/domain_layer/use_cases/send_auth_request_use_case.dart';
+import 'package:BeWell/modules/authenticaion/presentation_layer/screens/login.dart';
 import 'package:BeWell/modules/main/presentation_layer/screens/courses_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -73,21 +75,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email: event.email,
           password: event.password,
         );
-        result.fold((l) async{
+        result.fold((l) async {
           errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(LoginErrorAuthState());
         }, (r) async {
           await CacheHelper.getData(key: 'uid').then((value) {
             ConstantsManager.userId = value;
-            NavigationManager.pushAndRemove(event.context, const CoursesScreen());
+            NavigationManager.pushAndRemove(
+                event.context, const CoursesScreen());
           });
           defaultToast(msg: "تم تسجيل الدخول بنجاح");
           emit(const LoginSuccessfulAuthState());
         });
-      } else if (event is SendAuthRequestEvent) {
-        debugPrint('1');
-        emit(SendAuthRequestLoadingAuthState());
-        final result = await SendAuthRequestUseCase(sl()).call(
+      } else if (event is RegistertEvent) {
+        emit(RegisterLoadingAuthState());
+        final result = await RegisterUseCase(sl()).call(
           id: event.id,
           email: event.email,
           password: event.password,
@@ -98,7 +100,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           errorToast(msg: ExceptionManager(l).translatedMessage());
           emit(SendAuthRequestErrorAuthState());
         }, (r) {
-          defaultToast(msg: "تم ارسال طلبك للمراجعة");
+          defaultToast(msg: r);
+          NavigationManager.pushAndRemove(event.context, const CoursesScreen());
           emit(SendAuthRequestSuccessfulState(
               context: event.context, uid: ConstantsManager.userId!));
         });
@@ -144,6 +147,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (event is NavigationToChangePassScreenEvent) {
         NavigationManager.push(event.context, const Scaffold());
         emit(NavigationToChangePassScreenState(context: event.context));
+      } else if (event is DeleteUserEvent) {
+        final result = await DeleteUserUseCase(sl())
+            .delete(email: event.email, password: event.password);
+        result.fold((l) {
+          errorToast(msg: ExceptionManager(l).translatedMessage());
+          emit(const DeleteUserErrorState());
+        }, (r) {
+          print(r);
+          if (r) {
+            defaultToast(msg: "تم الحذف نهائيا");
+            NavigationManager.pushAndRemove(event.context, const LoginScreen());
+          }
+          else {
+            defaultToast(msg: "تحقق من البريد الالكتروني وكلمة السر وأعد المحاولة");
+          }
+          emit(const DeleteUserSuccessfullyState());
+        });
       }
     });
   }

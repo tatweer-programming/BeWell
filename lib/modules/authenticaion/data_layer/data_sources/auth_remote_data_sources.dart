@@ -1,9 +1,6 @@
-// ignore_for_file: void_checks
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-import 'package:BeWell/modules/authenticaion/data_layer/models/request_model.dart';
 import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/utils/constance_manager.dart';
 import '../models/user_model.dart';
@@ -11,7 +8,7 @@ import '../models/user_model.dart';
 abstract class BaseAuthRemoteDataSource {
   Future<Either<FirebaseAuthException, UserCredential?>> loginWithEmailAndPass(
       {required String email, required String password});
-  Future<Either<FirebaseException, String>> sendAuthRequest(
+  Future<Either<FirebaseException, String>> registerWithEmailAndPass(
       {required String email,
       required String password,
       required String id,
@@ -19,6 +16,10 @@ abstract class BaseAuthRemoteDataSource {
   Future<Either<FirebaseAuthException, void>> forgetPassword(
       {required String email});
   Future<Either<FirebaseException, UserModel>> getDataUser();
+  Future<Either<FirebaseAuthException, bool>> deleteUser({
+    required String email,
+    required String password,
+  });
   Future<Either<FirebaseAuthException, void>> updateDataUser({
     required String name,
     required String oldPassword,
@@ -52,10 +53,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   @override
   Future<Either<FirebaseAuthException, void>> forgetPassword(
       {required String email}) async {
-    if (kDebugMode) {
-      print(
-          "forgetPassword forgetPassword forgetPassword forgetPassword forgetPassword forgetPassword");
-    }
     try {
       void response =
           await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
@@ -89,22 +86,18 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         await CacheHelper.saveData(key: 'uid', value: value.user!.uid);
-         ConstantsManager.userId = value.user!.uid;
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(ConstantsManager.userId)
-              .get()
-              .then((value) {
-
-            ConstantsManager.appUser = UserModel.fromJson(value.data()!);
-
-          });
-        await CacheHelper.saveData(
-            key: 'studentName', value: ConstantsManager.appUser!.name)
-            .then((value) async {
-          ConstantsManager.studentName =
-          await CacheHelper.getData(key: 'studentName');
+        ConstantsManager.userId = value.user!.uid;
+        print(value.user!.uid);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(ConstantsManager.userId)
+            .get()
+            .then((value) {
+              print(value.data());
+          ConstantsManager.appUser = UserModel.fromJson(value.data()!);
         });
+        await CacheHelper.saveData(
+                key: 'studentName', value: ConstantsManager.appUser!.name);
       });
       return Right(response);
     } on FirebaseAuthException catch (error) {
@@ -113,18 +106,30 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   }
 
   @override
-  Future<Either<FirebaseException, String>> sendAuthRequest(
+  Future<Either<FirebaseException, String>> registerWithEmailAndPass(
       {required String email,
       required String password,
       required String id,
       required String name}) async {
     try {
-      RequestModel request =
-          RequestModel(name: name, email: email, id: id, password: password);
-      await FirebaseFirestore.instance
-          .collection('requests')
-          .add(request.toJson());
-      return right('تم ارسال طلب الانضمام');
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      ).then((value) async {
+        UserModel userModel = UserModel(email: email, id: id, name: name,uid: value.user!.uid);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(value.user!.uid)
+            .set(userModel.toJson());
+        ConstantsManager.studentName = name;
+        ConstantsManager.userId = value.user!.uid;
+        await CacheHelper.saveData(
+            key: 'studentName', value: name);
+        await CacheHelper.saveData(
+            key: 'uid', value: value.user!.uid);
+      });
+      return right('تم إنشاء حساب');
     } on FirebaseException catch (error) {
       return left(error);
     }
@@ -141,6 +146,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       email: email,
       name: name,
       id: id,
+      uid: ConstantsManager.userId!
     );
     try {
       final user = FirebaseAuth.instance.currentUser;
@@ -156,6 +162,38 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
             .doc(ConstantsManager.userId)
             .update(userModel.toJson());
       }
+      return const Right(true);
+    } on FirebaseAuthException catch (error) {
+      return Left(error);
+    }
+  }
+
+  @override
+  Future<Either<FirebaseAuthException, bool>> deleteUser({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        if (ConstantsManager.userId == value.user!.uid) {
+          final user = FirebaseAuth.instance.currentUser;
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(ConstantsManager.userId)
+              .delete()
+              .then((value) async {
+            await CacheHelper.removeData(key: "uid");
+            await CacheHelper.removeData(key: "waterCups");
+            await CacheHelper.removeData(key: "studentName");
+            user!.delete();
+          });
+        }
+        else {
+          return const Right(false);
+        }
+      });
       return const Right(true);
     } on FirebaseAuthException catch (error) {
       return Left(error);

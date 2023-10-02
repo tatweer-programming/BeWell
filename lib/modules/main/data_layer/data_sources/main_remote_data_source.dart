@@ -104,7 +104,6 @@ class MainRemoteDataSource extends BaseMainRemoteDataSource {
       if (statisticsGet.exists) {
         statisticsGet.data()!.forEach((key, value) {
           QuizModel? quizModel = QuizModel.fromJson(value);
-          print(quizModel);
           // check if quiz is exists
           if (section.quiz != null &&
               key == section.sectionName) {

@@ -170,7 +170,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         showResult = true;
         emit(ShowSurveyAnswerState());
       }else if (event is LogOutEvent) {
-        CacheHelper.removeData(key: "uid").then((value) {
+        await CacheHelper.removeData(key: "studentName");
+        await CacheHelper.removeData(key: "waterCups");
+        await CacheHelper.removeData(key: "uid").then((value) {
           if (value) {
             NavigationManager.pushAndRemove(event.context, const LoginScreen());
           }

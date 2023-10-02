@@ -43,31 +43,6 @@ class LocalNotification {
     });
   }
 
-  // REQUESTING NOTIFICATION PERMISSIONS
-  // Future<bool> requestNotificationPermissions() async {
-  //   await AwesomeNotifications().requestPermissionToSendNotifications(
-  //     channelKey: 'alerts',
-  //     permissions: [
-  //       NotificationPermission.Light,
-  //       NotificationPermission.Alert,
-  //       NotificationPermission.Sound,
-  //       NotificationPermission.Vibration,
-  //     ],
-  //   );
-  //   if (await Permission.scheduleExactAlarm.isGranted &&
-  //       await Permission.notification.isGranted) {
-  //     return true;
-  //   } else {
-  //     var result =
-  //         await AwesomeNotifications().requestPermissionToSendNotifications();
-  //     if (result == true) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   }
-  // }
-
   /// LAST USING NOTIFICATION
 
   Future<void> scheduleNewNotification() async {

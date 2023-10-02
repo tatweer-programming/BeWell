@@ -5,17 +5,20 @@ class UserModel extends AppUser {
   UserModel({
     required String email,
     required String id,
+    required String uid,
     required String name,
   }) : super(
           name: name,
           email: email,
           id: id,
+          uid: uid,
         );
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       email: json['email'],
       id: json['id'],
+      uid: json['uid'],
       name: json['name'],
     );
   }
@@ -23,6 +26,7 @@ class UserModel extends AppUser {
     return {
       'name': name,
       'id': id,
+      'uid': uid,
       'email': email,
     };
   }

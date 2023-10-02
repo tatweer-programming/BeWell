@@ -22,14 +22,12 @@ class RegisterScreen extends StatelessWidget {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-       if (state is SendAuthRequestSuccessfulState )
-       {
-         emailController.clear();
-         nameController.clear();
-         idController.clear();
-         passwordController.clear();
-
-       }
+        if (state is SendAuthRequestSuccessfulState) {
+          emailController.clear();
+          nameController.clear();
+          idController.clear();
+          passwordController.clear();
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -101,8 +99,7 @@ class RegisterScreen extends StatelessWidget {
                               validator: (value) {
                                 if (value == '') {
                                   return 'من فضلك أدخل كلمة المرور';
-                                }
-                                else if (value.length < 8) {
+                                } else if (value.length < 8) {
                                   return 'يجب ان لا تقل كلمة المرور عن 8 احرف';
                                 }
                                 return null;
@@ -110,44 +107,47 @@ class RegisterScreen extends StatelessWidget {
                           SizedBox(
                             height: 12.sp,
                           ),
-                          SizedBox(
-                              width: double.infinity,
-                              height: 40.sp,
-                              child: defaultButton(
-                                  onPressed: () {
-                                    if (formKey.currentState!.validate()) {
-                                      bloc.add(
-                                          SendAuthRequestEvent(
+                          state is! RegisterLoadingAuthState
+                              ? SizedBox(
+                                  width: double.infinity,
+                                  height: 40.sp,
+                                  child: defaultButton(
+                                      onPressed: () {
+                                        if (formKey.currentState!.validate()) {
+                                          bloc.add(RegistertEvent(
                                               context: context,
                                               id: idController.text,
-                                              password: passwordController
-                                                  .text,
+                                              password: passwordController.text,
                                               email: emailController.text,
                                               name: nameController.text));
-                                    }
-                                  },
-                                  text: 'انشئ حساب')),
-
+                                        }
+                                      },
+                                      text: 'انشئ حساب'))
+                              : const Center(
+                                  child: CircularProgressIndicator()),
                         ],
                       ),
                     ),
                   ),
-                  Align(alignment: AlignmentDirectional.bottomCenter,
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('تمتلك حساب بالفعل ؟'),
-                        TextButton(onPressed: () {
-                          NavigationManager.pop(context);
-                        }, child: const Text('تسجيل الدخول'))
+                        TextButton(
+                            onPressed: () {
+                              NavigationManager.pop(context);
+                            },
+                            child: const Text('تسجيل الدخول'))
                       ],
-                    ),)
+                    ),
+                  )
                 ],
               ),
             ),
           ),
         );
-
       },
     );
   }

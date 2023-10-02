@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:BeWell/core/utils/color_manager.dart';
 import 'package:BeWell/core/utils/font_manager.dart';
+import 'package:BeWell/modules/authenticaion/presentation_layer/screens/delete_account.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/profile_screen.dart';
 import 'package:BeWell/modules/main/presentation_layer/components/components.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/constance_manager.dart';
 import '../../../../core/utils/navigation_manager.dart';
+import '../../../authenticaion/presentation_layer/screens/change_password.dart';
 import '../bloc/main_bloc.dart';
 
 class CoursesScreen extends StatelessWidget {
@@ -110,6 +112,16 @@ class CoursesScreen extends StatelessWidget {
                     ),
                     ListTile(
                       title: Text(
+                        "تغير كلمة المرور",
+                        style: TextStyle(
+                            fontSize: FontSizeManager.s17.sp,
+                            fontWeight: FontWeightManager.bold),
+                      ),
+                      onTap: () {
+                        NavigationManager.push(context, const ChangePassword());
+                      },
+                    ),ListTile(
+                      title: Text(
                         "تسجيل الخروج",
                         style: TextStyle(
                             fontSize: FontSizeManager.s17.sp,
@@ -119,6 +131,17 @@ class CoursesScreen extends StatelessWidget {
                         bloc.add(LogOutEvent(context: context));
                       },
                     ),
+                    ListTile(
+                      title: Text(
+                        "حذف الحساب",
+                        style: TextStyle(
+                            fontSize: FontSizeManager.s17.sp,
+                            fontWeight: FontWeightManager.bold),
+                      ),
+                      onTap: () {
+                        NavigationManager.push(context, const DeleteAccount());
+                      },
+                    )
                   ],
                 ),
               ),

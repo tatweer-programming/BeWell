@@ -32,7 +32,7 @@ if (keystorePropertiesFile.exists()) {
 }
 android {
     namespace "com.learn.be_well"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -55,8 +55,8 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 5
-        versionName "5"
+        versionCode 7
+        versionName "update 7"
     }
     signingConfigs {
         release {

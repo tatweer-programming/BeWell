@@ -24,6 +24,12 @@ class AuthRepository extends BaseAuthRepository {
   @override
   Future<Either<FirebaseException, UserModel>> getDataUser() async {
     return await baseAuthRemoteDataSource.getDataUser();
+  } @override
+  Future<Either<FirebaseAuthException, bool>> deleteUser({
+    required String email,
+    required String password,
+  }) async {
+    return await baseAuthRemoteDataSource.deleteUser(password: password,email: email);
   }
 
   @override
@@ -59,7 +65,7 @@ class AuthRepository extends BaseAuthRepository {
       required String password,
       required String id,
       required String name}) async {
-    return await baseAuthRemoteDataSource.sendAuthRequest(
+    return await baseAuthRemoteDataSource.registerWithEmailAndPass(
         email: email, password: password, id: id, name: name);
   }
 }

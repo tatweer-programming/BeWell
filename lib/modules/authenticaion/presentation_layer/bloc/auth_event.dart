@@ -24,14 +24,14 @@ class LoginEvent extends AuthEvent {
   List<Object?> get props => [email, password, context];
 }
 
-class SendAuthRequestEvent extends AuthEvent {
+class RegistertEvent extends AuthEvent {
   final String email;
   final String password;
   final String id;
 
   final String name;
   final BuildContext context;
-  const SendAuthRequestEvent(
+  const RegistertEvent(
       {required this.context,
       required this.id,
       required this.password,
@@ -119,4 +119,14 @@ class NavigationToChangePassScreenEvent extends AuthEvent {
 
   @override
   List<Object?> get props => [context];
+}
+
+class DeleteUserEvent extends AuthEvent {
+  final String password;
+  final String email;
+  final BuildContext context;
+  const DeleteUserEvent({required this.email,required this.password,required this.context});
+
+  @override
+  List<Object?> get props => [password,email,context];
 }

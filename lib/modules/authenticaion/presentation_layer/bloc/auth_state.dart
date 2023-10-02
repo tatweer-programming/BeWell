@@ -39,7 +39,7 @@ class ConfirmChangeVisibilityState extends AuthState {
 
 /// register states
 
-class SendAuthRequestLoadingAuthState extends AuthState {
+class RegisterLoadingAuthState extends AuthState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
@@ -135,4 +135,13 @@ class ChangePassScreenErrorState extends AuthState {
   const ChangePassScreenErrorState({required this.context});
   @override
   List<Object?> get props => [context];
+}
+class DeleteUserSuccessfullyState extends AuthState {
+  const DeleteUserSuccessfullyState();
+  @override
+  List<Object?> get props => [];
+}class DeleteUserErrorState extends AuthState {
+  const DeleteUserErrorState();
+  @override
+  List<Object?> get props => [];
 }
