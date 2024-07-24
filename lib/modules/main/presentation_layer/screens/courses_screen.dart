@@ -2,7 +2,9 @@ import 'dart:math';
 import 'package:BeWell/core/utils/color_manager.dart';
 import 'package:BeWell/core/utils/font_manager.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/delete_account.dart';
+import 'package:BeWell/modules/authenticaion/presentation_layer/screens/login.dart';
 import 'package:BeWell/modules/authenticaion/presentation_layer/screens/profile_screen.dart';
+import 'package:BeWell/modules/authenticaion/presentation_layer/screens/register.dart';
 import 'package:BeWell/modules/main/presentation_layer/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +24,7 @@ class CoursesScreen extends StatelessWidget {
     MainBloc bloc = sl();
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
-        if (ConstantsManager.lastDailyReminder &&
+        if (ConstantsManager.userId != null && ConstantsManager.lastDailyReminder &&
             bloc.dailyReminder.isNotEmpty) {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
             int i = Random().nextInt(bloc.dailyReminder.length);
@@ -96,52 +98,84 @@ class CoursesScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ListTile(
-                      title: Text(
-                        "الصفحة الشخصية",
-                        style: TextStyle(
-                            fontSize: FontSizeManager.s17.sp,
-                            fontWeight: FontWeightManager.bold),
-                      ),
-                      onTap: () async {
-                        await CacheHelper.getData(key: 'waterCups').then((value){
-                          ConstantsManager.waterCups = value;
-                          NavigationManager.push(context, const ProfileScreen());
-                        });
-                      },
+                    ConstantsManager.userId != null ? Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            "الصفحة الشخصية",
+                            style: TextStyle(
+                                fontSize: FontSizeManager.s17.sp,
+                                fontWeight: FontWeightManager.bold),
+                          ),
+                          onTap: () async {
+                            await CacheHelper.getData(key: 'waterCups').then((value){
+                              ConstantsManager.waterCups = value;
+                              NavigationManager.push(context, const ProfileScreen());
+                            });
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            "تغير كلمة المرور",
+                            style: TextStyle(
+                                fontSize: FontSizeManager.s17.sp,
+                                fontWeight: FontWeightManager.bold),
+                          ),
+                          onTap: () {
+                            NavigationManager.push(context, const ChangePassword());
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            "تسجيل الخروج",
+                            style: TextStyle(
+                                fontSize: FontSizeManager.s17.sp,
+                                fontWeight: FontWeightManager.bold),
+                          ),
+                          onTap: () {
+                            bloc.add(LogOutEvent(context: context));
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            "حذف الحساب",
+                            style: TextStyle(
+                                fontSize: FontSizeManager.s17.sp,
+                                fontWeight: FontWeightManager.bold),
+                          ),
+                          onTap: () {
+                            NavigationManager.push(context, const DeleteAccount());
+                          },
+                        ),
+                      ],
+                    ) :
+                    Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            "تسجيل الدخول",
+                            style: TextStyle(
+                                fontSize: FontSizeManager.s17.sp,
+                                fontWeight: FontWeightManager.bold),
+                          ),
+                          onTap: () {
+                            NavigationManager.push(context, const LoginScreen());
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            "إنشاء الحساب",
+                            style: TextStyle(
+                                fontSize: FontSizeManager.s17.sp,
+                                fontWeight: FontWeightManager.bold),
+                          ),
+                          onTap: () {
+                            NavigationManager.push(context, const RegisterScreen());
+                          },
+                        ),
+                      ],
                     ),
-                    ListTile(
-                      title: Text(
-                        "تغير كلمة المرور",
-                        style: TextStyle(
-                            fontSize: FontSizeManager.s17.sp,
-                            fontWeight: FontWeightManager.bold),
-                      ),
-                      onTap: () {
-                        NavigationManager.push(context, const ChangePassword());
-                      },
-                    ),ListTile(
-                      title: Text(
-                        "تسجيل الخروج",
-                        style: TextStyle(
-                            fontSize: FontSizeManager.s17.sp,
-                            fontWeight: FontWeightManager.bold),
-                      ),
-                      onTap: () {
-                        bloc.add(LogOutEvent(context: context));
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                        "حذف الحساب",
-                        style: TextStyle(
-                            fontSize: FontSizeManager.s17.sp,
-                            fontWeight: FontWeightManager.bold),
-                      ),
-                      onTap: () {
-                        NavigationManager.push(context, const DeleteAccount());
-                      },
-                    )
+
                   ],
                 ),
               ),

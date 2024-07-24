@@ -1,5 +1,6 @@
 import 'package:BeWell/core/utils/constance_manager.dart';
 import 'package:BeWell/core/utils/navigation_manager.dart';
+import 'package:BeWell/modules/authenticaion/presentation_layer/components/components.dart';
 import 'package:BeWell/modules/main/domain_layer/entities/question.dart';
 import 'package:BeWell/modules/main/presentation_layer/screens/lessons_screen.dart';
 import 'package:BeWell/modules/main/presentation_layer/screens/seections_screen.dart';
@@ -646,7 +647,11 @@ class QuestionWidgetState extends State<QuestionWidget> {
                 horizontal: 10.sp),
             child: defaultButton(
                 onPressed: () {
-                  bloc.add(ShowQuizAnswerEvent());
+                  if(ConstantsManager.userId == null) {
+                    errorToast(msg: "يجب عليك إنشاء حساب اولا لتتمكن من إستكمال الدورة");
+                  } else {
+                    bloc.add(ShowQuizAnswerEvent());
+                  }
                 },
                 text: "إظهار الإجابات"),
           ),

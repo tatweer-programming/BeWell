@@ -1,6 +1,5 @@
 import 'package:BeWell/core/local/shared_prefrences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/material.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import '../utils/color_manager.dart';
 
@@ -14,11 +13,25 @@ class LocalNotification {
           channelKey: 'alerts',
           channelName: 'Alerts',
           channelDescription: 'Notification tests as alerts',
+          playSound: true,
+          onlyAlertOnce: true,
+          groupAlertBehavior: GroupAlertBehavior.Children,
+          importance: NotificationImportance.High,
+          defaultPrivacy: NotificationPrivacy.Private,
+          defaultColor: ColorManager.primary,
+          ledColor: ColorManager.primary,
         ),
         NotificationChannel(
           channelKey: 'water-reminder',
           channelName: 'water-reminder',
-          channelDescription: 'Notification tests as alerts',
+          channelDescription: 'Notification tests as water reminders',
+          playSound: true,
+          onlyAlertOnce: true,
+          groupAlertBehavior: GroupAlertBehavior.Children,
+          importance: NotificationImportance.High,
+          defaultPrivacy: NotificationPrivacy.Private,
+          defaultColor: ColorManager.primary,
+          ledColor: ColorManager.primary,
         ),
       ],
       debug: true,
@@ -26,24 +39,25 @@ class LocalNotification {
   }
 
   Future<void> startListeningNotificationEvents() async {
-    AwesomeNotifications().actionStream.listen((event) async {
-      if (event.payload!["drank"] == "true") {
-        int currentValue = await CacheHelper.getData(key: 'waterCups');
-        print(" currentValue  $currentValue");
-        if (currentValue == 7) {
-          await CacheHelper.saveData(key: 'waterCups', value: 0);
-          await _congratsNotification();
-        } else {
-          await CacheHelper.saveData(key: 'waterCups', value: currentValue + 1);
-        }
-      }
-      if (event.id == 59) {
-        await CacheHelper.saveData(key: 'waterCups', value: 0);
-      }
-    });
+    AwesomeNotifications().setListeners(onActionReceivedMethod: onActionReceivedMethod);
   }
 
-  /// LAST USING NOTIFICATION
+  @pragma('vm:entry-point')
+  Future<void> onActionReceivedMethod(ReceivedAction receivedAction) async {
+    if (receivedAction.payload?["drank"] == "true") {
+      int currentValue = await CacheHelper.getData(key: 'waterCups');
+      print(" currentValue  $currentValue");
+      if (currentValue == 7) {
+        await CacheHelper.saveData(key: 'waterCups', value: 0);
+        await _congratsNotification();
+      } else {
+        await CacheHelper.saveData(key: 'waterCups', value: currentValue + 1);
+      }
+    }
+    if (receivedAction.id == 59) {
+      await CacheHelper.saveData(key: 'waterCups', value: 0);
+    }
+  }
 
   Future<void> scheduleNewNotification() async {
     await cancelNotifications();
@@ -60,15 +74,14 @@ class LocalNotification {
             payload: {'notificationId': '1234567890'}),
         schedule: NotificationCalendar.fromDate(
             date: DateTime.now().add(const Duration(
-         days: 2,
-        ))));
+              days: 2,
+            ))));
   }
 
   static Future<void> cancelNotifications() async {
     await AwesomeNotifications().cancelSchedulesByChannelKey("alerts");
   }
 
-  // Create Water Reminder
   Future<void> createWaterReminder() async {
     bool isAllowed = await AwesomeNotifications().requestPermissionToSendNotifications();
     if (isAllowed) {
@@ -114,11 +127,10 @@ class LocalNotification {
         }
       }
     } else {
-      DoNothingAction();
+      // Do nothing if permission is not granted
     }
   }
 
-  // Congratulations Notification
   Future<void> _congratsNotification() async {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
